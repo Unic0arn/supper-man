@@ -34,11 +34,12 @@
 	
 	</head>
 	<body>
-
+		<button name="click" id="aggregate-switch">Click me</button>
 		<div class="radarChart"></div>
 
 		<script src="radarChart.js"></script>	
 		<script>
+		var aggregate_bool = false;
 			////////////////////////////////////////////////////////////// 
 			//////////////////////// Set-Up ////////////////////////////// 
 			////////////////////////////////////////////////////////////// 
@@ -80,10 +81,17 @@
 			////////////////////////////////////////////////////////////// 
 			//////////////////// Draw the Chart ////////////////////////// 
 			////////////////////////////////////////////////////////////// 
+		
+			var aggdata = agg(data);
+
+
+			console.log(data);
+			console.log(aggdata);
 
 			var color = d3.scale.ordinal()
 				.range(["#267CFC","#01CA94","#B03A00"]);
-				
+
+
 			var radarChartOptions = {
 			  w: width,
 			  h: height,
@@ -95,6 +103,47 @@
 			};
 			//Call function to draw the Radar chart
 			RadarChart(".radarChart", data, radarChartOptions);
+
+			d3.select("#aggregate-switch").on("click", function(){
+				console.log(data);
+				console.log(aggdata);
+				aggregate_bool = !aggregate_bool;
+				
+				if(aggregate_bool){
+					
+					console.log("Aggregating\n");
+					console.log(aggdata);
+					RadarChart(".radarChart", aggdata, armeedarChartOptions);
+				}else{
+					console.log("Splicing\n" + data);
+					RadarChart(".radarChart", data, radarChartOptions);
+				}
+			});
+
+
+
+
+
+			function agg(data){
+				console.log("Creating agg table");
+
+				
+				var aggdata = d3.nest()
+				.key(function(d) { return d.axis; })
+				.rollup(function(v) { return d3.sum(v, function(d) {return d.value;});})
+				.map([].concat.apply([],data));
+				console.log(JSON.stringify(aggdata));
+				
+				naggdata = [[						
+						{axis:"Calories",value:aggdata["Calories"]},
+						{axis:"Fat",value:aggdata["Fat"]},
+						{axis:"Carbs",value:aggdata["Carbs"]},
+						{axis:"Protein",value:aggdata["Protein"]},
+						{axis:"Cholesterol",value:aggdata["Cholesterol"]},
+						{axis:"Sodium",value:aggdata["Sodium"]},		
+					  ]];
+				return naggdata;
+			}
 		</script>
 	</body>
 </html>
