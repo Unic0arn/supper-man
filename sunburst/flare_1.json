@@ -1,0 +1,137 @@
+{
+  "name": "ingredients",
+  "children": [
+  {
+    "name": "meat",
+    "children": [
+      {
+        "name": "pork",
+        "size": 0.25
+      },
+      {
+        "name": "beef",
+        "size": 0.25
+      },
+      {
+        "name": "poultry",
+        "size": 0.25
+      },
+      {
+        "name": "other",
+        "size": 0.25
+      }]
+  },
+  {
+    "name": "fish",
+    "children": [
+      {
+        "name": "salmon",
+        "size": 0.5
+      },
+      {
+       "name": "herring",
+       "size": 0.5
+      }
+    ]
+  },
+  {
+   "name": "dairy",
+   "size":3,
+   "children": [
+    {"name": "milk", "size": 0.20},
+    {"name": "yoghurt", "size": 0.20},
+    {"name": "cheese", "size": 0.20},
+    {"name": "fiber", "size": 0.20},
+    {"name": "fiber", "size": 0.20}
+    ]
+  },
+  {
+    "name":"vegetables",
+    "children": [
+        {"name":"A-F", "children": [
+          {"name":"Herbs and spices","size":0.02},
+          {"name":"Anise","size":0.02},
+          {"name":"Basil","size":0.02},
+          {"name":"Caraway","size":0.02},
+          {"name":"Coriander","size":0.02},
+          {"name":"Chamomile","size":0.02},
+          {"name":"Dill","size":0.02},
+          {"name":"Fennel","size":0.02},
+          {"name":"Lavender","size":0.02},
+          {"name":"Lemon Grass","size":0.02},
+          {"name":"Marjoram","size":0.02},
+          {"name":"Oregano","size":0.02},
+          {"name":"Parsley","size":0.02}
+          ]
+        },
+        {"name":"G-O", "children": [
+          {"name":"Rosemary","size":0.02},
+          {"name":"Sage","size":0.02},
+          {"name":"Thyme","size":0.02},
+          {"name":"Kale","size":0.02},
+          {"name":"Kohlrabi","size":0.02},
+          {"name":"Lettuce","size":0.02},
+          {"name":"Maize","size":0.02},
+          {"name":"Mushrooms","size":0.02},
+          {"name":"Mustard greens","size":0.02},
+          {"name":"Nettles","size":0.02},
+          {"name":"New Zealand spinach","size":0.02},
+          {"name":"Okra","size":0.02},
+          {"name":"Onion family","size":0.02}
+          ]
+        },
+        {"name":"P-Z", "children": [
+          {"name":"Chives","size":0.02},
+          {"name":"Garlic","size":0.02},
+          {"name":"Leek","size":0.02},
+          {"name":"Onion","size":0.02},
+          {"name":"Shallot","size":0.02},
+          {"name":"Spring onion","size":0.02},
+          {"name":"Parsley","size":0.02},
+          {"name":"Chili pepper","size":0.02},
+          {"name":"Jalapeño","size":0.02},
+          {"name":"Habanero","size":0.02},
+          {"name":"Paprika","size":0.02},
+          {"name":"Tabasco pepper","size":0.02},
+          {"name":"Cayenne pepper","size":0.02},
+          {"name":"Radicchio","size":0.02},
+          {"name":"Rhubarb","size":0.02},
+          {"name":"Root vegetables","size":0.02}
+          ]
+        }
+    ]
+  },
+  {
+    "name":"fruit",
+    "children": [
+          {"name": "Banana", "size": 0.2},
+          {"name": "Apple", "size": 0.2},
+          {"name": "Orange", "size": 0.2},
+          {"name": "Water melon", "size": 0.2},
+          {"name": "Lemon", "size": 0.2}
+    ]
+  },
+  {
+    "name":"herbs & spices",
+    "children": [
+          {"name": "sodium", "size": 0.165},
+          {"name": "calcium", "size": 0.165},
+          {"name": "potassium", "size": 0.165},
+          {"name": "magnesium", "size": 0.165},
+          {"name": "selenium", "size": 0.165},
+          {"name": "zink", "size": 0.165}
+    ]
+  },
+  {
+    "name":"seafood",
+    "children": [
+          {"name": "sodium", "size": 0.165},
+          {"name": "calcium", "size": 0.165},
+          {"name": "potassium", "size": 0.165},
+          {"name": "magnesium", "size": 0.165},
+          {"name": "selenium", "size": 0.165},
+          {"name": "zink", "size": 0.165}
+    ]
+  }    
+  ]
+}

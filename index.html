@@ -8,9 +8,20 @@
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Bootstrap JS -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
 		<!-- D3.js -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-		
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script> -->
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+
 		<style>
 			body {
 				font-family: 'Open Sans', sans-serif;
@@ -18,8 +29,17 @@
 				font-weight: 300;
 				fill: #242424;
 				text-align: center;
-				text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+				/*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
 				cursor: default;
+
+			}
+
+			tr{
+				text-align: left;
+			}
+
+			.table>tbody>tr>td {
+				vertical-align: middle;
 			}
 			
 			.legend {
@@ -30,23 +50,92 @@
 			.tooltip {
 				fill: #333333;
 			}
+
+			.radarChart{
+				width:100%;
+			}
+
+			.wholeContainer{
+				display: flex;
+				justify-content: space-between;	
+			}
+
+			.infoContainer{
+				width: 30%;
+				height: 700px;
+				background-color: lightgrey;
+			}
+
+			.sunburstContainer{
+				width: 70%;
+				background-color: white;
+				padding-top: 60px;
+			}
+
 		</style>
 	
 	</head>
 	<body>
-		<button name="click" id="aggregate-switch">Click me</button>
-		<div class="radarChart"></div>
+		<div class="wholeContainer">
+			<div class="infoContainer text-center">
+				<div style="background-color: white; height: 450px">
+					<div class="radarChart">
+						<button name="click" id="aggregate-switch">Click me</button>
+					</div>
+				</div>
+				<div>
+					<table class="table table-striped" style="font-size: 12px">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Calories</th>
+								<th>Sodium</th>
+								<th>Cholesterol</th>
+								<th>Protein</th>
+								<th>Carbs</th>
+								<th>Fat</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Pasta</td>
+								<td>15 %</td>
+								<td>75 %</td>
+								<td>0.2 %</td>
+								<td>4 %</td>
+								<td>110 %</td>
+								<td>78 %</td>
+							</tr>
+							<tr>
+								<td>Ribs</td>
+								<td>15 %</td>
+								<td>75 %</td>
+								<td>0.2 %</td>
+								<td>4 %</td>
+								<td>110 %</td>
+								<td>78 %</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+
+			<div class="sunburstContainer"></div>
+			
+		</div>
 
 		<script src="radarChart.js"></script>	
+
+		
 		<script>
-		var aggregate_bool = false;
 			////////////////////////////////////////////////////////////// 
 			//////////////////////// Set-Up ////////////////////////////// 
 			////////////////////////////////////////////////////////////// 
 
 			var margin = {top: 100, right: 100, bottom: 100, left: 100},
-				width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
-				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+				width = Math.min(450, window.innerWidth - 10) - margin.left - margin.right,
+				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
 					
 			////////////////////////////////////////////////////////////// 
 			////////////////////////// Data ////////////////////////////// 
@@ -81,29 +170,8 @@
 			////////////////////////////////////////////////////////////// 
 			//////////////////// Draw the Chart ////////////////////////// 
 			////////////////////////////////////////////////////////////// 
-		
 			var aggdata = agg(data);
-
-
-			console.log(data);
-			console.log(aggdata);
-
-			var color = d3.scale.ordinal()
-				.range(["#267CFC","#01CA94","#B03A00"]);
-
-
-			var radarChartOptions = {
-			  w: width,
-			  h: height,
-			  margin: margin,
-			  maxValue: 1,
-			  levels: 10,
-			  roundStrokes: true,
-			  color: color
-			};
-			//Call function to draw the Radar chart
-			RadarChart(".radarChart", data, radarChartOptions);
-
+			var aggregate_bool = false;
 			d3.select("#aggregate-switch").on("click", function(){
 				console.log(data);
 				console.log(aggdata);
@@ -119,7 +187,7 @@
 					RadarChart(".radarChart", data, radarChartOptions);
 				}
 			});
-
+			
 
 
 
@@ -144,6 +212,23 @@
 					  ]];
 				return naggdata;
 			}
+			var color = d3.scale.ordinal()
+				.range(["#267CFC","#01CA94","#B03A00"]);
+				
+			var radarChartOptions = {
+			  w: width,
+			  h: height,
+			  margin: margin,
+			  maxValue: 1,
+			  levels: 10,
+			  roundStrokes: true,
+			  color: color
+			};
+			//Call function to draw the Radar chart
+			RadarChart(".radarChart", data, radarChartOptions);
 		</script>
+
+		<!-- SUNBURST -->
+		<script type="text/javascript" src="sunburst/sunburst.js"></script>
 	</body>
 </html>
