@@ -21,58 +21,7 @@
 		<!-- D3.js -->
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script> -->
 		<script src="http://d3js.org/d3.v3.min.js"></script>
-
-		<style>
-			body {
-				font-family: 'Open Sans', sans-serif;
-				font-size: 11px;
-				font-weight: 300;
-				fill: #242424;
-				text-align: center;
-				/*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
-				cursor: default;
-
-			}
-
-			tr{
-				text-align: left;
-			}
-
-			.table>tbody>tr>td {
-				vertical-align: middle;
-			}
-			
-			.legend {
-				font-family: 'Raleway', sans-serif;
-				fill: #333333;
-			}
-			
-			.tooltip {
-				fill: #333333;
-			}
-
-			.radarChart{
-				width:100%;
-			}
-
-			.wholeContainer{
-				display: flex;
-				justify-content: space-between;	
-			}
-
-			.infoContainer{
-				width: 30%;
-				height: 700px;
-				background-color: lightgrey;
-			}
-
-			.sunburstContainer{
-				width: 70%;
-				background-color: white;
-				padding-top: 60px;
-			}
-
-		</style>
+		<link rel="stylesheet" type="text/css" href="css/supperManCss.css">
 	
 	</head>
 	<body>
@@ -125,110 +74,9 @@
 			
 		</div>
 
-		<script src="radarChart.js"></script>	
-
-		
-		<script>
-			////////////////////////////////////////////////////////////// 
-			//////////////////////// Set-Up ////////////////////////////// 
-			////////////////////////////////////////////////////////////// 
-
-			var margin = {top: 100, right: 100, bottom: 100, left: 100},
-				width = Math.min(450, window.innerWidth - 10) - margin.left - margin.right,
-				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
-					
-			////////////////////////////////////////////////////////////// 
-			////////////////////////// Data ////////////////////////////// 
-			////////////////////////////////////////////////////////////// 
-
-			var data = [
-					  [//Spaghetti http://allrecipes.com/recipe/217377/spaghetti-bolognese/
-						{axis:"Calories",value:0.39},
-						{axis:"Fat",value:0.40},
-						{axis:"Carbs",value:0.29},
-						{axis:"Protein",value:0.88},
-						{axis:"Cholesterol",value:0.35},
-						{axis:"Sodium",value:0.91},		
-					  ],
-					  [//Nuggets http://allrecipes.com/recipe/161469/the-best-ever-chicken-nuggets/
-						{axis:"Calories",value:0.26},
-						{axis:"Fat",value:0.27},
-						{axis:"Carbs",value:0.17},
-						{axis:"Protein",value:0.71},
-						{axis:"Cholesterol",value:0.54},
-						{axis:"Sodium",value:1.74},		
-					  ],
-					  [//http://allrecipes.com/recipe/14172/caesar-salad-supreme
-						{axis:"Calories",value:0.19},
-						{axis:"Fat",value:0.52},
-						{axis:"Carbs",value:0.5},
-						{axis:"Protein",value:0.12},
-						{axis:"Cholesterol",value:0.6},
-						{axis:"Sodium",value:0.22},		
-					  ]
-					];
-			////////////////////////////////////////////////////////////// 
-			//////////////////// Draw the Chart ////////////////////////// 
-			////////////////////////////////////////////////////////////// 
-			var aggdata = agg(data);
-			var aggregate_bool = false;
-			d3.select("#aggregate-switch").on("click", function(){
-				console.log(data);
-				console.log(aggdata);
-				aggregate_bool = !aggregate_bool;
-				
-				if(aggregate_bool){
-					
-					console.log("Aggregating\n");
-					console.log(aggdata);
-					RadarChart(".radarChart", aggdata, radarChartOptions);
-				}else{
-					console.log("Splicing\n" + data);
-					RadarChart(".radarChart", data, radarChartOptions);
-				}
-			});
-			
-
-
-
-
-			function agg(data){
-				console.log("Creating agg table");
-
-				
-				var aggdata = d3.nest()
-				.key(function(d) { return d.axis; })
-				.rollup(function(v) { return d3.sum(v, function(d) {return d.value;});})
-				.map([].concat.apply([],data));
-				console.log(JSON.stringify(aggdata));
-				
-				naggdata = [[						
-						{axis:"Calories",value:aggdata["Calories"]},
-						{axis:"Fat",value:aggdata["Fat"]},
-						{axis:"Carbs",value:aggdata["Carbs"]},
-						{axis:"Protein",value:aggdata["Protein"]},
-						{axis:"Cholesterol",value:aggdata["Cholesterol"]},
-						{axis:"Sodium",value:aggdata["Sodium"]},		
-					  ]];
-				return naggdata;
-			}
-			var color = d3.scale.ordinal()
-				.range(["#267CFC","#01CA94","#B03A00"]);
-				
-			var radarChartOptions = {
-			  w: width,
-			  h: height,
-			  margin: margin,
-			  maxValue: 1,
-			  levels: 10,
-			  roundStrokes: true,
-			  color: color
-			};
-			//Call function to draw the Radar chart
-			RadarChart(".radarChart", data, radarChartOptions);
-		</script>
+		<script src="js/radarChart.js"></script>
 
 		<!-- SUNBURST -->
-		<script type="text/javascript" src="sunburst/sunburst.js"></script>
+		<script type="text/javascript" src="js/sunburst.js"></script>
 	</body>
 </html>

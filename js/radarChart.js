@@ -1,3 +1,97 @@
+////////////////////////////////////////////////////////////// 
+//////////////////////// Set-Up ////////////////////////////// 
+////////////////////////////////////////////////////////////// 
+
+var margin = {top: 100, right: 100, bottom: 100, left: 100},
+	width = Math.min(450, window.innerWidth - 10) - margin.left - margin.right,
+	height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
+		
+////////////////////////////////////////////////////////////// 
+////////////////////////// Data ////////////////////////////// 
+////////////////////////////////////////////////////////////// 
+
+var data = [
+		  [//Spaghetti http://allrecipes.com/recipe/217377/spaghetti-bolognese/
+			{axis:"Calories",value:0.39},
+			{axis:"Fat",value:0.40},
+			{axis:"Carbs",value:0.29},
+			{axis:"Protein",value:0.88},
+			{axis:"Cholesterol",value:0.35},
+			{axis:"Sodium",value:0.91},		
+		  ],
+		  [//Nuggets http://allrecipes.com/recipe/161469/the-best-ever-chicken-nuggets/
+			{axis:"Calories",value:0.26},
+			{axis:"Fat",value:0.27},
+			{axis:"Carbs",value:0.17},
+			{axis:"Protein",value:0.71},
+			{axis:"Cholesterol",value:0.54},
+			{axis:"Sodium",value:1.74},		
+		  ],
+		  [//http://allrecipes.com/recipe/14172/caesar-salad-supreme
+			{axis:"Calories",value:0.19},
+			{axis:"Fat",value:0.52},
+			{axis:"Carbs",value:0.5},
+			{axis:"Protein",value:0.12},
+			{axis:"Cholesterol",value:0.6},
+			{axis:"Sodium",value:0.22},		
+		  ]
+		];
+////////////////////////////////////////////////////////////// 
+//////////////////// Draw the Chart ////////////////////////// 
+////////////////////////////////////////////////////////////// 
+var aggdata = agg(data);
+var aggregate_bool = false;
+d3.select("#aggregate-switch").on("click", function(){
+	console.log(data);
+	console.log(aggdata);
+	aggregate_bool = !aggregate_bool;
+	
+	if(aggregate_bool){
+		
+		console.log("Aggregating\n");
+		console.log(aggdata);
+		RadarChart(".radarChart", aggdata, radarChartOptions);
+	}else{
+		console.log("Splicing\n" + data);
+		RadarChart(".radarChart", data, radarChartOptions);
+	}
+});
+
+function agg(data){
+	console.log("Creating agg table");
+
+	
+	var aggdata = d3.nest()
+	.key(function(d) { return d.axis; })
+	.rollup(function(v) { return d3.sum(v, function(d) {return d.value;});})
+	.map([].concat.apply([],data));
+	console.log(JSON.stringify(aggdata));
+	
+	naggdata = [[						
+			{axis:"Calories",value:aggdata["Calories"]},
+			{axis:"Fat",value:aggdata["Fat"]},
+			{axis:"Carbs",value:aggdata["Carbs"]},
+			{axis:"Protein",value:aggdata["Protein"]},
+			{axis:"Cholesterol",value:aggdata["Cholesterol"]},
+			{axis:"Sodium",value:aggdata["Sodium"]},		
+		  ]];
+	return naggdata;
+}
+var color = d3.scale.ordinal()
+	.range(["#267CFC","#01CA94","#B03A00"]);
+	
+var radarChartOptions = {
+  w: width,
+  h: height,
+  margin: margin,
+  maxValue: 1,
+  levels: 10,
+  roundStrokes: true,
+  color: color
+};
+//Call function to draw the Radar chart
+RadarChart(".radarChart", data, radarChartOptions);
+
 /////////////////////////////////////////////////////////
 /////////////// The Radar Chart Function ////////////////
 /////////////// Written by Nadieh Bremer ////////////////
