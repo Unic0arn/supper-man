@@ -1,0 +1,98 @@
+[
+	{
+	"id":1,
+	"name":"apple",
+	"category":"Fruits and Fruits Juices",
+	"quantity": 100,
+	"unit": "g",
+	"nutrition":[{ 
+		"name":"energy",
+		"value": 52,
+		"unit":"kcal"
+		},{
+		"name":"total fat",
+		"value": 0.17,
+		"unit":"g"
+		},{
+		"name":"carbohydrate",
+		"value": 13.81,
+		"unit":"g"
+		},{
+		"name":"protein",
+		"value": 0.26,
+		"unit":"g"
+		},{
+		"name":"cholesterol",
+		"value": 0,
+		"unit":"mg"
+		},{
+		"name":"sodium",
+		"value": 1,
+		"unit":"mg"
+		}]
+	},
+	{
+	"id":2,
+	"name":"yogurt",
+	"category":"Diary and Egg Products",
+	"quantity": 100,
+	"unit": "g",
+	"nutrition":[{ 
+		"name":"energy",
+		"value": 58,
+		"unit":"kcal"
+		},{
+		"name":"total fat",
+		"value": 0.4,
+		"unit":"g"
+		},{
+		"name":"carbohydrate",
+		"value": 3.6,
+		"unit":"g"
+		},{
+		"name":"protein",
+		"value": 2,
+		"unit":"g"
+		},{
+		"name":"cholesterol",
+		"value": 5,
+		"unit":"mg"
+		},{
+		"name":"sodium",
+		"value": 36,
+		"unit":"mg"
+		}]
+	},
+	{
+	"id":3,
+	"name":"banana",
+	"category":"Fruits and Fruits Juices",
+	"quantity": 100,
+	"unit": "g",
+	"nutrition":[{ 
+		"name":"energy",
+		"value": 89,
+		"unit":"kcal"
+		},{
+		"name":"total fat",
+		"value": 0.33,
+		"unit":"g"
+		},{
+		"name":"carbohydrate",
+		"value": 22.84,
+		"unit":"g"
+		},{
+		"name":"protein",
+		"value": 1.09,
+		"unit":"g"
+		},{
+		"name":"cholesterol",
+		"value": 0,
+		"unit":"mg"
+		},{
+		"name":"sodium",
+		"value": 1,
+		"unit":"mg"
+		}]
+	}
+]

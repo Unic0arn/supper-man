@@ -2,15 +2,146 @@
 //////////////////////// Set-Up ////////////////////////////// 
 ////////////////////////////////////////////////////////////// 
 
-var margin = {top: 100, right: 100, bottom: 100, left: 100},
-	width = Math.min(450, window.innerWidth - 10) - margin.left - margin.right,
-	height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
-		
+	
 ////////////////////////////////////////////////////////////// 
 ////////////////////////// Data ////////////////////////////// 
 ////////////////////////////////////////////////////////////// 
 
-var data = [
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+d3.json("data/nutrition.json", function(error, rawdata) {
+	console.log(error);
+ 	console.log(rawdata);
+
+ 	var margin = {top: 100, right: 100, bottom: 100, left: 100},
+	width = Math.min(450, window.innerWidth - 10) - margin.left - margin.right,
+	height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
+	
+
+
+
+
+ 	var table = d3.select("#ingredientTable");
+ 	table.append("thead");
+	table.append("tbody");
+	console.log(rawdata[0]["nutrition"].map(function(d){return toTitleCase(d["name"]);}));
+
+	var thead = d3.select("thead").selectAll("th")
+	.data(d3.values(["Name",].concat(rawdata[0]["nutrition"].map(function(d){return toTitleCase(d["name"]);}))))
+	.enter().append("th").text(function(d){return d});
+	// fill the table
+	// create rows
+
+	var tr = d3.select("tbody").selectAll("tr")
+		.data(rawdata).
+		 enter().
+		 append("tr");
+
+	// cells
+	var td = tr.selectAll("td")
+	  .data(function(d){return [{"value":toTitleCase(d.name)}].concat(d3.values(d["nutrition"]))})
+	  .enter().append("td")
+	  .text(function(d) {return d.value})
+
+
+
+
+
+	
+	data = [transformData(rawdata[0]["nutrition"])];
+	rawdata.forEach(function(d) {
+		//data.push(transformData(d["nutrition"]));
+  	});
+
+
+	var aggdata = agg(data);
+	var aggregate_bool = false;
+	console.log(rawdata);
+	console.log(data);
+	console.log(aggdata);
+	d3.selectAll("tr").on("click",function(d){
+		data.push(transformData(d["nutrition"]));
+		console.log(data);
+		aggdata = agg(data);
+
+		draw(data,aggdata,aggregate_bool,radarChartOptions);
+	});
+	var color = d3.scale.ordinal()
+		.range(["#267CFC","#01CA94","#B03A00"]);
+		
+	var radarChartOptions = {
+	  w: width,
+	  h: height,
+	  margin: margin,
+	  maxValue: 0,
+	  levels: 10,
+	  roundStrokes: true,
+	  color: color
+	};
+
+
+	d3.select("#aggregate-switch").on("click", function(){
+		aggregate_bool = !aggregate_bool;
+		draw(data,aggdata,aggregate_bool,radarChartOptions);
+	});
+
+	//Call function to draw the Radar chart
+	
+	draw(data,aggdata,aggregate_bool,radarChartOptions);
+
+
+
+});
+
+function draw(data,aggdata, aggregate_bool,radarChartOptions){
+
+		if(aggregate_bool){
+			
+			console.log("Aggregating\n");
+			console.log(aggdata);
+			RadarChart(".radarChart", aggdata, radarChartOptions);
+		}else{
+			console.log("Splicing\n" + data);
+			RadarChart(".radarChart", data, radarChartOptions);
+		}
+}
+
+function agg(data){
+	console.log("Creating agg table");
+
+	
+	var aggdata = d3.nest()
+	.key(function(d) { return d.axis; })
+	.rollup(function(v) { return d3.sum(v, function(d) {return d.value;});})
+	.map([].concat.apply([],data));
+	console.log(JSON.stringify(aggdata));
+	
+	naggdata = [[						
+			{axis:"energy",value:aggdata["energy"]},
+			{axis:"total fat",value:aggdata["total fat"]},
+			{axis:"carbohydrate",value:aggdata["carbohydrate"]},
+			{axis:"protein",value:aggdata["protein"]},
+			{axis:"cholesterol",value:aggdata["cholesterol"]},
+			{axis:"sodium",value:aggdata["sodium"]},		
+		  ]];
+	return naggdata;
+}
+
+function transformData(data){
+
+	var daily_intake = {"energy":2000,"total fat":65,"carbohydrate":300,"protein":50,"sodium":2400,"cholesterol":300};
+
+
+	outdata = [];
+	data.forEach(function(d){
+		outdata.push({axis:d.name,value:(d.value*15/daily_intake[d.name])});
+	});
+
+	return outdata;
+}
+/*var data = [
 		  [//Spaghetti http://allrecipes.com/recipe/217377/spaghetti-bolognese/
 			{axis:"Calories",value:0.39},
 			{axis:"Fat",value:0.40},
@@ -35,62 +166,11 @@ var data = [
 			{axis:"Cholesterol",value:0.6},
 			{axis:"Sodium",value:0.22},		
 		  ]
-		];
+		];*/
 ////////////////////////////////////////////////////////////// 
 //////////////////// Draw the Chart ////////////////////////// 
 ////////////////////////////////////////////////////////////// 
-var aggdata = agg(data);
-var aggregate_bool = false;
-d3.select("#aggregate-switch").on("click", function(){
-	console.log(data);
-	console.log(aggdata);
-	aggregate_bool = !aggregate_bool;
-	
-	if(aggregate_bool){
-		
-		console.log("Aggregating\n");
-		console.log(aggdata);
-		RadarChart(".radarChart", aggdata, radarChartOptions);
-	}else{
-		console.log("Splicing\n" + data);
-		RadarChart(".radarChart", data, radarChartOptions);
-	}
-});
 
-function agg(data){
-	console.log("Creating agg table");
-
-	
-	var aggdata = d3.nest()
-	.key(function(d) { return d.axis; })
-	.rollup(function(v) { return d3.sum(v, function(d) {return d.value;});})
-	.map([].concat.apply([],data));
-	console.log(JSON.stringify(aggdata));
-	
-	naggdata = [[						
-			{axis:"Calories",value:aggdata["Calories"]},
-			{axis:"Fat",value:aggdata["Fat"]},
-			{axis:"Carbs",value:aggdata["Carbs"]},
-			{axis:"Protein",value:aggdata["Protein"]},
-			{axis:"Cholesterol",value:aggdata["Cholesterol"]},
-			{axis:"Sodium",value:aggdata["Sodium"]},		
-		  ]];
-	return naggdata;
-}
-var color = d3.scale.ordinal()
-	.range(["#267CFC","#01CA94","#B03A00"]);
-	
-var radarChartOptions = {
-  w: width,
-  h: height,
-  margin: margin,
-  maxValue: 1,
-  levels: 10,
-  roundStrokes: true,
-  color: color
-};
-//Call function to draw the Radar chart
-RadarChart(".radarChart", data, radarChartOptions);
 
 /////////////////////////////////////////////////////////
 /////////////// The Radar Chart Function ////////////////
