@@ -17,14 +17,10 @@ function draw(data,axises, radarChartOptions){
 }
 
 function transformData(data,axises){
-
-
 	outdata = [];
-
 	data.forEach(function(d){
 		outdata.push(transFormIngredient(d,axises));
 	});
-
 	return outdata;
 }
 
@@ -76,18 +72,24 @@ function RadarChart(id, data, axises, options) {
 	  }//for i
 	}//if
 	
-
+ var agg = true;
+	var stack = d3.layout.stack()
+	    .offset("zero")
+	    .values(function(d) { return d.values; })
+	    .x(function(d) { return d.key; })
+	    .y(function(d) { return d.value; });
 
 	//If the supplied maxValue is smaller than the actual one, replace by the max in the data
 	var transformed_data = transformData(data,axises);
+    var layers = stack(transformed_data);
 	console.log(transformed_data);
 
 	var maxValue = data.length > 0 ? Math.max(cfg.maxValue, d3.max(transformed_data, function(i){
 		return d3.max(i.values.map(function(o){
-			return o.value;
+			return agg ? o.y0 + o.y : o.value;
 		}))
 	})) : 1;
-	
+	console.log(maxValue);
 	var allAxis = (axises),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
 		radius = Math.min(cfg.w/2, cfg.h/2), 	//Radius of the outermost circle
@@ -195,8 +197,16 @@ function RadarChart(id, data, axises, options) {
 	//The radial line function
 	var radarLine = d3.svg.line.radial()
 		.interpolate("linear-closed")
-		.radius(function(d) { return rScale(d.value); })
+		.radius(function(d) { return rScale(agg ? d.y0 + d.y : d.value); })
 		.angle(function(d,i) { return i*angleSlice; });
+
+
+
+	var area = d3.svg.area.radial()
+		.interpolate("linear-closed")
+		.angle(function(d,i) { return i*angleSlice; })
+		.innerRadius(function(d) { return rScale(agg ? d.y0 + d.y : 0); })
+		.outerRadius(function(d) { return rScale(agg ? d.y0 + d.y : d.value); });
 		
 	if(cfg.roundStrokes) {
 		radarLine.interpolate("cardinal-closed");
@@ -207,12 +217,13 @@ function RadarChart(id, data, axises, options) {
 		.data(transformed_data)
 		.enter().append("g")
 		.attr("class", "radarWrapper");
+
 			
 	//Append the backgrounds	
 	blobWrapper
 		.append("path")
 		.attr("class", "radarArea")
-		.attr("d", function(d,i) { return radarLine(d.values); })
+		.attr("d", function(d,i) { return area(d.values); })
 		.style("fill", function(d,i) { return cfg.color(i); })
 		.style("fill-opacity", cfg.opacityArea)
 		.on('mouseover', function (d,i){
@@ -231,7 +242,9 @@ function RadarChart(id, data, axises, options) {
 				.transition().duration(200)
 				.style("fill-opacity", cfg.opacityArea);
 		});
-		
+	
+
+	
 	//Create the outlines	
 	blobWrapper.append("path")
 		.attr("class", "radarStroke")

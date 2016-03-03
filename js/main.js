@@ -39,7 +39,10 @@ d3.csv("data/sr28/FOOD.csv", function(d){
 
 	var axises = ["energy","protein","fat","sodium","carbohydrate"];
 
-	d3.select("#aggregate-switch").on("click", function(){
+	d3.select("#add-switch").on("click", function(){
+		addIngredient();
+	});
+	d3.select("#agg-switch").on("click", function(){
 		addIngredient();
 	});
 
