@@ -12,8 +12,8 @@ function toTitleCase(str){
 }
 
 
-function draw(data,axises, radarChartOptions){
-	RadarChart(".radarChart", data, axises, radarChartOptions);
+function draw(data, agg, axises, radarChartOptions){
+	RadarChart(".radarChart", agg, data, axises, radarChartOptions);
 }
 
 function transformData(data,axises){
@@ -48,7 +48,7 @@ function transFormIngredient(ingredient, axises){
 /////////// Inspired by the code of alangrafu ///////////
 /////////////////////////////////////////////////////////
 	
-function RadarChart(id, data, axises, options) {
+function RadarChart(id, agg, data, axises, options) {
 	var cfg = {
 	 w: 600,				//Width of the circle
 	 h: 600,				//Height of the circle
@@ -72,7 +72,6 @@ function RadarChart(id, data, axises, options) {
 	  }//for i
 	}//if
 	
- var agg = true;
 	var stack = d3.layout.stack()
 	    .offset("zero")
 	    .values(function(d) { return d.values; })
@@ -82,14 +81,12 @@ function RadarChart(id, data, axises, options) {
 	//If the supplied maxValue is smaller than the actual one, replace by the max in the data
 	var transformed_data = transformData(data,axises);
     var layers = stack(transformed_data);
-	console.log(transformed_data);
 
 	var maxValue = data.length > 0 ? Math.max(cfg.maxValue, d3.max(transformed_data, function(i){
 		return d3.max(i.values.map(function(o){
 			return agg ? o.y0 + o.y : o.value;
 		}))
 	})) : 1;
-	console.log(maxValue);
 	var allAxis = (axises),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
 		radius = Math.min(cfg.w/2, cfg.h/2), 	//Radius of the outermost circle
@@ -196,17 +193,17 @@ function RadarChart(id, data, axises, options) {
 	
 	//The radial line function
 	var radarLine = d3.svg.line.radial()
-		.interpolate("linear-closed")
+		.interpolate("cardinal-closed")
 		.radius(function(d) { return rScale(agg ? d.y0 + d.y : d.value); })
 		.angle(function(d,i) { return i*angleSlice; });
 
 
 
 	var area = d3.svg.area.radial()
-		.interpolate("linear-closed")
-		.angle(function(d,i) { return i*angleSlice; })
-		.innerRadius(function(d) { return rScale(agg ? d.y0 + d.y : 0); })
-		.outerRadius(function(d) { return rScale(agg ? d.y0 + d.y : d.value); });
+		.interpolate("cardinal-closed")
+		.innerRadius(function(d) { return rScale(agg ? d.y0 : 0); })
+		.outerRadius(function(d) { return rScale(agg ? d.y0 + d.y : d.value); })
+		.angle(function(d,i) { return i*angleSlice; });
 		
 	if(cfg.roundStrokes) {
 		radarLine.interpolate("cardinal-closed");
@@ -260,8 +257,8 @@ function RadarChart(id, data, axises, options) {
 		.enter().append("circle")
 		.attr("class", "radarCircle")
 		.attr("r", cfg.dotRadius)
-		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
-		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
+		.attr("cx", function(d,i){ return rScale(agg ? d.y0 + d.y : d.value) * Math.cos(angleSlice*i - Math.PI/2); })
+		.attr("cy", function(d,i){ return rScale(agg ? d.y0 + d.y : d.value) * Math.sin(angleSlice*i - Math.PI/2); })
 		.style("fill", function(d,i,j) { return cfg.color(j); })
 		.style("fill-opacity", 0.8);
 
@@ -281,8 +278,8 @@ function RadarChart(id, data, axises, options) {
 		.enter().append("circle")
 		.attr("class", "radarInvisibleCircle")
 		.attr("r", cfg.dotRadius*1.5)
-		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
-		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
+		.attr("cx", function(d,i){ return rScale(agg ? d.y0 + d.y : d.value) * Math.cos(angleSlice*i - Math.PI/2); })
+		.attr("cy", function(d,i){ return rScale(agg ? d.y0 + d.y : d.value) * Math.sin(angleSlice*i - Math.PI/2); })
 		.style("fill", "none")
 		.style("pointer-events", "all")
 		.on("mouseover", function(d,i) {

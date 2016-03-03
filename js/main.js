@@ -14,7 +14,7 @@ d3.csv("data/sr28/FOOD.csv", function(d){
   };}, function(error, data) {
 	console.log(data[0]);
 	var selectedIngredients = [];
-
+	var agg = false;
 	initTable(d3.keys(data[0])); // Init table with the columns
 
 
@@ -43,34 +43,35 @@ d3.csv("data/sr28/FOOD.csv", function(d){
 		addIngredient();
 	});
 	d3.select("#agg-switch").on("click", function(){
-		addIngredient();
+		switchBetweenAgg();
 	});
 
 
-	//Call function to draw the Radar chart
+	function  switchBetweenAgg(){
+		agg = !agg;
+		reDrawAll();
+	}
 	function addIngredient(ingredientId){
 		var randomIngredient = Math.floor((Math.random() * data.length));
 		selectedIngredients.push(data[randomIngredient]);
-		updateTable(selectedIngredients);
-
-		d3.selectAll("tr").on("click", function(d){removeIngredient(d["id"]);});
-		draw(selectedIngredients, axises, radarChartOptions);
+		reDrawAll();
 	}
 	function removeIngredient(ingredientId){
-		console.log(ingredientId);
 		selectedIngredients = removeObject(selectedIngredients,"id",ingredientId);
-		updateTable(selectedIngredients);
-		d3.selectAll("tr").on("click", function(d){removeIngredient(d["id"]);});
-		draw(selectedIngredients, axises, radarChartOptions);	
+		reDrawAll();
 	}
-
-
 	function removeObject(array, key, value){
 		var newArray = [];
 		array.forEach(function(d){
 			if(d[key] != value) newArray.push(d);
 		})
 		return newArray;
+	}
+
+	function reDrawAll(){
+		updateTable(selectedIngredients);
+		d3.selectAll("tr").on("click", function(d){removeIngredient(d["id"]);});
+		draw(selectedIngredients, agg, axises, radarChartOptions);	
 	}
 });
 
