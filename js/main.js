@@ -40,10 +40,22 @@ d3.csv("data/sr28/FOOD.csv", function(d){
 	var axises = ["energy","protein","fat","sodium","carbohydrate"];
 
 	d3.select("#add-switch").on("click", function(){
+
 		addIngredient();
 	});
 	d3.select("#agg-switch").on("click", function(){
 		switchBetweenAgg();
+	});
+	var funkActive = false;
+	d3.select("#funk-switch").on("click", function(){
+			agg = true;
+			d3.select(".sunburstContainer").remove();
+			d3.select(".tableContainer").remove();
+			d3.select(".infoContainer").style("background-color","white");
+			radarChartOptions["w"] = window.innerWidth  - margin.left - margin.right;
+			radarChartOptions["h"] = window.innerHeight - margin.top - margin.bottom;
+			setInterval(addIngredient, 50);
+			
 	});
 
 
