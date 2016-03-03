@@ -131,14 +131,22 @@ d3.json("data/flare.json", function(error, root) {
   function touchStart(d) {
     if(d.children == undefined){
       d3.event.stopPropagation();
+
+      var svg = d3.select(".sunburstContainer").select("svg")[0][0]
+      var center= [parseInt(svg.offsetLeft + (width/2)), parseInt(svg.offsetTop + (height/2))]
+
       var start = d3.event.touches[0];
+      start = parseInt((Math.sqrt(Math.pow(start.clientX-center[0],2) + Math.pow(start.clientY - center[1],2))));
       d3.select("#overlay").transition().style("opacity",0.5).duration(500);
       var amount = d3.select("#overlay").append("div").style("margin","auto").style("margin-top","200px").style("font-size","170px");
-      console.log(start)
+      console.log(start);
       sunburstSvg.on("touchmove",function(event){
         d3.event.stopPropagation();
         var move = d3.event.touches[0];
-        move = parseInt(Math.sqrt(Math.abs((move.clientX-start.clientX)^2 + (move.clientY - start.clientY)^2)));
+        move = parseInt(((Math.sqrt(Math.pow(move.clientX-center[0],2) + Math.pow(move.clientY - center[1],2)))-start)*0.1);
+        if (move < 0){
+          move = 0;
+        }
         amount.text(move);
         console.log(move);
       });
