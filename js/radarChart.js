@@ -11,8 +11,7 @@ function toTitleCase(str)
 {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
-d3.json("data/nutrition.json", function(error, rawdata) {
-	console.log(error);
+function fillTable(rawdata) {
  	console.log(rawdata);
 
  	var margin = {top: 100, right: 100, bottom: 100, left: 100},
@@ -26,39 +25,31 @@ d3.json("data/nutrition.json", function(error, rawdata) {
  	var table = d3.select("#ingredientTable");
  	table.append("thead");
 	table.append("tbody");
-	console.log(rawdata[0]["nutrition"].map(function(d){return toTitleCase(d["name"]);}));
 
-	var thead = d3.select("thead").selectAll("th")
-	.data(d3.values(["Name",].concat(rawdata[0]["nutrition"].map(function(d){return toTitleCase(d["name"]);}))))
+	var columns = d3.keys(rawdata[0]);
+	var thead = d3.select("thead").append("tr").selectAll("th")
+	.data(columns)
 	.enter().append("th").text(function(d){return d});
 	// fill the table
 	// create rows
 
 	var tr = d3.select("tbody").selectAll("tr")
-		.data(rawdata).
-		 enter().
-		 append("tr");
-
+		.data(rawdata.slice(0,20))
+		.enter()
+		.append("tr");
 	// cells
 	var td = tr.selectAll("td")
-	  .data(function(d){return [{"value":toTitleCase(d.name)}].concat(d3.values(d["nutrition"]))})
+	  .data(function(row) {
+            return columns.map(function(column) {
+                return {column: column, value: row[column]};
+            });
+        })
 	  .enter().append("td")
-	  .text(function(d) {return d.value})
+	  .html(function(d) { return d.value; });
 
-
-
-
-
-	
-	data = [transformData(rawdata[0]["nutrition"])];
-	rawdata.forEach(function(d) {
-		//data.push(transformData(d["nutrition"]));
-  	});
-
-
+	data = rawdata;
 	var aggdata = agg(data);
 	var aggregate_bool = false;
-	console.log(rawdata);
 	console.log(data);
 	console.log(aggdata);
 	d3.selectAll("tr").on("click",function(d){
@@ -93,17 +84,17 @@ d3.json("data/nutrition.json", function(error, rawdata) {
 
 
 
-});
+};
 
 function draw(data,aggdata, aggregate_bool,radarChartOptions){
 
 		if(aggregate_bool){
 			
-			console.log("Aggregating\n");
-			console.log(aggdata);
+			//console.log("Aggregating\n");
+			//console.log(aggdata);
 			RadarChart(".radarChart", aggdata, radarChartOptions);
 		}else{
-			console.log("Splicing\n" + data);
+			//console.log("Splicing\n" + data);
 			RadarChart(".radarChart", data, radarChartOptions);
 		}
 }
