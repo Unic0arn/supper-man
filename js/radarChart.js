@@ -274,7 +274,7 @@ function RadarChart(id, agg, data, axises, options) {
 		
 	//Append a set of invisible circles on top for the mouseover pop-up
 	blobCircleWrapper.selectAll(".radarInvisibleCircle")
-		.data(function(d,i) { return d; })
+		.data(function(d,i) { return d.values; })
 		.enter().append("circle")
 		.attr("class", "radarInvisibleCircle")
 		.attr("r", cfg.dotRadius*1.5)
