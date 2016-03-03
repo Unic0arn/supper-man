@@ -41,21 +41,24 @@ d3.csv("data/sr28/FOOD.csv", function(d){
 
 	d3.select("#aggregate-switch").on("click", function(){
 		addIngredient();
-		d3.selectAll("tr").on("click", function(d){
-			console.log(d);
-			selectedIngredients = removeObject(selectedIngredients,"id",d["id"]);
-			updateTable(selectedIngredients);
-			draw(selectedIngredients, axises, radarChartOptions);
-		});
 	});
 
 
 	//Call function to draw the Radar chart
 	function addIngredient(ingredientId){
-	var randomIngredient = Math.floor((Math.random() * data.length));
-	selectedIngredients.push(data[randomIngredient]);
-	updateTable(selectedIngredients);
-	draw(selectedIngredients, axises, radarChartOptions);
+		var randomIngredient = Math.floor((Math.random() * data.length));
+		selectedIngredients.push(data[randomIngredient]);
+		updateTable(selectedIngredients);
+
+		d3.selectAll("tr").on("click", function(d){removeIngredient(d["id"]);});
+		draw(selectedIngredients, axises, radarChartOptions);
+	}
+	function removeIngredient(ingredientId){
+		console.log(ingredientId);
+		selectedIngredients = removeObject(selectedIngredients,"id",ingredientId);
+		updateTable(selectedIngredients);
+		d3.selectAll("tr").on("click", function(d){removeIngredient(d["id"]);});
+		draw(selectedIngredients, axises, radarChartOptions);	
 	}
 
 

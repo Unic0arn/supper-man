@@ -82,11 +82,11 @@ function RadarChart(id, data, axises, options) {
 	var transformed_data = transformData(data,axises);
 	console.log(transformed_data);
 
-	var maxValue = Math.max(cfg.maxValue, d3.max(transformed_data, function(i){
+	var maxValue = data.length > 0 ? Math.max(cfg.maxValue, d3.max(transformed_data, function(i){
 		return d3.max(i.values.map(function(o){
 			return o.value;
 		}))
-	}));
+	})) : 1;
 	
 	var allAxis = (axises),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
