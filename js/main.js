@@ -11,7 +11,61 @@ d3.csv("data/sr28/FOOD.csv", function(d){
 		fat: +(d["Lipid_Tot_(g)"].replace(",",".")) || 0,
     	sodium: +(d["Sodium_(mg)"].replace(",",".")) || 0,
     	carbohydrate: +(d["Carbohydrt_(g)"].replace(",",".")) || 0
-  };}, function(error, rawdata) {
-	console.log(rawdata[0]);
-	fillTable(rawdata);
+  };}, function(error, data) {
+	console.log(data[0]);
+	var selectedIngredients = [];
+
+	initTable(d3.keys(data[0])); // Init table with the columns
+
+
+
+	var color = d3.scale.category20();
+	
+
+
+	var margin = {top: 100, right: 100, bottom: 100, left: 100},
+	width = Math.min(450, window.innerWidth - 10) - margin.left - margin.right,
+	height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
+	
+	var radarChartOptions = {
+	  w: width,
+	  h: height,
+	  margin: margin,
+	  maxValue: 0,
+	  levels: 10,
+	  roundStrokes: true,
+	  color: color
+	};
+
+	var axises = ["energy","protein","fat","sodium","carbohydrate"];
+
+	d3.select("#aggregate-switch").on("click", function(){
+		addIngredient();
+		d3.selectAll("tr").on("click", function(d){
+			console.log(d);
+			selectedIngredients = removeObject(selectedIngredients,"id",d["id"]);
+			updateTable(selectedIngredients);
+			draw(selectedIngredients, axises, radarChartOptions);
+		});
+	});
+
+
+	//Call function to draw the Radar chart
+	function addIngredient(ingredientId){
+	var randomIngredient = Math.floor((Math.random() * data.length));
+	selectedIngredients.push(data[randomIngredient]);
+	updateTable(selectedIngredients);
+	draw(selectedIngredients, axises, radarChartOptions);
+	}
+
+
+	function removeObject(array, key, value){
+		var newArray = [];
+		array.forEach(function(d){
+			if(d[key] != value) newArray.push(d);
+		})
+		return newArray;
+	}
 });
+
+

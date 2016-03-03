@@ -7,157 +7,39 @@
 ////////////////////////// Data ////////////////////////////// 
 ////////////////////////////////////////////////////////////// 
 
-function toTitleCase(str)
-{
+function toTitleCase(str){
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
-function fillTable(rawdata) {
- 	console.log(rawdata);
-
- 	var margin = {top: 100, right: 100, bottom: 100, left: 100},
-	width = Math.min(450, window.innerWidth - 10) - margin.left - margin.right,
-	height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
-	
 
 
-
-
- 	var table = d3.select("#ingredientTable");
- 	table.append("thead");
-	table.append("tbody");
-
-	var columns = d3.keys(rawdata[0]);
-	var thead = d3.select("thead").append("tr").selectAll("th")
-	.data(columns)
-	.enter().append("th").text(function(d){return d});
-	// fill the table
-	// create rows
-
-	var tr = d3.select("tbody").selectAll("tr")
-		.data(rawdata.slice(0,20))
-		.enter()
-		.append("tr");
-	// cells
-	var td = tr.selectAll("td")
-	  .data(function(row) {
-            return columns.map(function(column) {
-                return {column: column, value: row[column]};
-            });
-        })
-	  .enter().append("td")
-	  .html(function(d) { return d.value; });
-
-	data = rawdata;
-	var aggdata = agg(data);
-	var aggregate_bool = false;
-	console.log(data);
-	console.log(aggdata);
-	d3.selectAll("tr").on("click",function(d){
-		data.push(transformData(d["nutrition"]));
-		console.log(data);
-		aggdata = agg(data);
-
-		draw(data,aggdata,aggregate_bool,radarChartOptions);
-	});
-	var color = d3.scale.ordinal()
-		.range(["#267CFC","#01CA94","#B03A00"]);
-		
-	var radarChartOptions = {
-	  w: width,
-	  h: height,
-	  margin: margin,
-	  maxValue: 0,
-	  levels: 10,
-	  roundStrokes: true,
-	  color: color
-	};
-
-
-	d3.select("#aggregate-switch").on("click", function(){
-		aggregate_bool = !aggregate_bool;
-		draw(data,aggdata,aggregate_bool,radarChartOptions);
-	});
-
-	//Call function to draw the Radar chart
-	
-	draw(data,aggdata,aggregate_bool,radarChartOptions);
-
-
-
-};
-
-function draw(data,aggdata, aggregate_bool,radarChartOptions){
-
-		if(aggregate_bool){
-			
-			//console.log("Aggregating\n");
-			//console.log(aggdata);
-			RadarChart(".radarChart", aggdata, radarChartOptions);
-		}else{
-			//console.log("Splicing\n" + data);
-			RadarChart(".radarChart", data, radarChartOptions);
-		}
+function draw(data,axises, radarChartOptions){
+	RadarChart(".radarChart", data, axises, radarChartOptions);
 }
 
-function agg(data){
-	console.log("Creating agg table");
-
-	
-	var aggdata = d3.nest()
-	.key(function(d) { return d.axis; })
-	.rollup(function(v) { return d3.sum(v, function(d) {return d.value;});})
-	.map([].concat.apply([],data));
-	console.log(JSON.stringify(aggdata));
-	
-	naggdata = [[						
-			{axis:"energy",value:aggdata["energy"]},
-			{axis:"total fat",value:aggdata["total fat"]},
-			{axis:"carbohydrate",value:aggdata["carbohydrate"]},
-			{axis:"protein",value:aggdata["protein"]},
-			{axis:"cholesterol",value:aggdata["cholesterol"]},
-			{axis:"sodium",value:aggdata["sodium"]},		
-		  ]];
-	return naggdata;
-}
-
-function transformData(data){
-
-	var daily_intake = {"energy":2000,"total fat":65,"carbohydrate":300,"protein":50,"sodium":2400,"cholesterol":300};
+function transformData(data,axises){
 
 
 	outdata = [];
+
 	data.forEach(function(d){
-		outdata.push({axis:d.name,value:(d.value*15/daily_intake[d.name])});
+		outdata.push(transFormIngredient(d,axises));
 	});
 
 	return outdata;
 }
-/*var data = [
-		  [//Spaghetti http://allrecipes.com/recipe/217377/spaghetti-bolognese/
-			{axis:"Calories",value:0.39},
-			{axis:"Fat",value:0.40},
-			{axis:"Carbs",value:0.29},
-			{axis:"Protein",value:0.88},
-			{axis:"Cholesterol",value:0.35},
-			{axis:"Sodium",value:0.91},		
-		  ],
-		  [//Nuggets http://allrecipes.com/recipe/161469/the-best-ever-chicken-nuggets/
-			{axis:"Calories",value:0.26},
-			{axis:"Fat",value:0.27},
-			{axis:"Carbs",value:0.17},
-			{axis:"Protein",value:0.71},
-			{axis:"Cholesterol",value:0.54},
-			{axis:"Sodium",value:1.74},		
-		  ],
-		  [//http://allrecipes.com/recipe/14172/caesar-salad-supreme
-			{axis:"Calories",value:0.19},
-			{axis:"Fat",value:0.52},
-			{axis:"Carbs",value:0.5},
-			{axis:"Protein",value:0.12},
-			{axis:"Cholesterol",value:0.6},
-			{axis:"Sodium",value:0.22},		
-		  ]
-		];*/
+
+function transFormIngredient(ingredient, axises){
+		var daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50,"sodium":2400};
+	var outdata = {}
+	outdata["key"] = ingredient["id"];
+	outdata["values"] = [];
+	d3.keys(ingredient).forEach(function(d){
+		if(axises.indexOf(d) > -1){
+			outdata["values"].push({"key":d, "value":ingredient[d]/daily_intake[d]});
+		}
+	});
+	return outdata;
+}
 ////////////////////////////////////////////////////////////// 
 //////////////////// Draw the Chart ////////////////////////// 
 ////////////////////////////////////////////////////////////// 
@@ -170,7 +52,7 @@ function transformData(data){
 /////////// Inspired by the code of alangrafu ///////////
 /////////////////////////////////////////////////////////
 	
-function RadarChart(id, data, options) {
+function RadarChart(id, data, axises, options) {
 	var cfg = {
 	 w: 600,				//Width of the circle
 	 h: 600,				//Height of the circle
@@ -194,10 +76,19 @@ function RadarChart(id, data, options) {
 	  }//for i
 	}//if
 	
+
+
 	//If the supplied maxValue is smaller than the actual one, replace by the max in the data
-	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
-		
-	var allAxis = (data[0].map(function(i, j){return i.axis})),	//Names of each axis
+	var transformed_data = transformData(data,axises);
+	console.log(transformed_data);
+
+	var maxValue = Math.max(cfg.maxValue, d3.max(transformed_data, function(i){
+		return d3.max(i.values.map(function(o){
+			return o.value;
+		}))
+	}));
+	
+	var allAxis = (axises),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
 		radius = Math.min(cfg.w/2, cfg.h/2), 	//Radius of the outermost circle
 		Format = d3.format('%'),			 	//Percentage formatting
@@ -305,7 +196,7 @@ function RadarChart(id, data, options) {
 	var radarLine = d3.svg.line.radial()
 		.interpolate("linear-closed")
 		.radius(function(d) { return rScale(d.value); })
-		.angle(function(d,i) {	return i*angleSlice; });
+		.angle(function(d,i) { return i*angleSlice; });
 		
 	if(cfg.roundStrokes) {
 		radarLine.interpolate("cardinal-closed");
@@ -313,7 +204,7 @@ function RadarChart(id, data, options) {
 				
 	//Create a wrapper for the blobs	
 	var blobWrapper = g.selectAll(".radarWrapper")
-		.data(data)
+		.data(transformed_data)
 		.enter().append("g")
 		.attr("class", "radarWrapper");
 			
@@ -321,7 +212,7 @@ function RadarChart(id, data, options) {
 	blobWrapper
 		.append("path")
 		.attr("class", "radarArea")
-		.attr("d", function(d,i) { return radarLine(d); })
+		.attr("d", function(d,i) { return radarLine(d.values); })
 		.style("fill", function(d,i) { return cfg.color(i); })
 		.style("fill-opacity", cfg.opacityArea)
 		.on('mouseover', function (d,i){
@@ -344,7 +235,7 @@ function RadarChart(id, data, options) {
 	//Create the outlines	
 	blobWrapper.append("path")
 		.attr("class", "radarStroke")
-		.attr("d", function(d,i) { return radarLine(d); })
+		.attr("d", function(d,i) { return radarLine(d.values); })
 		.style("stroke-width", cfg.strokeWidth + "px")
 		.style("stroke", function(d,i) { return cfg.color(i); })
 		.style("fill", "none")
@@ -352,7 +243,7 @@ function RadarChart(id, data, options) {
 	
 	//Append the circles
 	blobWrapper.selectAll(".radarCircle")
-		.data(function(d,i) { return d; })
+		.data(function(d,i) { return d.values; })
 		.enter().append("circle")
 		.attr("class", "radarCircle")
 		.attr("r", cfg.dotRadius)
@@ -367,7 +258,7 @@ function RadarChart(id, data, options) {
 	
 	//Wrapper for the invisible circles on top
 	var blobCircleWrapper = g.selectAll(".radarCircleWrapper")
-		.data(data)
+		.data(transformed_data)
 		.enter().append("g")
 		.attr("class", "radarCircleWrapper");
 		
