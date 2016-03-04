@@ -76,13 +76,13 @@ d3.csv("data/sr28/FOOD.csv", function(d){
 		var newArray = [];
 		array.forEach(function(d){
 			if(d[key] != value) newArray.push(d);
-		})
+		});
 		return newArray;
 	}
 
 	function reDrawAll(){
 		updateTable(selectedIngredients);
-		d3.selectAll("tr").on("click", function(d){removeIngredient(d["id"]);});
+		d3.selectAll(".removeBtn").on("click", function(d){removeIngredient(d["id"]);});
 		draw(selectedIngredients, agg, axises, radarChartOptions);	
 	}
 });
