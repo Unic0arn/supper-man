@@ -8,8 +8,6 @@ var Model = function () {
     model.recipeIds = []; 
     model.observers = [];
 
-
-
     this.loadCsv = function(path){
         d3.csv(path, function(d){
         if(d["Post ID"] == "" || d["Type"] == "") return;
