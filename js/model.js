@@ -55,10 +55,10 @@ var Model = function () {
         notifyObservers("removeIngredient");
     }
 
-    this.changeAmont = function(id,amount){
+    this.changeAmount = function(id,amount){
         var index = recipeIds.indexOf(id);
         model.recipe[index].amount = amount;
-        notifyObservers("changeAmont");
+        notifyObservers("changeAmount");
     }
 
 
@@ -72,6 +72,6 @@ var Model = function () {
         }
     }
 
-    loadCsv("data/sr28/FOOD.csv");
+    this.loadCsv("data/sr28/FOOD.csv");
 
 }
