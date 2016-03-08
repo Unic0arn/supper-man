@@ -3,9 +3,12 @@ var TableView = function (container, model) {
     var tableContainer = this;
     
     model.addObserver(tableContainer);
-    
+
+
     var redrawTable = function(){
-        var tbody = d3.select("tbody");
+        var table = d3.select("#ingredientTable");
+        var tbody = table.select("tbody");
+        var columns = ['name', 'amount', ''];
         tbody.html('');
         var tr = tbody.selectAll("tr")
             .data(model.recipe)
@@ -15,7 +18,7 @@ var TableView = function (container, model) {
         // cells
         var td = tr.selectAll("td")
             .data(function(row) {
-                return columns.map(function(column) {
+                return columns.map(function(column, i) {
                     return {column: column, value: row[column]};
                 });
             })
@@ -25,7 +28,7 @@ var TableView = function (container, model) {
     
     var initialize = function(){
         
-        var columns = ['name', 'amount', ''];
+        var columns = ['Name', 'Amount', ''];
         
         var table = d3.select("#ingredientTable");
         table.append("thead");
@@ -33,22 +36,25 @@ var TableView = function (container, model) {
 
         var thead = d3.select("thead").append("tr").selectAll("th")
         .data(columns)
-        .enter().append("th").text(function(d){return d});
-        
+        .enter().append("th").text(function(d){return d;});
         
     
-    }
-    initialize();
+    };
+
+
     tableContainer.update = function(code){
-        for(var msg in code){
-            if("addIngredient" === code[msg]){
-                console.log("addIngredient");
-                redrawTable();
-            }else if("removeIngredient" === code[msg]){
-                console.log("removeIngredient");
-            }else if("changeAmount" === code[msg]){
-                console.log("changeAmount");
-            }
+        if("addIngredient" === code){
+            console.log("adding Ingredient in tableView update");
+            redrawTable();
+        }else if("removeIngredient" === code){
+            console.log("removeIngredient");
+        }else if("changeAmount" === code){
+            console.log("changeAmount");
         }
-    }
-}
+    };
+
+
+    initialize();
+    
+    // redrawTable();
+};

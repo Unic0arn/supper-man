@@ -24,9 +24,12 @@ var Model = function () {
             carbohydrate: +(d["Carbohydrt_(g)"].replace(",",".")) || 0
       };}, function(data) { 
         model.data = data;
-        model.dataIds = data.map(function(d){return d.id;})
+        model.dataIds = data.map(function(d){return d.id;});
+        model.addIngredient(1001, 200);
+        model.addIngredient(1011, 2000);
+
       });
-    }
+    };
 
     this.getIngredient = function(id){
         var tmp = model.data[model.dataIds.indexOf(id)];
@@ -34,42 +37,41 @@ var Model = function () {
         for (var attr in tmp){
             obj[attr] = tmp[attr];
         }
-
         return obj;
-    }
+    };
 
     this.addIngredient = function(id,amount){
-        var ingredient = getIngredient(id);
+        var ingredient = model.getIngredient(id);
         ingredient["amount"] = amount;
         model.recipe.push(ingredient);
-        model.recipeIds.push(ingredient.id)
-        notifyObservers("addIngredient");
-    }
+        model.recipeIds.push(ingredient.id);
+        model.notifyObservers("addIngredient");
+    };
 
     this.removeIngredient = function(id){
         var index = recipeIds.indexOf(id);
         model.recipe.slice();
         model.recipeIds.slice();
-        notifyObservers("removeIngredient");
-    }
+        model.notifyObservers("removeIngredient");
+    };
 
     this.changeAmount = function(id,amount){
         var index = recipeIds.indexOf(id);
         model.recipe[index].amount = amount;
-        notifyObservers("changeAmount");
-    }
+        model.notifyObservers("changeAmount");
+    };
 
 
     this.addObserver = function(obs){
         model.observers.push(obs);
-    }
+    };
 
     this.notifyObservers = function(code){
-        for (var i in this.observers){
+        for (var i in model.observers){
             model.observers[i].update(code);
         }
-    }
+    };
 
     this.loadCsv("data/sr28/FOOD.csv");
 
-}
+};
