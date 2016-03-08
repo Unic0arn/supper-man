@@ -72,6 +72,29 @@ var Model = function () {
         }
     };
 
+    this.getPercentageData = function(){
+        outdata = [];
+        model.recipe.forEach(function(d){
+            outdata.push(model.calculateIngredient(d));
+        }); 
+        return outdata;
+    }
+
+    this.calculateIngredient = function(ingredient){
+        var daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50,"sodium":2400};
+        var outIngredient = {}
+        d3.keys(ingredient).forEach(function(d){
+            
+            if(d3.keys(daily_intake).indexOf(d) > -1){
+                outIngredient[d] = ingredient[d]/daily_intake[d];
+            }else{
+                outIngredient[d] = ingredient[d];
+            }
+        });
+        return outIngredient;
+    }
+
+
     this.loadCsv("data/sr28/FOOD.csv");
 
 };
