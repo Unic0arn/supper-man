@@ -8,14 +8,14 @@ var SunburstView = function(container,model){
     radius = Math.min(width, height) / 2;
 
   var x = d3.scale.linear()
-      .range([0, 2 * Math.PI]);
+      .range([0, Math.PI]);
 
   var y = d3.scale.linear()
       .range([0, radius]);
 
   var arc = d3.svg.arc()
-    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
-    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+    .startAngle(function(d) { return Math.max(0, Math.min(Math.PI, x(d.x))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(Math.PI, x(d.x + d.dx))); })
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 

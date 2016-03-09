@@ -35,6 +35,10 @@ var SunburstCtrl = function (view, model) {
         model.addIngredient(d.id, move)
         view.container.select("svg").on("touchmove",null);
         view.container.select("svg").on("touchend",null);
+        while(d.parent.name != "ingredients"){
+          d = d.parent;
+          view.arcTransition(d.parent);
+        }
         
       });
     }else{
