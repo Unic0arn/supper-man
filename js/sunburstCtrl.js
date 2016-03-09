@@ -30,14 +30,15 @@ var SunburstCtrl = function (view, model) {
       view.container.select("svg").on("touchend",function(){
         amount.remove();
         d3.select("#overlay").transition().style("opacity",0).duration(500);
-        move = parseInt(((Math.sqrt(Math.pow(move.clientX-center[0],2) + Math.pow(move.clientY - center[1],2)))-start)*0.1);
         
-        model.addIngredient(d.id, move)
-        view.container.select("svg").on("touchmove",null);
-        view.container.select("svg").on("touchend",null);
-        while(d.parent.name != "ingredients"){
-          d = d.parent;
-          view.arcTransition(d.parent);
+        if(move != 0){
+          model.addIngredient(d.id, move)
+          view.container.select("svg").on("touchmove",null);
+          view.container.select("svg").on("touchend",null);
+          while(d.parent.name != "ingredients"){
+            d = d.parent;
+            view.arcTransition(d.parent);
+          }
         }
         
       });
