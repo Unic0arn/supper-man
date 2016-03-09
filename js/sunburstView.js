@@ -124,12 +124,12 @@ var SunburstView = function(container,model){
         //.on("touchstart", touchStart);
 
       var text1 = g.append("text")
-        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
         .attr("x", function(d) { return y(d.y); })
-        .attr("dx", "6") // margin
+        .attr("dx", "6")// margin
         .attr("dy", ".35em") // vertical-align
         .style("pointer-events","none")
-        .text(function(d) { return d.name; });
+        .text(function(d) { return d.name; })
+        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; });
 
       model.notifyObservers("sunburstReady");
     });
@@ -161,7 +161,7 @@ var SunburstView = function(container,model){
           // fade in the text element and recalculate positions
           arcText.transition().duration(500)
             .attr("opacity", 1)
-            .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")"; })
+            .attr("transform", function(d) { return "rotate(" + computeTextRotation(e) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; })
             .attr("x", function(d) { return y(d.y); });
         }
     });
