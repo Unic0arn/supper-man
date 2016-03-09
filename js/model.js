@@ -1,5 +1,4 @@
 var Model = function () {
-
     var model = this;
 
     model.data = []; //parse csv
@@ -25,6 +24,7 @@ var Model = function () {
       };}, function(data) { 
         model.data = data;
         model.dataIds = data.map(function(d){return d.id;});
+        model.notifyObservers("dataReady")
         model.addIngredient(1001, 200);
         model.addIngredient(1011, 2000);
 
@@ -33,6 +33,11 @@ var Model = function () {
 
     this.getIngredient = function(id){
         var tmp = model.data[model.dataIds.indexOf(id)];
+        if(model.dataIds.indexOf(id) == -1){
+            console.log("ingredient with id: " +id+ " does not exist, getting id 1001 instead")
+            tmp = model.getIngredient(1001);
+        }
+        
         var obj = {};
         for (var attr in tmp){
             obj[attr] = tmp[attr];
@@ -67,6 +72,7 @@ var Model = function () {
     };
 
     this.notifyObservers = function(code){
+        console.log("Notify obsevers: " + code)
         for (var i in model.observers){
             model.observers[i].update(code);
         }

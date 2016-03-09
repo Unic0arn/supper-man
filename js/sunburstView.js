@@ -1,4 +1,6 @@
 var SunburstView = function(container,model){
+  var view = this;
+  view.container = container;
   model.addObserver(this);
 
   var width = 960,
@@ -10,6 +12,13 @@ var SunburstView = function(container,model){
 
   var y = d3.scale.linear()
       .range([0, radius]);
+
+  var arc = d3.svg.arc()
+    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
 
   //takes a list of ingredients and returns a JSON of categories>subgroups>ingredients
   var foodGroupJSON = function(food){
@@ -47,52 +56,45 @@ var SunburstView = function(container,model){
   return finalList;
   }
 
-  var color = function(node,i){
-    // console.log(i);
-    return "rgb(255,0,0)";
-    // cuttingBoard = {
-    //  "meat":[0, 80, 50, 0.8],
-    //  "fish":[200, 80, 50, 1],
-    //  "seafood":[80, 80, 50, 0.8],
-    //  "vegetables":[120, 80, 50, 1],
-    //  "herbs & spices":[160, 80, 50, 1],
-    //  "fruit":[60, 80, 50, 1],
-    //  "dairy":[240, 80, 50, 1]};
+  var color = function(node,i){    
+  //return "rgb(255,0,0)";
+    cuttingBoard = {
+     "meat":[0, 80, 50, 0.8],
+     "fish":[200, 80, 50, 1],
+     "seafood":[80, 80, 50, 0.8],
+     "vegetables":[120, 80, 50, 1],
+     "herbs & spices":[160, 80, 50, 1],
+     "fruit":[60, 80, 50, 1],
+     "dairy":[240, 80, 50, 1]};
 
-    // if (node.name == "ingredients"){
-    //   return "white";
-    // }
-    // if (node.name in cuttingBoard){
-    //   var c = cuttingBoard[node.name];
-    //   return "hsla("+c[0]+","+c[1]+"%,"+c[2]+"%,"+c[3]+")";
-    // }else{
-    //   o=node.depth;
-    //   while (node.parent.name != "ingredients"){
-    //     node = node.parent;
-    //   }
-    //   var c = cuttingBoard[node.name];
-    //   i = i%2;
-    //   o = 50 + 10*o - 10*i;
-    // return "hsla("+c[0]+","+c[1]+"%,"+o+"%,"+c[3]+")";
-    // }
+    if (node.name == "ingredients"){
+      return "white";
+    }
+    if (node.name in cuttingBoard){
+      var c = cuttingBoard[node.name];
+      return "hsla("+c[0]+","+c[1]+"%,"+c[2]+"%,"+c[3]+")";
+    }else{
+      o=node.depth;
+      while (node.parent.name != "ingredients"){
+        node = node.parent;
+      }
+      var c = cuttingBoard[node.name];
+      i = i%2;
+      o = 50 + 10*o - 10*i;
+    return "hsla("+c[0]+","+c[1]+"%,"+o+"%,"+c[3]+")";
+    }
   }
 
-  
-
-
-
-
     var initialize = function(){
-
-    //var color = d3.scale.category20c();
-    //hsl values
-
 
     var sunburstSvg = container.append("svg")
         .attr("width", width)
         .attr("height", height)
       .append("g")
         .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+
+    var svg = d3.select(".sunburstContainer").select("svg")[0][0]
+    view.svgCenter= [parseInt(svg.offsetLeft + (width/2)), parseInt(svg.offsetTop + (height/2))]
 
     var partition = d3.layout.partition()
         .value(function(d) { 
@@ -105,24 +107,15 @@ var SunburstView = function(container,model){
             }
             return part;
           }else{
-            console.log("bad")
             return 1
           } 
         });
 
-    var arc = d3.svg.arc()
-        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
-        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
-        .innerRadius(function(d) { return Math.max(0, y(d.y)); })
-        .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
-
-    //d3.json("data/flare.json", function(error, root) {
-    var root = foodGroupJSON(model.data);
+    d3.json("data/flare.json", function(error, root) {
+    //var root = foodGroupJSON(model.data);
       var g = sunburstSvg.selectAll("g")
         .data(partition.nodes(root))
         .enter().append("g");
-
-      console.log(g);
 
       var path = g.append("path")
         .attr("d", arc)
@@ -137,10 +130,11 @@ var SunburstView = function(container,model){
         .attr("dy", ".35em") // vertical-align
         .style("pointer-events","none")
         .text(function(d) { return d.name; });
-    //});
+
+      model.notifyObservers("sunburstReady");
+    });
 
   d3.select(self.frameElement).style("height", height + "px");
-
   }
 
   // Interpolate the scales!
@@ -153,6 +147,26 @@ var SunburstView = function(container,model){
     };
   }
 
+  this.arcTransition = function(d,i){
+    view.container.selectAll("text").transition().attr("opacity", 0);
+
+    view.container.selectAll(".segment").transition()
+      .duration(750)
+      .attrTween("d", arcTween(d))
+      .each("end", function(e, i) {
+        // check if the animated element's data e lies within the visible angle span given in d
+        if (e.x >= d.x && e.x < (d.x + d.dx)) {
+          // get a selection of the associated text element
+          var arcText = d3.select(this.parentNode).select("text");
+          // fade in the text element and recalculate positions
+          arcText.transition().duration(500)
+            .attr("opacity", 1)
+            .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")"; })
+            .attr("x", function(d) { return y(d.y); });
+        }
+    });
+  }
+
   function computeTextRotation(d) {
     return (x(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
   }
@@ -160,7 +174,10 @@ var SunburstView = function(container,model){
   this.update = function(code){
     if (code == "dataReady"){
       initialize();
-      console.log(foodGroupJSON(model.data));
+
     }
+  }
+  this.setOverlay = function(opacity){
+    d3.select("#overlay").transition().style("opacity",opacity).duration(500);
   }
 }
