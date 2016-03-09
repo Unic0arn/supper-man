@@ -43,7 +43,7 @@ tr{
 .sunburstContainer{
 	width: 70%;
 	background-color: white;
-	padding-top: 60px;
+	text-align:right;
 }
 
 #overlay{

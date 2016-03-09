@@ -3,8 +3,8 @@ var SunburstView = function(container,model){
   view.container = container;
   model.addObserver(this);
 
-  var width = 960,
-    height = 700,
+  var height = 760,
+    width = height/2,
     radius = height/2;//Math.min(width, height) / 2;
 
   var x = d3.scale.linear()
@@ -91,7 +91,7 @@ var SunburstView = function(container,model){
         .attr("width", width)
         .attr("height", height)
       .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+        .attr("transform", "translate(" + width + "," + (height / 2) + ")");
 
     var svg = d3.select(".sunburstContainer").select("svg")[0][0]
     view.svgCenter= [parseInt(svg.offsetLeft + (width/2)), parseInt(svg.offsetTop + (height/2))]
