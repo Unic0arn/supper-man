@@ -1,3 +1,6 @@
+//credit to Mike Bostock for initial sunburst code
+//http://bl.ocks.org/mbostock/4348373
+
 var SunburstView = function(container,model){
   var view = this;
   view.container = container;
@@ -94,7 +97,7 @@ var SunburstView = function(container,model){
         .attr("transform", "translate(" + width + "," + (height / 2) + ")");
 
     var svg = d3.select(".sunburstContainer").select("svg")[0][0]
-    view.svgCenter= [parseInt(svg.offsetLeft + (width/2)), parseInt(svg.offsetTop + (height/2))]
+    view.svgCenter= [parseInt(svg.offsetLeft + width), parseInt(svg.offsetTop + (height/2))]
 
     var partition = d3.layout.partition()
         .value(function(d) { 
