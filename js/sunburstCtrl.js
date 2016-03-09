@@ -19,6 +19,7 @@ var SunburstCtrl = function (view, model) {
       view.setOverlay(0.5);
 
       view.container.select("svg").on("touchmove",function(event){
+        window.event.preventDefault;
         d3.event.stopPropagation();
         move = d3.event.touches[0];
         move = parseInt(((Math.sqrt(Math.pow(move.clientX-center[0],2) + Math.pow(move.clientY - center[1],2)))-start)*0.1);
@@ -31,7 +32,7 @@ var SunburstCtrl = function (view, model) {
         amount.remove();
         d3.select("#overlay").transition().style("opacity",0).duration(500);
         
-        if(move != 0){
+        if(move > 0){
           model.addIngredient(d.id, move)
           view.container.select("svg").on("touchmove",null);
           view.container.select("svg").on("touchend",null);
