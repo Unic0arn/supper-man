@@ -33,6 +33,8 @@ var SunburstCtrl = function (view, model) {
         move = parseInt(((Math.sqrt(Math.pow(move.clientX-center[0],2) + Math.pow(move.clientY - center[1],2)))-start)*0.1);
         
         model.addIngredient(d.id, move)
+        view.container.select("svg").on("touchmove",null);
+        view.container.select("svg").on("touchend",null);
         
       });
     }else{
