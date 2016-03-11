@@ -11,29 +11,29 @@ var Model = function () {
 
     this.setRecipeName = function(name){
         model.recipe.name = name;
-    }
+    };
 
     this.saveRecipe = function(){
         if(model.recipe.id == null){
-            var ref = model.recipeDB.push()
-            ref.set({"id":ref.key()})
+            var ref = model.recipeDB.push();
+            ref.set({"id":ref.key()});
             model.recipe.id = ref.key();
         }else{
             var ref = model.recipeDB.child(model.recipe.id);            
             ref.update(model.recipe);
         }
-    }
+    };
 
     this.queryFB = function(){
-        var respose = []//firebasemagic
-        return response
-    }
+        var respose = []; //firebasemagic
+        return response;
+    };
 
     this.editRecipe = function(id){
         FBobj.child(id).once("value",function(snapshot){
             model.recipe = snapshot.val();
         });
-    }
+    };
 
     this.loadCsv = function(path){
         d3.csv(path, function(d){
@@ -52,7 +52,7 @@ var Model = function () {
       };}, function(data) { 
         model.data = data;
         model.dataIds = data.map(function(d){return d.id;});
-        model.notifyObservers("dataReady")
+        model.notifyObservers("dataReady");
         model.addIngredient(1001, 200);
         model.addIngredient(1011, 2000);
 
@@ -62,7 +62,7 @@ var Model = function () {
     this.getIngredient = function(id){
         var tmp = model.data[model.dataIds.indexOf(id)];
         if(model.dataIds.indexOf(id) == -1){
-            console.log("ingredient with id: " +id+ " does not exist, getting id 1001 instead")
+            console.log("ingredient with id: " +id+ " does not exist, getting id 1001 instead");
             tmp = model.getIngredient(1049);
         }
         
@@ -76,7 +76,7 @@ var Model = function () {
     this.addIngredient = function(id,amount){
         var ingredient = model.getIngredient(id);
         if(model.ingredientIds.indexOf(ingredient.id) > -1){
-            var tmp = model.recipe.ingredients[model.ingredientIds.indexOf(ingredient.id)]
+            var tmp = model.recipe.ingredients[model.ingredientIds.indexOf(ingredient.id)];
             tmp.amount += amount;
             if(tmp.amount <= 0){
                 model.removeIngredient(ingredient.id);
@@ -108,7 +108,7 @@ var Model = function () {
     };
 
     this.notifyObservers = function(code){
-        console.log("Notify obsevers: " + code)
+        console.log("Notify obsevers: " + code);
         for (var i in model.observers){
             model.observers[i].update(code);
         }
@@ -120,11 +120,11 @@ var Model = function () {
             outdata.push(model.calculateIngredient(d));
         }); 
         return outdata;
-    }
+    };
 
     this.calculateIngredient = function(ingredient){
         var daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50,"sodium":2400};
-        var outIngredient = {}
+        var outIngredient = {};
         d3.keys(ingredient).forEach(function(d){
             
             if(d3.keys(daily_intake).indexOf(d) > -1){
@@ -134,7 +134,87 @@ var Model = function () {
             }
         });
         return outIngredient;
-    }
+    };
+
+    /*
+        Algorithms for calculation of RDI
+    */
+    this.calculateIntakeCalories = function(){
+        //Men: BMR = 66.5 + ( 13.75 x weight in kg ) + ( 5.003 x height in cm ) – ( 6.755 x age in years )
+        //Women: BMR = 655.1 + ( 9.563 x weight in kg ) + ( 1.850 x height in cm ) – ( 4.676 x age in years )
+        // returns amount (I think...)
+        var BMR = 0;
+        if(gender === 'M'){
+            BMR = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
+        }else{
+            BMR = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age);
+        }
+
+        if(exercise === 'none'){
+            BMR *= 1.2;
+        }else if(exercise === 'little'){
+            BMR *= 1.375;
+        }else if(exercise === 'moderate'){
+            BMR *= 1.55;
+        }else if(exercise === 'heavy'){
+            BMR *= 1.725;
+        }else if(exercise === ' very heavy'){
+            BMR *= 1.9;
+        }
+        return BMR;
+    };
+
+    this.calculateIntakeProteins = function(){
+        // Recomended daily intake of proteins in (grams). Based on weight.
+        var dailyProteins = weight * 0.8;
+        return dailyProteins;
+    };
+
+    this.calculateIntakeCarbs = function(){
+        // Recommended daily intake of carbs in (grams). 
+        // Carbs grams = (55%) to (75%) of the total calories / 3.75
+        var carbArray = [];
+        var dailyCalories = model.calculateIntakeCalories();
+        var minimumCarbs =  (dailyCalories * 0.55) / 3.75;
+        var maximumCarbs = (dailyCalories * 0.75) / 3.75;
+        carbArray.push(minimumCarbs);
+        carbArray.push(maximumCarbs);
+        return carbArray;
+    };
+
+    this.calculateIntakeFats = function(){
+        // Recommended daily intake of fats in (grams). 
+        var dailyCalories = model.calculateIntakeCalories;
+        var minimumFat;
+        var maximumFat;
+        var saturatedFat;
+        var fatArray = [];
+        if(age > 1 && age < 4){
+            minimumFat = (dailyCalories * 0.3) / 9;
+            maximumFat = (dailyCalories * 0.4) / 9;
+        }else if(age > 3 && age < 19){
+            minimumFat = (dailyCalories * 0.25) / 9;
+            maximumFat = (dailyCalories * 0.35) / 9;
+        }else if(age > 18){
+            minimumFat = (dailyCalories * 0.2) / 9;
+            maximumFat = (dailyCalories * 0.35) / 9;
+        }
+
+        saturatedFat = (dailyCalories * 0.1) / 9;
+        fatArray.push(minimumFat);
+        fatArray.push(maximumFat);
+        fatArray.push(saturatedFat);
+
+        return fatArray;
+    };
+
+    this.calculateDailySodiums = function(){
+        // Values in (mg)
+        var minimumSodium = 250;
+        var maximumSodium = 500;
+        var sodiumArray = [];
+        return sodiumArray;
+    };
 
 
     this.loadCsv("data/reduced.csv");
