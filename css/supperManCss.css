@@ -35,13 +35,13 @@ tr{
 	justify-content: space-between;	
 }
 
-.infoContainer{
-	width: 30%;
+.blobAndTableContainer{
+	width: 60%;
 	height: 700px;
 }
 
 .sunburstContainer{
-	width: 70%;
+	width: 40%;
 	background-color: white;
 	text-align:right;
 }
