@@ -22,7 +22,7 @@ var TableView = function (container, model) {
         var td = tr.selectAll("td")
             .data(function(row) {
                 return columns.map(function(column, i) {
-                    return {column: column, value: row[column]};
+                    return {column: column, value: row[column], id: row.id};
                 });
             })
             .enter().append("td")
@@ -62,6 +62,7 @@ var TableView = function (container, model) {
             redrawTable();
             console.log("removeIngredient");
         }else if("changeAmount" === code){
+            redrawTable();
             console.log("changeAmount");
         }
     };

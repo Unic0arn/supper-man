@@ -75,7 +75,6 @@ var Model = function () {
 
     this.addIngredient = function(id,amount){
         var ingredient = model.getIngredient(id);
-        console.log(model.ingredientIds.indexOf(ingredient.id));
         if(model.ingredientIds.indexOf(ingredient.id) > -1){
             var tmp = model.recipe.ingredients[model.ingredientIds.indexOf(ingredient.id)]
             tmp.amount += amount;
@@ -98,7 +97,7 @@ var Model = function () {
     };
 
     this.changeAmount = function(id,amount){
-        var index = ingredientIds.indexOf(id);
+        var index = model.ingredientIds.indexOf(id);
         model.recipe.ingredients[index].amount = amount;
         model.notifyObservers("changeAmount");
     };
