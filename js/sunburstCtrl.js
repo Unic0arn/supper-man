@@ -59,12 +59,12 @@ var SunburstCtrl = function (view, model) {
         
         if(move > 0){
           model.addIngredient(d.id, move)
-          view.container.select("svg").on("touchmove",null);
-          view.container.select("svg").on("touchend",null);
           while(d.parent.name != "ingredients"){
             d = d.parent;
             view.arcTransition(d.parent);
           }
+        d3.select("body").on(interaction[1],null);
+        d3.select("body").on(interaction[2],null);
         }
         
       });
