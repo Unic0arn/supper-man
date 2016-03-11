@@ -3,9 +3,25 @@ var Model = function () {
 
     model.data = []; //parse csv
     model.dataIds = [];
-    model.recipe = []; //list active ingredients
-    model.recipeIds = []; 
+    model.recipe = {"ingredients":[]}; //list active ingredients
+    model.ingredientIds = []; 
     model.observers = [];
+
+    model.recipeDB = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
+
+    this.setRecipeName = function(name){
+        model.recipe.name = name;
+    }
+
+    this.saveRecipe = function(){
+        if(model.recipe.id == null){
+            var ref = model.recipeDB.push()
+            ref.set({"id":ref.key()})
+        }else{
+            var ref = model.recipeDB.child(model.recipe.id);            
+            ref.update(model.recipe);
+        }
+    }
 
     this.loadCsv = function(path){
         d3.csv(path, function(d){
@@ -47,22 +63,31 @@ var Model = function () {
 
     this.addIngredient = function(id,amount){
         var ingredient = model.getIngredient(id);
-        ingredient["amount"] = amount;
-        model.recipe.push(ingredient);
-        model.recipeIds.push(ingredient.id);
+        console.log(model.ingredientIds.indexOf(ingredient.id));
+        if(model.ingredientIds.indexOf(ingredient.id) > -1){
+            var tmp = model.recipe.ingredients[model.ingredientIds.indexOf(ingredient.id)]
+            tmp.amount += amount;
+            if(tmp.amount <= 0){
+                removeIngredient(ingredient.id);
+            }
+        }else{
+            ingredient["amount"] = amount;
+            model.recipe.ingredients.push(ingredient);
+            model.ingredientIds.push(ingredient.id);
+        }
         model.notifyObservers("addIngredient");
     };
 
     this.removeIngredient = function(id){
-        var index = model.recipeIds.indexOf(id);
-        model.recipe.splice(index, 1);
-        model.recipeIds.splice(index, 1);
+        var index = model.ingredientIds.indexOf(id);
+        model.recipe.ingredients.splice(index, 1);
+        model.ingredientIds.splice(index, 1);
         model.notifyObservers("removeIngredient");
     };
 
     this.changeAmount = function(id,amount){
-        var index = recipeIds.indexOf(id);
-        model.recipe[index].amount = amount;
+        var index = ingredientIds.indexOf(id);
+        model.recipe.ingredients[index].amount = amount;
         model.notifyObservers("changeAmount");
     };
 
@@ -80,7 +105,7 @@ var Model = function () {
 
     this.getPercentageData = function(){
         outdata = [];
-        model.recipe.forEach(function(d){
+        model.recipe.ingredients.forEach(function(d){
             outdata.push(model.calculateIngredient(d));
         }); 
         return outdata;

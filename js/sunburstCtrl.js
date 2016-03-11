@@ -36,6 +36,7 @@ var SunburstCtrl = function (view, model) {
     if(d.children == undefined){
       
       var move;
+      var previousAmount = 0;
       var center = view.svgCenter;
       var start = interaction[3]();
       start = parseInt((Math.sqrt(Math.pow(start.clientX-center[0],2) + Math.pow(start.clientY - center[1],2))));
@@ -51,6 +52,8 @@ var SunburstCtrl = function (view, model) {
           move = 0;
         }
         amount.text(move);
+        model.addIngredient(d.id, move-previousAmount);
+        previousAmount = move;
       });
       d3.select("body").on(interaction[2],function(){
         window.ontouchmove = null;

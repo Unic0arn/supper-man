@@ -11,7 +11,7 @@ var TableView = function (container, model) {
         var columns = ['name', 'amount', ''];
         tbody.html('');
         var tr = tbody.selectAll("tr")
-            .data(model.recipe)
+            .data(model.recipe.ingredients)
             .enter()
             .append("tr")
             .attr("d", function(d){return d;})
