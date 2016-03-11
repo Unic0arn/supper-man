@@ -68,7 +68,7 @@ var Model = function () {
             var tmp = model.recipe.ingredients[model.ingredientIds.indexOf(ingredient.id)]
             tmp.amount += amount;
             if(tmp.amount <= 0){
-                removeIngredient(ingredient.id);
+                model.removeIngredient(ingredient.id);
             }
         }else{
             ingredient["amount"] = amount;

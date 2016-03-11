@@ -52,7 +52,9 @@ var SunburstCtrl = function (view, model) {
           move = 0;
         }
         amount.text(move);
-        model.addIngredient(d.id, move-previousAmount);
+        if(Math.abs(move-previousAmount)>0){
+          model.addIngredient(d.id, move-previousAmount);
+        }
         previousAmount = move;
       });
       d3.select("body").on(interaction[2],function(){
