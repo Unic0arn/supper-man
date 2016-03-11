@@ -17,10 +17,22 @@ var Model = function () {
         if(model.recipe.id == null){
             var ref = model.recipeDB.push()
             ref.set({"id":ref.key()})
+            model.recipe.id = ref.key();
         }else{
             var ref = model.recipeDB.child(model.recipe.id);            
             ref.update(model.recipe);
         }
+    }
+
+    this.queryFB = function(){
+        var respose = []//firebasemagic
+        return response
+    }
+
+    this.editRecipe = function(id){
+        FBobj.child(id).once("value",function(snapshot){
+            model.recipe = snapshot.val();
+        });
     }
 
     this.loadCsv = function(path){
@@ -51,7 +63,7 @@ var Model = function () {
         var tmp = model.data[model.dataIds.indexOf(id)];
         if(model.dataIds.indexOf(id) == -1){
             console.log("ingredient with id: " +id+ " does not exist, getting id 1001 instead")
-            tmp = model.getIngredient(1001);
+            tmp = model.getIngredient(1049);
         }
         
         var obj = {};
@@ -126,6 +138,6 @@ var Model = function () {
     }
 
 
-    this.loadCsv("data/sr28/FOOD.csv");
+    this.loadCsv("data/reduced.csv");
 
 };
