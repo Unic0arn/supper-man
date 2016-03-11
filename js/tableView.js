@@ -29,11 +29,15 @@ var TableView = function (container, model) {
             .html(function(d) { 
                 if(d.value === undefined){
                     d3.select(this).classed('removeBtnContainer',true).style('text-align', 'center');
+                }else{
+                    d3.select(this).classed('table' + d.column, true);
                 }
                 return d.value; 
             });
+
         d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').text('Remove');
         model.notifyObservers('createRemoveButton');
+        model.notifyObservers('tableRowReady');
     };
     
     var initialize = function(){
@@ -47,8 +51,6 @@ var TableView = function (container, model) {
         var thead = d3.select("thead").append("tr").selectAll("th")
         .data(columns)
         .enter().append("th").text(function(d){return d;});
-        
-    
     };
 
 
@@ -62,6 +64,10 @@ var TableView = function (container, model) {
         }else if("changeAmount" === code){
             console.log("changeAmount");
         }
+    };
+
+    tableContainer.setOverlay = function(opacity){
+        d3.select("#overlay").transition().style("opacity",opacity).duration(500);
     };
 
 
