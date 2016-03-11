@@ -54,9 +54,9 @@ var Model = function () {
     };
 
     this.removeIngredient = function(id){
-        var index = recipeIds.indexOf(id);
-        model.recipe.slice();
-        model.recipeIds.slice();
+        var index = model.recipeIds.indexOf(id);
+        model.recipe.splice(index, 1);
+        model.recipeIds.splice(index, 1);
         model.notifyObservers("removeIngredient");
     };
 

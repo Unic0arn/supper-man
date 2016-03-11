@@ -14,8 +14,11 @@ var TableView = function (container, model) {
             .data(model.recipe)
             .enter()
             .append("tr")
-            .attr("d", function(d){return d;});
+            .attr("d", function(d){return d;})
+            .attr('id', function(d,i){ return 'ingredientRow_' + i;})
+            .attr("ingredient_id", function(d){return d.id;});
         // cells
+
         var td = tr.selectAll("td")
             .data(function(row) {
                 return columns.map(function(column, i) {
@@ -23,7 +26,14 @@ var TableView = function (container, model) {
                 });
             })
             .enter().append("td")
-            .html(function(d) { return d.value; });
+            .html(function(d) { 
+                if(d.value === undefined){
+                    d3.select(this).classed('removeBtnContainer',true).style('text-align', 'center');
+                }
+                return d.value; 
+            });
+        d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').text('Remove');
+        model.notifyObservers('createRemoveButton');
     };
     
     var initialize = function(){
@@ -47,6 +57,7 @@ var TableView = function (container, model) {
             console.log("adding Ingredient in tableView update");
             redrawTable();
         }else if("removeIngredient" === code){
+            redrawTable();
             console.log("removeIngredient");
         }else if("changeAmount" === code){
             console.log("changeAmount");
@@ -56,5 +67,4 @@ var TableView = function (container, model) {
 
     initialize();
     
-    // redrawTable();
 };
