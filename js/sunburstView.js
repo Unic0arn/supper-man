@@ -22,7 +22,6 @@ var SunburstView = function(container,model){
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-
   //takes a list of ingredients and returns a JSON of categories>subgroups>ingredients
   var foodGroupJSON = function(food){
     var categories = [];
@@ -42,16 +41,30 @@ var SunburstView = function(container,model){
 
 
     for (var i in foodGroups){
-      foodGroups[i].children.sort(); //sort by name
+      foodGroups[i].children.sort(function(a,b){return d3.ascending(a.name,b.name)}); //sort by name
       finalList.push({"name":foodGroups[i].name,"children":[]});
       if(foodGroups[i].children.length > 12){
+        var fill = foodGroups[i].children.length%12;
+        var rest = 0;
+        if (fill > parseInt(foodGroups[i].children.length/12)){
+          rest = fill;
+          fill = 0;
+        }
         for(var j = 0; j < parseInt(foodGroups[i].children.length/12); j++){
-          var strRange = foodGroups[i].children[j*12].name.substring(0,3) + " - " + foodGroups[i].children[(j+1)*11].name.substring(0,3);
-          finalList[i].children.push({"name":strRange,"children":[]})
-          for(var ingredient = 0; ingredient < 12; ingredient++){
-            finalList[i].children[j].children.push(foodGroups[i].children[(j*12)+ingredient]);
+          var strRange = foodGroups[i].children[j*(12+(fill>0))].name.substring(0,3) + " - " + foodGroups[i].children[(j+1)*(12+(fill>0))-1].name.substring(0,3);
+          finalList[i].children.push({"name":strRange,"children":[]});
+          for(var ingredient = 0; ingredient < (12+(fill>0)); ingredient++){
+            finalList[i].children[j].children.push(foodGroups[i].children[(j*(12+(fill>0)))+ingredient]);
           }
-        //there will be som rest foodGroups[i].length%15 ingredients here, I will deal with it when I have some real test data //Kevin
+          fill--;
+        }
+        if(rest > 0){
+          var j = parseInt(foodGroups[i].children.length/12);
+          var strRange = foodGroups[i].children[j*12].name.substring(0,3) + " - " + foodGroups[i].children[j*12+rest-1].name.substring(0,3);
+          finalList[i].children.push({"name":strRange,"children":[]});
+          for(var ingredient = 0; ingredient < rest; ingredient++){
+            finalList[i].children[j].children.push(foodGroups[i].children[(j*(12+(fill>0)))+ingredient]);
+          }
         }
       }else{
         for(var ingredient in foodGroups[i].children){
@@ -59,10 +72,9 @@ var SunburstView = function(container,model){
         }
       }
     }
-    finalList = {"name":"ingredients","children":finalList}
-    console.log(finalList);
+    finalList = {"name":"ingredients","children":finalList};
   return finalList;
-  }
+  };
 
   var color = function(node,i){    
     //return "rgb(255,0,0)";
@@ -94,7 +106,7 @@ var SunburstView = function(container,model){
     }
   }
 
-    var initialize = function(){
+    var initialize = function(hierarchy){
 
     var sunburstSvg = container.append("svg")
         .attr("width", width)
@@ -106,7 +118,7 @@ var SunburstView = function(container,model){
     view.svgCenter= [parseInt(svg.offsetLeft + width), parseInt(svg.offsetTop + (height/2))]
 
     var partition = d3.layout.partition()
-        .value(function(d) { 
+        .value(function(d,i) { 
           if (d.parent.children.length > 0){
             var part = 1;
             var parent = d.parent;
@@ -116,12 +128,13 @@ var SunburstView = function(container,model){
             }
             return part;
           }else{
-            return 1
+            return 1;
           } 
-        });
+        })
+        .sort(function(a,b){return d3.descending(a.name,b.name);});
 
     //d3.json("data/flare.json", function(error, root) {
-    var root = foodGroupJSON(model.data);
+    var root = hierarchy;
       var g = sunburstSvg.selectAll("g")
         .data(partition.nodes(root))
         .enter().append("g");
@@ -137,14 +150,14 @@ var SunburstView = function(container,model){
         .attr("dx", "6")// margin
         .attr("dy", ".35em") // vertical-align
         .style("pointer-events","none")
-        .text(function(d) { return d.name; })
+        .text(function(d,i) { return d.name; })
         .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; });
 
       model.notifyObservers("sunburstReady");
     //});
 
   d3.select(self.frameElement).style("height", height + "px");
-  }
+  };
 
   // Interpolate the scales!
   function arcTween(d) {
@@ -182,7 +195,8 @@ var SunburstView = function(container,model){
 
   this.update = function(code){
     if (code == "dataReady"){
-      initialize();
+      var json = foodGroupJSON(model.data);
+      initialize(json);
 
     }
   }

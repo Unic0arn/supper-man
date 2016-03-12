@@ -1,8 +1,8 @@
 var SunburstCtrl = function (view, model) {
-  var touch = ["touchstart","touchmove","touchend",function(){return d3.event.touches[0]}];
-  var mouse = ["mousedown","mousemove","mouseup",function(){d3.event.preventDefault(); return d3.event}];
+  var touch = ["touchstart","touchmove","touchend",function(){return d3.event.touches[0];}];
+  var mouse = ["mousedown","mousemove","mouseup",function(){d3.event.preventDefault(); return d3.event;}];
   var interaction = touch;
-  model.addObserver(this)
+  model.addObserver(this);
 
   
 
@@ -63,7 +63,6 @@ var SunburstCtrl = function (view, model) {
         d3.select("#overlay").transition().style("opacity",0).duration(500);
         
         if(move > 0){
-          model.addIngredient(d.id, move)
           while(d.parent.name != "ingredients"){
             d = d.parent;
             view.arcTransition(d.parent);
@@ -77,5 +76,5 @@ var SunburstCtrl = function (view, model) {
       view.arcTransition(d,i);
       window.ontouchmove = null;
     }
-  }
-}
+  };
+};
