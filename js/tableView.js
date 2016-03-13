@@ -17,11 +17,17 @@ var TableView = function (container, model) {
 
         view.btnSave = form.append("button")
             .classed("btn btn-default saveRecipeBtn",true)
-            .text("Save")
+            .text("Save");
 
         view.btnNew = form.append("button")
             .classed("btn btn-default newRecipeBtn",true)
-            .text("New")
+            .text("New");
+
+        // view.btnCamera = form.append("input")
+        //     .attr("type","file")
+        //     .attr("accept","image/*;capture=camera")
+        //     .classed("btn btn-default photoRecipeBtn",true)
+        //     .text("Photo");
 
     };
 
