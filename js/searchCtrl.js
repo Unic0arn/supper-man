@@ -14,7 +14,7 @@ var SearchCtrl = function (view, model) {
   })
 
   var initListItemCtrl = function(){
-    view.container.selectAll(".recipeListItem").on("click",function(d){
+    view.container.selectAll(".recipeListItem").on("touchstart",function(d){
       model.editRecipe(d.id);
       //collapse
     });

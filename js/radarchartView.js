@@ -24,16 +24,12 @@ var RadarChartView = function (container, model) {
 	radarChartContainer.update = function(code){
 
 		if("addIngredient" === code){
-			console.log("addIngredient");
 			redrawChart();
 		}else if("removeIngredient" === code){
-			console.log("removeIngredient");
 			redrawChart();
 		}else if("changeAmount" === code){
-			console.log("changeAmount");
 			redrawChart();
 		} else if("changeAgg" === code){
-			console.log("changeAgg");
 			redrawChart();
 		} else if("newRecipe" === code){
 			redrawChart();

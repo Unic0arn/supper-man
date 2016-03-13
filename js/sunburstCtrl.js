@@ -1,4 +1,5 @@
 var SunburstCtrl = function (view, model) {
+  var ctrl = this;
   var touch = ["touchstart","touchmove","touchend",function(){return d3.event.touches[0];}];
   var mouse = ["mousedown","mousemove","mouseup",function(){d3.event.preventDefault(); return d3.event;}];
   var interaction = touch;
@@ -26,12 +27,12 @@ var SunburstCtrl = function (view, model) {
  
   this.update = function(code){
     if(code == "sunburstReady"){
-      var segments = view.container.selectAll(".segment").on(interaction[0],function(d,i){touchStart(d,i,this)});
+      var segments = view.container.selectAll(".segment").on(interaction[0],function(d,i){ctrl.touchStart(d,i,this)});
       //view.container.on("touchstart", function(){setInterface("touch")});
     }
   }
   
-  var touchStart = function touchStart(d,i,path) {
+  this.touchStart = function (d,i,path) {
     window.ontouchmove = function(e){e.preventDefault();};
     if(d.children == undefined){
       

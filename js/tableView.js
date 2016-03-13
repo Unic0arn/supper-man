@@ -61,7 +61,6 @@ var TableView = function (container, model) {
             });
 
         d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').text('Remove');
-        model.notifyObservers('createRemoveButton');
         model.notifyObservers('tableRowReady');
     };
     
@@ -82,14 +81,11 @@ var TableView = function (container, model) {
 
     view.update = function(code){
         if(code === "addIngredient") {
-            console.log("adding Ingredient in tableView update");
             redrawTable();
         }else if(code === "removeIngredient") {
             redrawTable();
-            console.log("removeIngredient");
         }else if(code === "changeAmount") {
             redrawTable();
-            console.log("changeAmount");
         }else if(code === "newRecipe") {
             view.clearNameInput();
             redrawTable();
