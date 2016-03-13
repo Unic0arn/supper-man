@@ -98,7 +98,6 @@ var SunburstView = function(container,model){
       while (node.parent.name != "ingredients"){
         node = node.parent;
       }
-      console.log(cuttingBoard[node.name]);
       var c = cuttingBoard[node.name];
       i = i%2;
       o = 50 + 10*o - 10*i;

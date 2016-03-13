@@ -35,6 +35,8 @@ var RadarChartView = function (container, model) {
 		} else if("changeAgg" === code){
 			console.log("changeAgg");
 			redrawChart();
+		} else if("newRecipe" === code){
+			redrawChart();
 		} 
 	}
 

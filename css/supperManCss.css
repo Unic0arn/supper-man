@@ -186,3 +186,9 @@ tr{
   opacity: 0;
   pointer-events: none;
 }
+
+.recipeListItem{
+  display: flex;
+  text-align: left;
+  padding: 10px;
+}

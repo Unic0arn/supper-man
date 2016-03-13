@@ -14,10 +14,19 @@ var TableCtrl = function(tableView, model){
 			});
 		}
 		if(code === "tableRowReady"){
-			console.log('uppdatera alla TDS!!');
 			var amounts = d3.selectAll(".tableamount").on(interaction[0], function(d,i){ touchStart(d, i); });
 		}
 	};
+
+	tableView.btnSave.on("click",function(){
+        console.log(tableView.nameInput);
+        model.saveRecipe(tableView.nameInput[0][0].value);
+    });
+
+    tableView.btnNew.on("click",function(){
+    	console.log('new recipe');
+        model.newRecipe();
+    });
 
 
 	var touchStart = function touchStart(d, i) {

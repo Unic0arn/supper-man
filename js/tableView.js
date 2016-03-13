@@ -1,15 +1,40 @@
 var TableView = function (container, model) {
     
-    var tableContainer = this;
-    
-    model.addObserver(tableContainer);
+    var view = this;
+    view.container = container;
+    model.addObserver(view);
 
+    var initNameInput = function(){
+        var form = container.insert("div",":first-child").classed("form-inline",true);
+        
+        view.nameInput = form.append("input")
+            .attr("type","text")
+            .attr("id","recipeName")
+            .attr("placeholder","Name your recipe!")
+            .attr("maxlength","30")
+            .style("width","80%")
+            .classed("form-control",true);
+
+        view.btnSave = form.append("button")
+            .classed("btn btn-default saveRecipeBtn",true)
+            .text("Save")
+
+        view.btnNew = form.append("button")
+            .classed("btn btn-default newRecipeBtn",true)
+            .text("New")
+
+    };
+
+    view.clearNameInput = function(){
+        view.nameInput[0][0].value = model.recipe.name && model.recipe.name || "";
+    }
 
     var redrawTable = function(){
         var table = d3.select("#ingredientTable");
         var tbody = table.select("tbody");
         var columns = ['name', 'amount', ''];
         tbody.html('');
+
         var tr = tbody.selectAll("tr")
             .data(model.recipe.ingredients)
             .enter()
@@ -41,6 +66,7 @@ var TableView = function (container, model) {
     };
     
     var initialize = function(){
+        initNameInput();
         
         var columns = ['Name', 'Amount', ''];
         
@@ -54,20 +80,24 @@ var TableView = function (container, model) {
     };
 
 
-    tableContainer.update = function(code){
-        if("addIngredient" === code){
+    view.update = function(code){
+        if(code === "addIngredient") {
             console.log("adding Ingredient in tableView update");
             redrawTable();
-        }else if("removeIngredient" === code){
+        }else if(code === "removeIngredient") {
             redrawTable();
             console.log("removeIngredient");
-        }else if("changeAmount" === code){
+        }else if(code === "changeAmount") {
             redrawTable();
             console.log("changeAmount");
+        }else if(code === "newRecipe") {
+            view.clearNameInput();
+            redrawTable();
+
         }
     };
 
-    tableContainer.setOverlay = function(opacity){
+    view.setOverlay = function(opacity){
         d3.select("#overlay").transition().style("opacity",opacity).duration(500);
     };
 

@@ -7,19 +7,20 @@ var Model = function () {
     model.ingredientIds = []; 
     model.observers = [];
 
-    model.recipeDB = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
+    model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
-    this.setRecipeName = function(name){
+    this.saveRecipe = function(name){
         model.recipe.name = name;
-    };
-
-    this.saveRecipe = function(){
+        if(model.recipe.img == undefined || model.recipe.img == ""){
+            model.recipe.img = "img/Logo.png";
+        }
         if(model.recipe.id == null){
-            var ref = model.recipeDB.push();
-            ref.set({"id":ref.key()});
+            var ref = model.recipeDBref.push();
             model.recipe.id = ref.key();
+            ref.set(model.recipe);
+            
         }else{
-            var ref = model.recipeDB.child(model.recipe.id);            
+            var ref = model.recipeDBref.child(model.recipe.id);            
             ref.update(model.recipe);
         }
     };
@@ -30,8 +31,26 @@ var Model = function () {
     };
 
     this.editRecipe = function(id){
-        FBobj.child(id).once("value",function(snapshot){
+        model.recipeDBref.child(id).once("value",function(snapshot){
             model.recipe = snapshot.val();
+            model.notifyObservers("newRecipe");
+        });
+    };
+
+    this.newRecipe = function(){
+        model.recipe = {"ingredients":[]};
+        model.ingredientIds = [];
+        model.notifyObservers("newRecipe"); 
+    };
+
+    this.getAllRecipes = function(){
+        model.recipeDBref.once("value",function(snapshot){
+            var tmp = snapshot.val();
+            model.recipeDB = [];
+            for(var obj in tmp){
+                model.recipeDB.push(tmp[obj]);
+            }
+            model.notifyObservers("getAllRecipes");
         });
     };
 
