@@ -23,6 +23,7 @@ var Model = function () {
             var ref = model.recipeDBref.child(model.recipe.id);            
             ref.update(model.recipe);
         }
+        model.getAllRecipes();
     };
 
     this.queryFB = function(){

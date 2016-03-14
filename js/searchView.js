@@ -6,7 +6,7 @@ var SearchView = function(container,model){
     view.container.style('width','60vw').style('height','100vh').style('background-color', 'pink').style("position","absolute").style("top",0).style("left","-55vw");
 
     var redrawList = function(){
-        view.container.html = '';
+        view.container.html('');
         view.container.append('div').style('background-color','red').style('height','50px');
 
         var list = view.container.append('div').style('overflow','auto').style("width","55vw");
