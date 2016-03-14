@@ -3,28 +3,27 @@ var SearchView = function(container,model){
     view.container = container;
     model.addObserver(this);
     model.getAllRecipes();
-    view.container.style('width','60vw').style('height','100vh').style('background-color', 'pink').style("position","absolute").style("top",0).style("left","-55vw");
+    
 
     var redrawList = function(){
         view.container.html('');
-        var filters = view.container.append('div').style('background-color','red').style('height','50px');
+        var filters = view.container.append('div').attr('id', 'searchFilterContainer');
         filters.selectAll("span").data(model.filters).enter()
             .append("span").text(function(f){return model.getIngredient(f).name;});
 
-        var list = view.container.append('div').style('overflow','auto').style("width","55vw");
+        var list = view.container.append('div').attr('id', 'searchList');
         var listItem = list.selectAll('div')
             .data(model.filterSearch()).enter()
                 .append('div')
-                    .style('height','100px')
-                    .style('background-color','yellow')
                     .classed('recipeListItem',true);
 
-        listItem.append('img').style('width','80px').style('height', '80px').style('border', 'solid').style('border-width', '1px').style('border-radius','50%').attr("src",function(d){return d.img;});
-        var listHeader = listItem.append('div');
-        listHeader.append('h3').text(function(d){return d.name;});
-        listHeader.append('div').text('sexy rating');
+        listItem.append('img').style('width','80px').classed('recipeImg', true).attr("src",function(d){return d.img;});
 
-        listItem.append('div').append('img').style('height', '80px').attr('src', 'img/placeholderChart.png').style("position","absolute").style("right","5vw");
+        var listHeader = listItem.append('div');
+        listHeader.append('h3').classed('recipeName', true).text(function(d){return d.name;});
+        listHeader.append('div').classed('recipeRating', true).text('sexy rating');
+
+        listItem.append('div').append('img').classed('recipeGraph', true).attr('src', 'img/placeholderChart.png');
 
         model.notifyObservers("recipeListReady");
     }; 
@@ -38,4 +37,4 @@ var SearchView = function(container,model){
             redrawList();
         }
     };
-}
+};

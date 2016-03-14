@@ -238,8 +238,51 @@ tr{
   pointer-events: none;
 }
 
+
+
+/* SEARCHVIEW */
+
+#searchFilterContainer{
+  background-color: lightgrey;
+  height: 50px;
+}
+
+#searchContainer{
+  width: 60vw;
+  height: 100vh;
+  background-color: lightgrey;
+  position: absolute;
+  top: 0;
+  left: -55vw;
+}
+
+#searchList{
+  overflow: auto;
+  width: 55vw;
+}
+
 .recipeListItem{
   display: flex;
   text-align: left;
   padding: 10px;
+  height: 100px;
+  border: solid 1px;
 }
+
+.recipeImg{
+  height: 80px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 50%;
+}
+
+.recipeGraph{
+  height: 80px;
+  position: absolute;
+  right: 5vw;
+}
+
+
+/* */
+
+
