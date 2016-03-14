@@ -13,6 +13,8 @@ var SearchView = function(container,model){
                 return model.getIngredient(f).name;
             });
 
+        filters.selectAll("div").append("span").classed("glyphicon glyphicon-remove filterRemove", true).style("margin-left", "5px");
+
         var list = view.container.append('div').attr('id', 'searchList');
         var listItem = list.selectAll('div')
             .data(model.filterSearch()).enter()

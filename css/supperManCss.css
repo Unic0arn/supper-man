@@ -275,6 +275,10 @@ tr{
   vertical-align: middle;
 }
 
+.filterRemove{
+  margin-left: 5px;
+}
+
 #searchList{
   overflow: auto;
   width: 55vw;
