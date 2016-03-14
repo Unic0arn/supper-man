@@ -79,10 +79,36 @@ background-color: rgba(58, 83, 155, 1);
 .navbar-default.navbar-shrink .navbar-brand {
     font-size: 1.5em;
 }
+    
+    
+    img .page-scroll {
+        
+        vertical-align: right;
+    }
 /*END OF NAVBAR*/
     
 /*START OF SECTIONS*/
     
+#background-text{
+    height: 1000px;
+    }
+
+#team {
+    height: 1000px;
+    padding-top: 90px;
+    }
+    
+#team-members {
+        
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+    
+    }
+    
+#last-members {
+        margin-left: 20%;
+    }
 section h2.section-heading {
     margin-top: 0;
     margin-bottom: 15px;
@@ -168,7 +194,32 @@ tr{
 	width: 60%;
 	height: 700px;
 }
-
+    
+ /*REMOVE BUTTON*/   
+.removeBtn {
+	background-color:#ff4f4f;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:20px;
+	border:1px solid #942911;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: 'Bariol', "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:14px;
+	padding:5px 20px;
+	text-decoration:none;
+}
+.removeBtn:hover {
+	background-color:#bc3315;
+}
+.removeBtn:active {
+	position:relative;
+	top:1px;
+}
+    
+/*END OF REMOVE BUTTON*/    
+    
 .sunburstContainer{
 	width: 40%;
 	background-color: white;
