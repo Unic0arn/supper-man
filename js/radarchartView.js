@@ -7,7 +7,7 @@ var RadarChartView = function (container, model) {
 
 	var margin = {top: 100, right: 100, bottom: 100, left: 100},
 	width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
-	height = Math.min(width, window.innerHeight * 0.5 - margin.top - margin.bottom - 50);
+	height = window.innerHeight * 0.5 - margin.top - margin.bottom - 50;
 	
 	console.log(width);
 	console.log(height);
@@ -26,7 +26,7 @@ var RadarChartView = function (container, model) {
 		if("addIngredient" === code){
 			redrawChart();
 		}else if("removeIngredient" === code){
-			redrawChart();
+			radarChartContainer.change();
 		}else if("changeAmount" === code){
 			redrawChart();
 		} else if("changeAgg" === code){
@@ -144,10 +144,18 @@ var RadarChartView = function (container, model) {
 
 	
 	var layer = g.selectAll(".layer")
-	    .data(layers)
-	  .enter().append("g")
+	    .data(layers);
+
+
+	    layer.enter().append("g")
 	    .attr("class", "layer")
 	    .style("fill", function(d, i) { return cfg.color(i); });
+
+	    layer.exit().transition()
+    	.duration(300)
+    	.ease("exp")
+        .attr("height", 0)
+        .remove();
 
 	var rect = layer.selectAll("rect")
 	    .data(function(d) { return d.values; })
@@ -173,6 +181,7 @@ var RadarChartView = function (container, model) {
 	  if (this.agg === false) transitionGrouped();
 	  else transitionStacked();
 	};
+
 
 	function transitionGrouped() {
 	  y.domain([0, yGroupMax]);
