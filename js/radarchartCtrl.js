@@ -11,6 +11,7 @@ var RadarChartCtrl = function (view, model) {
 	d3.select("#agg-switch").on("click", function(){
 		console.log("Pressed aggregate switch");
 		view.agg = !view.agg;
+		view.change();
 		model.notifyObservers("changeAgg");
 	});
 

@@ -7,7 +7,7 @@ var RadarChartView = function (container, model) {
 
 	var margin = {top: 100, right: 100, bottom: 100, left: 100},
 	width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
-	height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 50);
+	height = Math.min(width, window.innerHeight * 0.5 - margin.top - margin.bottom - 50);
 	
 	console.log(width);
 	console.log(height);
@@ -30,7 +30,7 @@ var RadarChartView = function (container, model) {
 		}else if("changeAmount" === code){
 			redrawChart();
 		} else if("changeAgg" === code){
-			redrawChart();
+			//redrawChart();
 		} else if("newRecipe" === code){
 			redrawChart();
 		} 
@@ -59,7 +59,7 @@ var RadarChartView = function (container, model) {
 
 		var cfg = {
 			 w: 600,				//Width of the circle
-			 h: 600,				//Height of the circle
+			 h: 400,				//Height of the circle
 			 margin: {top: 20, right: 20, bottom: 20, left: 20}, //The margins of the SVG
 			 levels: 3,				//How many levels or inner circles should there be drawn
 			 maxValue: 0, 			//What is the value that the biggest circle will represent
@@ -140,10 +140,10 @@ var RadarChartView = function (container, model) {
 	.attr("class", "radar");
 	//Append a g element		
 	var g = svg.append("g")
-	.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
+	.attr("transform", "translate(" + (cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
 
 	
-	var layer = svg.selectAll(".layer")
+	var layer = g.selectAll(".layer")
 	    .data(layers)
 	  .enter().append("g")
 	    .attr("class", "layer")
@@ -162,21 +162,17 @@ var RadarChartView = function (container, model) {
 	    .attr("y", function(d) { return y(d.y0 + d.y); })
 	    .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
 
-	svg.append("g")
+	g.append("g")
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
 	    .call(xAxis);
 
 
-	var timeout = setTimeout(function() {
-	  d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
-	}, 2000);
 
-	function change() {
-	  clearTimeout(timeout);
-	  if (this.value === "grouped") transitionGrouped();
+	radarChartContainer.change = function(){
+	  if (this.agg === false) transitionGrouped();
 	  else transitionStacked();
-	}
+	};
 
 	function transitionGrouped() {
 	  y.domain([0, yGroupMax]);
@@ -184,8 +180,8 @@ var RadarChartView = function (container, model) {
 	  rect.transition()
 	      .duration(500)
 	      .delay(function(d, i) { return i * 10; })
-	      .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
-	      .attr("width", x.rangeBand() / n)
+	      .attr("x", function(d, i, j) { return x(d.key) + x.rangeBand() / layers.length * j; })
+	      .attr("width", x.rangeBand() / layers.length)
 	    .transition()
 	      .attr("y", function(d) { return y(d.y); })
 	      .attr("height", function(d) { return height - y(d.y); });
@@ -200,7 +196,7 @@ var RadarChartView = function (container, model) {
 	      .attr("y", function(d) { return y(d.y0 + d.y); })
 	      .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
 	    .transition()
-	      .attr("x", function(d) { return x(d.x); })
+	      .attr("x", function(d) { return x(d.key); })
 	      .attr("width", x.rangeBand());
 	}
 
