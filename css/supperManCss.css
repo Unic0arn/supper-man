@@ -267,6 +267,12 @@ tr{
   font-size: 14px;
   padding: 5px 10px;
   margin: 5px 5px;
+  display: table;
+}
+
+#searchFilterContainer > span{
+  display: table-cell;
+  vertical-align: middle;
 }
 
 #searchList{

@@ -13,19 +13,19 @@ var SearchCtrl = function (view, model) {
         return "-55vw";
       }
     }).duration(500);    
-  })
+  });
 
   var initListItemCtrl = function(){
     view.container.selectAll(".recipeListItem").on("touchstart",function(d){
       model.editRecipe(d.id);
       //collapse
     });
-  }
+  };
 
   this.update = function(code){
     if(code == "recipeListReady"){
       initListItemCtrl();
     }
-  }
+  };
   
 };

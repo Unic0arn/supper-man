@@ -9,7 +9,9 @@ var SearchView = function(container,model){
         view.container.html('');
         var filters = view.container.append('div').attr('id', 'searchFilterContainer');
         filters.selectAll("div").data(model.filters).enter()
-            .append("div").text(function(f){return model.getIngredient(f).name;});
+            .append("div").append("span").text(function(f){
+                return model.getIngredient(f).name;
+            });
 
         var list = view.container.append('div').attr('id', 'searchList');
         var listItem = list.selectAll('div')
