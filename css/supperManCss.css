@@ -193,6 +193,7 @@ tr{
 .blobAndTableContainer{
 	width: 60%;
 	height: 700px;
+    margin-left: 2vw;
 }
     
  /*REMOVE BUTTON*/   
@@ -240,7 +241,7 @@ tr{
 
 /* TABLE CONTAINER */
 .tableContainer  {
-    margin-left: 6vw;
+    margin-left: 3vw;
     }
     
 .form-inline {
