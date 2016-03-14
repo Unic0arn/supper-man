@@ -7,11 +7,13 @@ var SearchView = function(container,model){
 
     var redrawList = function(){
         view.container.html('');
-        view.container.append('div').style('background-color','red').style('height','50px');
+        var filters = view.container.append('div').style('background-color','red').style('height','50px');
+        filters.selectAll("span").data(model.filters).enter()
+            .append("span").text(function(f){return model.getIngredient(f).name;});
 
         var list = view.container.append('div').style('overflow','auto').style("width","55vw");
         var listItem = list.selectAll('div')
-            .data(model.recipeDB).enter()
+            .data(model.filterSearch()).enter()
                 .append('div')
                     .style('height','100px')
                     .style('background-color','yellow')
@@ -31,6 +33,8 @@ var SearchView = function(container,model){
 
     this.update = function(code){
         if(code === 'getAllRecipes'){
+            redrawList();
+        }else if(code === 'filterAdded'){
             redrawList();
         }
     };

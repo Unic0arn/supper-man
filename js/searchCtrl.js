@@ -6,8 +6,10 @@ var SearchCtrl = function (view, model) {
     console.log("slide");
     view.container.transition().style("left",function(){
       if(parseInt(view.container.style("left").substring(-1,2)) < 0 ){
+        model.search = true;
         return "0vw";
       }else{
+        model.search = false;
         return "-55vw";
       }
     }).duration(500);    
