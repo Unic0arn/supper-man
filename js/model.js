@@ -31,19 +31,19 @@ var Model = function () {
     this.addFilter = function(id){
         if (model.filters.indexOf(id) == -1){
             model.filters.push(id);
-            model.notifyObservers("filterAdded")
+            model.notifyObservers("filterAdded");
         }
     };
 
     this.removeFilter = function(id){
-        model.filters.slice(model.filters.indexOf(id),1);
-        //notifyobsevers
+        model.filters.splice(model.filters.indexOf(id),1);
+        model.notifyObservers("filterRemoved");
     };
 
     this.filterSearch = function(){
         result = model.recipeDB.filter(function(d){
             var push = true;
-            var ingredients = d.ingredients.map(function(i){return i.id})
+            var ingredients = d.ingredients.map(function(i){return i.id;});
                 for(var f in model.filters){
                     if(ingredients.indexOf(model.filters[f]) == -1){
                         push = false;

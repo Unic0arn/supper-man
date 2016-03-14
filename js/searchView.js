@@ -13,7 +13,12 @@ var SearchView = function(container,model){
                 return model.getIngredient(f).name;
             });
 
-        filters.selectAll("div").append("span").classed("glyphicon glyphicon-remove filterRemove", true).style("margin-left", "5px");
+        filters.selectAll("div").append("span").classed("glyphicon glyphicon-remove filterRemove", true).style("margin-left", "5px")
+            .on('touchstart', function(d, i){
+                d3.event.preventDefault();
+                model.removeFilter(d);
+            });
+
 
         var list = view.container.append('div').attr('id', 'searchList');
         var listItem = list.selectAll('div')
@@ -21,7 +26,7 @@ var SearchView = function(container,model){
                 .append('div')
                     .classed('recipeListItem',true);
 
-        listItem.append('img').style('width','80px').classed('recipeImg', true).attr("src",function(d){return d.img;});
+        listItem.append('img').classed('recipeImg', true).attr("src",function(d){return d.img;});
 
         var listHeader = listItem.append('div');
         listHeader.append('h3').classed('recipeName', true).text(function(d){return d.name;});
@@ -38,6 +43,8 @@ var SearchView = function(container,model){
         if(code === 'getAllRecipes'){
             redrawList();
         }else if(code === 'filterAdded'){
+            redrawList();
+        }else if(code === 'filterRemoved'){
             redrawList();
         }
     };

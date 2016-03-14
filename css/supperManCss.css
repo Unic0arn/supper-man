@@ -294,6 +294,7 @@ tr{
 
 .recipeImg{
   height: 80px;
+  width: 80px;
   border: solid;
   border-width: 1px;
   border-radius: 50%;
