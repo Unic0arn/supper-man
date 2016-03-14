@@ -28,6 +28,13 @@ var TableCtrl = function(tableView, model){
         model.newRecipe();
     });
 
+    tableView.btnCamera.on(interaction[0],function(){
+        tableView.inputFile[0][0].click();
+    });
+
+    tableView.inputFile.on("change",function(){
+    	console.log("scale, convert and save img");
+    });
 
 	this.touchStart = function(d, i, element) {
 		console.log(d3.select(element));
