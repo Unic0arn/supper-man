@@ -6,6 +6,7 @@ var Model = function () {
     model.recipe = {"ingredients":[]}; //list active ingredients
     model.ingredientIds = []; 
     model.observers = [];
+    model.filters = [];
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
@@ -26,9 +27,31 @@ var Model = function () {
         model.getAllRecipes();
     };
 
-    this.queryFB = function(){
-        var respose = []; //firebasemagic
-        return response;
+    this.addFilter = function(id){
+        model.filters.push(id);
+        //notifyobsevers
+    };
+
+    this.removeFilter = function(id){
+        model.filters.slice(model.filters.indexOf(id),1);
+        //notifyobsevers
+    };
+
+    this.filterSearch = function(){
+        result = model.recipeDB.filter(function(d){
+            var push = true;
+            var ingredients = d.ingredients.map(function(i){return i.id})
+                for(var f in model.filters){
+                    if(ingredients.indexOf(filters[f]) == -1){
+                        push = false;
+                        break;
+                    }
+                }
+            return push;
+
+        });
+        console.log(result);
+        return result;
     };
 
     this.editRecipe = function(id){
