@@ -28,6 +28,73 @@ var TableCtrl = function(tableView, model){
         model.newRecipe();
     });
 
+    tableView.btnCamera.on(interaction[0],function(){
+        tableView.inputFile[0][0].click();
+    });
+
+    tableView.inputFile[0][0].addEventListener("change",function(e){
+    	cropImage(e);
+    });
+
+    //copied from http://stackoverflow.com/questions/6150289/how-to-convert-image-into-base64-string-using-javascript
+	function convertImgToBase64URL(url, callback, outputFormat){
+	    var img = new Image();
+	    img.crossOrigin = 'Anonymous';
+	    img.onload = function(){
+	        var canvas = document.createElement('CANVAS'),
+	        ctx = canvas.getContext('2d'), dataURL;
+	        canvas.height = img.height;
+	        canvas.width = img.width;
+	        ctx.drawImage(img, 0, 0);
+	        dataURL = canvas.toDataURL(outputFormat);
+	        callback(dataURL);
+	        canvas = null; 
+	    };
+	    img.src = url;
+	}
+
+	// copied from http://stackoverflow.com/questions/6848121/javascript-crop-image-client-side
+	var cropImage = function(e){
+	    e.preventDefault && e.preventDefault();
+	    var image, canvas, i;
+	    var images = 'files' in e.target ? e.target.files : 'dataTransfer' in e ? e.dataTransfer.files : [];
+	    if(images && images.length) {
+	      for(var i in images) {  
+	        if(typeof images[i] != 'object') continue;
+	          image = new Image();
+	          image.src = createObjectURL(images[i]);
+	          image.onload =  function(e){
+	          model.recipe.img = resizeCrop( e.target, 64, 64 ).toDataURL('image/jpg', 90);
+	        };
+	      }           
+	    }
+	  };
+	// copied from http://stackoverflow.com/questions/6848121/javascript-crop-image-client-side
+  	var resizeCrop = function( src, width, height ){
+	    var crop = width == 0 || height == 0;
+	    // not resize
+	    if(src.width && width && height == 0){
+	        height = src.height * (width / src.width);
+	    }
+
+	    // check scale
+	    var xscale = width  / src.width;
+	    var yscale = height / src.height;
+	    var scale  = crop ? Math.min(xscale, yscale) : Math.max(xscale, yscale);
+	    // create empty canvas
+	    var canvas = document.createElement("canvas");                  
+	    canvas.width  = width ? width   : Math.round(src.width  * scale);
+	    canvas.height = height ? height : Math.round(src.height * scale);
+	    canvas.getContext("2d").scale(scale,scale);
+	    // crop it top center
+	    canvas.getContext("2d").drawImage(src, ((src.width * scale) - canvas.width) * -.5 , ((src.height * scale) - canvas.height) * -.5 );
+	    return canvas;
+	};
+	// copied from http://stackoverflow.com/questions/6848121/javascript-crop-image-client-side
+	var createObjectURL = function(i){ 
+	    var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+	    return URL.createObjectURL(i);
+	};
 
 	this.touchStart = function(d, i, element) {
 		console.log(d3.select(element));

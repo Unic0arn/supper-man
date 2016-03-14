@@ -12,7 +12,7 @@ var TableView = function (container, model) {
             .attr("id","recipeName")
             .attr("placeholder","Name your recipe!")
             .attr("maxlength","30")
-            .style("width","80%")
+            .style("width","70%")
             .classed("form-control",true);
 
         view.btnSave = form.append("button")
@@ -23,11 +23,16 @@ var TableView = function (container, model) {
             .classed("btn btn-default newRecipeBtn",true)
             .text("New");
 
-        // view.btnCamera = form.append("input")
-        //     .attr("type","file")
-        //     .attr("accept","image/*;capture=camera")
-        //     .classed("btn btn-default photoRecipeBtn",true)
-        //     .text("Photo");
+        view.btnCamera = form.append("button")
+            .classed("btn btn-default newRecipeBtn",true)
+            .text("Photo");
+
+        view.inputFile = form.append("input")
+            .attr("type","file")
+            .attr("accept","image/*;capture=camera")
+            .style("visibility","hidden");
+
+
 
     };
 

@@ -79,10 +79,36 @@ background-color: rgba(58, 83, 155, 1);
 .navbar-default.navbar-shrink .navbar-brand {
     font-size: 1.5em;
 }
+    
+    
+    img .page-scroll {
+        
+        vertical-align: right;
+    }
 /*END OF NAVBAR*/
     
 /*START OF SECTIONS*/
     
+#background-text{
+    height: 1000px;
+    }
+
+#team {
+    height: 1000px;
+    padding-top: 90px;
+    }
+    
+#team-members {
+        
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+    
+    }
+    
+#last-members {
+        margin-left: 20%;
+    }
 section h2.section-heading {
     margin-top: 0;
     margin-bottom: 15px;
@@ -167,8 +193,34 @@ tr{
 .blobAndTableContainer{
 	width: 60%;
 	height: 700px;
+    margin-left: 2vw;
 }
-
+    
+ /*REMOVE BUTTON*/   
+.removeBtn {
+	background-color:#ff4f4f;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:20px;
+	border:1px solid #942911;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: 'Bariol', "Helvetica Neue", Helvetica, sans-serif;
+	font-size:14px;
+	padding:5px 20px;
+	text-decoration:none;
+}
+.removeBtn:hover {
+	background-color:#bc3315;
+}
+.removeBtn:active {
+	position:relative;
+	top:1px;
+}
+    
+/*END OF REMOVE BUTTON*/    
+    
 .sunburstContainer{
 	width: 40%;
 	background-color: white;
@@ -187,8 +239,94 @@ tr{
   pointer-events: none;
 }
 
+/* TABLE CONTAINER */
+.tableContainer  {
+    margin-left: 3vw;
+    }
+    
+.form-inline {
+        width: 600px;
+        position: relative;
+    }
+/*END OF TABLE CONTAINER*/
+
+/* SEARCHVIEW */
+
+
+#searchContainer{
+  width: 60vw;
+  height: 100vh;
+  background-color: Lightgrey;
+  position: absolute;
+  top: 0;
+  left: -55vw;
+  padding-top: 5px;
+  margin-top: 65px;
+}
+
+#searchFilterContainer{
+  background-color: Lightgrey;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#searchFilterContainer > div{
+  border-radius: 50px;
+  background-color: Lightgreen;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin: 5px 5px;
+  display: table;
+}
+
+#searchFilterContainer > span{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.filterRemove{
+  margin-left: 5px;
+}
+
+#searchList{
+  overflow: auto;
+  width: 55vw;
+}
+
 .recipeListItem{
   display: flex;
   text-align: left;
   padding: 10px;
+  height: 100px;
+  border: solid 1px;
 }
+
+.recipeImg{
+  height: 80px;
+  width: 80px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 50%;
+}
+
+.recipeGraph{
+  height: 80px;
+  position: absolute;
+  right: 5vw;
+}
+
+.recipeName{
+  margin-left: 1vw;
+  margin-top: 0;
+}
+
+.recipeRating{
+  margin-left: 1vw;
+}
+
+
+/* */
+
+
