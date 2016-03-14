@@ -238,7 +238,16 @@ tr{
   pointer-events: none;
 }
 
-
+/* TABLE CONTAINER */
+.tableContainer  {
+    margin-left: 6vw;
+    }
+    
+.form-inline {
+        width: 600px;
+        position: relative;
+    }
+/*END OF TABLE CONTAINER*/
 
 /* SEARCHVIEW */
 
