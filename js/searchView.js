@@ -8,8 +8,8 @@ var SearchView = function(container,model){
     var redrawList = function(){
         view.container.html('');
         var filters = view.container.append('div').attr('id', 'searchFilterContainer');
-        filters.selectAll("span").data(model.filters).enter()
-            .append("span").text(function(f){return model.getIngredient(f).name;});
+        filters.selectAll("div").data(model.filters).enter()
+            .append("div").text(function(f){return model.getIngredient(f).name;});
 
         var list = view.container.append('div').attr('id', 'searchList');
         var listItem = list.selectAll('div')

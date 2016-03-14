@@ -242,18 +242,31 @@ tr{
 
 /* SEARCHVIEW */
 
-#searchFilterContainer{
-  background-color: lightgrey;
-  height: 50px;
-}
 
 #searchContainer{
   width: 60vw;
   height: 100vh;
-  background-color: lightgrey;
+  background-color: Lightgrey;
   position: absolute;
   top: 0;
   left: -55vw;
+  padding-top: 5px;
+}
+
+#searchFilterContainer{
+  background-color: Lightgrey;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#searchFilterContainer > div{
+  border-radius: 50px;
+  background-color: Lightgreen;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin: 5px 5px;
 }
 
 #searchList{
@@ -280,6 +293,15 @@ tr{
   height: 80px;
   position: absolute;
   right: 5vw;
+}
+
+.recipeName{
+  margin-left: 1vw;
+  margin-top: 0;
+}
+
+.recipeRating{
+  margin-left: 1vw;
 }
 
 
