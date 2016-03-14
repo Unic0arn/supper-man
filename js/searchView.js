@@ -13,11 +13,8 @@ var SearchView = function(container,model){
                 return model.getIngredient(f).name;
             });
 
-        filters.selectAll("div").append("span").classed("glyphicon glyphicon-remove filterRemove", true).style("margin-left", "5px")
-            .on('touchstart', function(d, i){
-                d3.event.preventDefault();
-                model.removeFilter(d);
-            });
+        view.filterItem = filters.selectAll("div")
+            .append("span").classed("glyphicon glyphicon-remove filterRemove", true);
 
 
         var list = view.container.append('div').attr('id', 'searchList');
