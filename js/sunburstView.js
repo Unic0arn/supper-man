@@ -66,6 +66,9 @@ var arc = d3.svg.arc()
 
     for(var i in food){
       var obj = {};
+      if(food[i]["food_group_name"] == ""){
+        continue;
+      }
       if(categories.indexOf(food[i]["food_group_name"]) == -1){
         categories.push(food[i]["food_group_name"]);
         foodGroups.push({"name":food[i]["food_group_name"],"children":[]});
