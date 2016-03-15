@@ -128,13 +128,13 @@ var NutritionChartView = function (container, model) {
 			}))
 		})) : 1;
 
-
+		console.log("TEst");
 		y.domain([0, yStackMax])
 		yAxis.scale(y);
 		container.select(".y.axis").call(yAxis);
-	
+		console.log(layers);
 		var layer = this.g.selectAll(".layer")
-		.data(layers);
+		.data(layers, function(d){return d.key;});
 
 
 		layer.enter().append("g")
@@ -142,7 +142,7 @@ var NutritionChartView = function (container, model) {
 		.style("fill", function(d, i) { return d.color; });
 
 		layer.exit().remove();
-
+		console.log(layer.exit());
 		var rect = layer.selectAll("rect")
 		.data(function(d) { return d.values; });
 
