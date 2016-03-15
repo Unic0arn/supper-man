@@ -149,8 +149,8 @@ var arc = d3.svg.arc()
       .append("g")
         .attr("transform", "translate(" + width + "," + (height / 2) + ")");
 
-    var svg = d3.select(".sunburstContainer").select("svg")[0][0]
-    view.svgCenter= [parseInt(svg.offsetLeft + width), parseInt(svg.offsetTop + (height/2))]
+    var svg = d3.select(".sunburstContainer").select("svg")[0][0];
+    view.svgCenter= [parseInt(svg.offsetLeft + width), parseInt(svg.offsetTop + (height/2))];
 
     var partition = d3.layout.partition()
         .value(function(d,i) { 
@@ -172,7 +172,14 @@ var arc = d3.svg.arc()
     var root = hierarchy;
       var g = sunburstSvg.selectAll("g")
         .data(partition.nodes(root))
-        .enter().append("g");
+        .enter().append("g")
+        .attr("class", function(d){
+          var strClass = "";
+          if(d.children === undefined){
+            strClass += "leaf";
+          }
+          return strClass;
+        });
 
       var path = g.append("path")
         .attr("d", arc)
@@ -212,6 +219,7 @@ var arc = d3.svg.arc()
     //});
 
   d3.select(self.frameElement).style("height", height + "px");
+  d3.selectAll(".leaf").transition().attr("transform","rotate(180)").duration(500).ease("cubic");
   };
 
   // Interpolate the scales!
@@ -225,6 +233,12 @@ var arc = d3.svg.arc()
   }
 
   this.arcTransition = function(d,i){
+    if (d.name == "ingredients"){
+      d3.selectAll(".leaf").transition().attr("transform","rotate(180)").duration(500).ease("cubic");
+    }else{
+      d3.selectAll(".leaf").transition().attr("transform","rotate(0)").duration(500).ease("cubic");
+    }
+
     view.container.selectAll("text").transition().attr("opacity", 0);
 
     view.container.selectAll(".segment").transition()
@@ -239,7 +253,6 @@ var arc = d3.svg.arc()
           arcText.transition().duration(500)
             .attr("opacity", 1)
             .attr("transform", function(d) { 
-                console.log(d.y);
                 if(d.y==0.25){
                   return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r1Inner+r1Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
                 }else if(d.y==0.5){
@@ -250,7 +263,6 @@ var arc = d3.svg.arc()
                   return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
                 }})
             .attr("x", function(d) { 
-                console.log(d.y);
                 if(d.y==0.25){
                   return r1Inner;
                 }else if(d.y==0.5){
@@ -262,7 +274,7 @@ var arc = d3.svg.arc()
              }});
         }
     });
-  }
+  };
 
   function computeTextRotation(d) {
     return (x(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
