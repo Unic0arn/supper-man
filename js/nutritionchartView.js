@@ -1,9 +1,9 @@
-var RadarChartView = function (container, model) {
+var NutritionChartView = function (container, model) {
 	var axises = ["energy","protein","fat","sodium","carbohydrate"];
-	var radarChartContainer = this;
+	var nutritionChartContainer = this;
 	
-	radarChartContainer.agg = true;
-	model.addObserver(radarChartContainer);
+	nutritionChartContainer.agg = true;
+	model.addObserver(nutritionChartContainer);
 
 	var margin = {top: 100, right: 100, bottom: 100, left: 100},
 	width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
@@ -21,7 +21,7 @@ var RadarChartView = function (container, model) {
 		roundStrokes: true,
 		color: d3.scale.category20()
 	};
-	radarChartContainer.update = function(code){
+	nutritionChartContainer.update = function(code){
 
 		if("addIngredient" === code){
 			redrawChart();
@@ -40,6 +40,7 @@ var RadarChartView = function (container, model) {
 		var outIngredient = {}
 		outIngredient["key"] = ingredient["id"];
 		outIngredient["values"] = [];
+		outIngredient["color"] = ingredient["color"] || options.color(Math.random()*20);
 		d3.keys(ingredient).forEach(function(d){
 			if(axises.indexOf(d) > -1){
 				outIngredient["values"].push({"key":d, "value":ingredient[d]});
@@ -88,13 +89,6 @@ var RadarChartView = function (container, model) {
 
 
 		var layers = stack(transformed_data);
-		console.log(layers);
-
-		var maxValue = transformed_data.length > 0 ? Math.max(cfg.maxValue, d3.max(transformed_data, function(i){
-			return d3.max(i.values.map(function(o){
-				return radarChartContainer.agg ? o.y0 + o.y : o.value;
-			}))
-		})) : 1;
 
 
 //-------------------------------------------------------//-------------------------------------------------------//-------------------------------------------------------
@@ -125,11 +119,14 @@ var RadarChartView = function (container, model) {
 		    .tickSize(0)
 		    .tickPadding(6)
 		    .orient("bottom");
+
+		var formatPercent = d3.format("0%");
 		var yAxis = d3.svg.axis()
 		    .scale(y)
 		    .tickSize(1)
 		    .tickPadding(6)
-		    .orient("left");
+		    .orient("left")
+		    .tickFormat(formatPercent);
 
 /*		    console.log(yGroupMax);
 		    console.log(maxValue);
@@ -138,11 +135,11 @@ var RadarChartView = function (container, model) {
 		    console.log(y.domain());
 */
 
-	//Initiate the radar chart SVG
+	//Initiate the nutrition chart SVG
 	var svg = container.append("svg")
 	.attr("width",  cfg.w + cfg.margin.left + cfg.margin.right)
 	.attr("height", cfg.h + cfg.margin.top + cfg.margin.bottom)
-	.attr("class", "radar");
+	.attr("class", "nutrition");
 	//Append a g element		
 	var g = svg.append("g")
 	.attr("transform", "translate(" + (cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
@@ -154,7 +151,7 @@ var RadarChartView = function (container, model) {
 
 	    layer.enter().append("g")
 	    .attr("class", "layer")
-	    .style("fill", function(d, i) { return cfg.color(i); });
+	    .style("fill", function(d, i) { return d.color; });
 
 	    layer.exit().transition()
     	.duration(300)
@@ -186,7 +183,7 @@ var RadarChartView = function (container, model) {
 
 
 
-	radarChartContainer.change = function(){
+	nutritionChartContainer.change = function(){
 	  if (this.agg === false) transitionGrouped();
 	  else transitionStacked();
 	};

@@ -102,7 +102,7 @@ var TableCtrl = function(tableView, model){
 			
 		var move;
 		var previousAmount = d.value;
-		var amountText;
+		var amountText = previousAmount;
 		var start = interaction[3]();
 		start = parseInt(start.clientX);
 		var amount = d3.select("#overlay").append("div").style("margin","auto").style("margin-top","200px").style("font-size","170px");
@@ -123,6 +123,7 @@ var TableCtrl = function(tableView, model){
 		});
 
 		d3.select("body").on(interaction[2],function(){
+			console.log("Setting new amount: " + amountText);
 			model.changeAmount(d.id, amountText);
 			d3.select("body").on(interaction[1],null);
 			d3.select("body").on(interaction[2],null);

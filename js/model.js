@@ -9,6 +9,14 @@ var Model = function () {
     model.filters = [];
     model.search = false;
 
+    model.categoricalColors = {
+     "Dairy and Egg Products":[45, 100, 90, 0.7],
+     "Fruits and Fruit Juices":[162, 70, 66, 1],
+     "Legumes and Legume Products":[349, 100, 63, 1],
+     "Nut and Seed Products":[22, 100, 59, 1],
+     "Spices and Herbs":[48, 100, 50, 1],
+     "Vegetables and Vegetable Products":[60, 80, 50, 1]};
+
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
     this.saveRecipe = function(name){
@@ -63,14 +71,15 @@ var Model = function () {
             return push;
 
         });
-        console.log(result);
         return result;
     };
 
     this.editRecipe = function(id){
         model.recipeDBref.child(id).once("value",function(snapshot){
             model.ingredientIds = [];
+            var colorExists = false;
             for(var index in snapshot.val().ingredients){
+                if(snapshot.val().ingredients[index].color != undefined) colorExists = true;
                  model.ingredientIds.push(snapshot.val().ingredients[index].id);
             }
             model.recipe = snapshot.val();
@@ -144,6 +153,13 @@ var Model = function () {
             }
         }else{
             ingredient["amount"] = amount;
+            var c = model.categoricalColors[ingredient.food_group_name];
+            var satscale = d3.scale.linear().domain([0,100]).range([Math.max(c[1] - 25, 20), Math.min(c[1] + 25,90)]);
+            var sat = satscale(Math.random()*100);
+            var lightscale = d3.scale.linear().domain([0,100]).range([Math.max(c[2] - 25, 20), Math.min(c[2] + 25,90)]);
+            var light = lightscale(Math.random()*100);
+
+            ingredient["color"] = "hsla("+c[0]+","+ sat +"%,"+ light +"%,"+ 1 +")"; // Adding a color with the same heu as the category but differing other values (25% off)
             model.recipe.ingredients.push(ingredient);
             model.ingredientIds.push(ingredient.id);
         }
@@ -187,7 +203,6 @@ var Model = function () {
         var daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50,"sodium":2400};
         var outIngredient = {};
         d3.keys(ingredient).forEach(function(d){
-            console.log(d);
             if(d3.keys(daily_intake).indexOf(d) > -1){
                 outIngredient[d] = (ingredient.amount / 100) * ingredient[d] / daily_intake[d];
             }else{
