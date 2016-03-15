@@ -123,8 +123,7 @@ var Model = function () {
         model.data = data;
         model.dataIds = data.map(function(d){return d.id;});
         model.notifyObservers("dataReady");
-        model.addIngredient(1001, 200);
-        model.addIngredient(1011, 2000);
+        model.addIngredient(1001, 150);
 
       });
     };

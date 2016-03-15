@@ -55,6 +55,7 @@ background-color: rgba(58, 83, 155, 1);
     /*pink*/
 }
 
+
 @media(min-width: 768px) {
     .navbar-default {
         padding: 15px 0;
@@ -379,3 +380,8 @@ tr{
 /* */
 
 
+
+
+.x.axis{
+   text-transform:capitalize;
+}
