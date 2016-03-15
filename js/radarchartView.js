@@ -40,6 +40,7 @@ var RadarChartView = function (container, model) {
 		var outIngredient = {}
 		outIngredient["key"] = ingredient["id"];
 		outIngredient["values"] = [];
+		outIngredient["color"] = ingredient["color"];
 		d3.keys(ingredient).forEach(function(d){
 			if(axises.indexOf(d) > -1){
 				outIngredient["values"].push({"key":d, "value":ingredient[d]});
@@ -151,7 +152,7 @@ var RadarChartView = function (container, model) {
 
 	    layer.enter().append("g")
 	    .attr("class", "layer")
-	    .style("fill", function(d, i) { return cfg.color(i); });
+	    .style("fill", function(d, i) { return d.color; });
 
 	    layer.exit().transition()
     	.duration(300)

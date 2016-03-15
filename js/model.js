@@ -9,6 +9,14 @@ var Model = function () {
     model.filters = [];
     model.search = false;
 
+    model.categoricalColors = {
+     "Dairy and Egg Products":[45, 100, 90, 0.7],
+     "Fruits and Fruit Juices":[162, 70, 66, 1],
+     "Legumes and Legume Products":[349, 100, 63, 1],
+     "Nut and Seed Products":[22, 100, 59, 1],
+     "Spices and Herbs":[48, 100, 50, 1],
+     "Vegetables and Vegetable Products":[60, 80, 50, 1]};
+
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
     this.saveRecipe = function(name){
@@ -134,6 +142,8 @@ var Model = function () {
             }
         }else{
             ingredient["amount"] = amount;
+            var c = model.categoricalColors[ingredient.food_group_name];
+            ingredient["color"] = "hsla("+c[0]+","+ (c[1] + 25 - Math.random() * 50) +"%,"+ (c[2] + 25 - Math.random() * 50) +"%,"+c[3]+")"; // Adding a color with the same heu as the category but differing other values (25% off)
             model.recipe.ingredients.push(ingredient);
             model.ingredientIds.push(ingredient.id);
         }
@@ -177,7 +187,6 @@ var Model = function () {
         var daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50,"sodium":2400};
         var outIngredient = {};
         d3.keys(ingredient).forEach(function(d){
-            console.log(d);
             if(d3.keys(daily_intake).indexOf(d) > -1){
                 outIngredient[d] = (ingredient.amount / 100) * ingredient[d] / daily_intake[d];
             }else{
