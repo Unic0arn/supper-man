@@ -3,8 +3,8 @@ $(function (){
     var model = new Model();
     
 
-    var radarChartView = new RadarChartView(d3.select('.radarChartContainer'), model);
-    var radarChartCtrl = new RadarChartCtrl(radarChartView, model);
+    var nutritionChartView = new NutritionChartView(d3.select('.nutritionChartContainer'), model);
+    var nutritionChartCtrl = new NutritionChartCtrl(nutritionChartView, model);
 
     var tableView = new TableView(d3.select('.tableContainer'), model);
     var tableCtrl = new TableCtrl(tableView, model);

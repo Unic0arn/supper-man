@@ -143,10 +143,12 @@ var Model = function () {
         }else{
             ingredient["amount"] = amount;
             var c = model.categoricalColors[ingredient.food_group_name];
-            var sat = c[1] + 25 - Math.random() * 50;
-            var light = c[2] + 25 - Math.random() * 50;
+            var satscale = d3.scale.linear().domain([0,100]).range([Math.max(c[1] - 25, 20), Math.min(c[1] + 25,90)]);
+            var sat = satscale(Math.random()*100);
+            var lightscale = d3.scale.linear().domain([0,100]).range([Math.max(c[2] - 25, 20), Math.min(c[2] + 25,90)]);
+            var light = lightscale(Math.random()*100);
 
-            ingredient["color"] = "hsla("+c[0]+","+ sat +"%,"+ light +"%,"+c[3]+")"; // Adding a color with the same heu as the category but differing other values (25% off)
+            ingredient["color"] = "hsla("+c[0]+","+ sat +"%,"+ light +"%,"+ 1 +")"; // Adding a color with the same heu as the category but differing other values (25% off)
             model.recipe.ingredients.push(ingredient);
             model.ingredientIds.push(ingredient.id);
         }
