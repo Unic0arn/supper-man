@@ -29,7 +29,8 @@ var TableView = function (container, model) {
 
         view.inputFile = form.append("input")
             .attr("type","file")
-            .attr("accept","image/*;capture=camera")
+            .attr("accept","image/*;")
+            .attr("capture","camera")
             .style("visibility","hidden");
 
 

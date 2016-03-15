@@ -81,6 +81,7 @@ var Model = function () {
             for(var obj in tmp){
                 model.recipeDB.push(tmp[obj]);
             }
+            model.recipeDB.sort(function(a,b){return d3.ascending(a.name,b.name);});
             model.notifyObservers("getAllRecipes");
         });
     };
