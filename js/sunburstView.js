@@ -17,20 +17,20 @@ var SunburstView = function(container,model){
       .range([0, radius]);
 
   //new
-  var r1Inner=50;
-  var r1Outer=100;
-  var r2Inner=190;
-  var r2Outer=210;
+  var r1Inner=40;
+  var r1Outer=90;
+  var r2Inner=160;
+  var r2Outer=190;
   var r3Inner=326;
   var r3Outer=365;
   var r1Padding=18;
   var r2Padding=-5;
-  var r3Padding=-5;
+  var r3Padding=0;
 
 
   var arc = d3.svg.arc()
-    .startAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x+1/360))); })
-    .endAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x + d.dx+1/360))); })
+    .startAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x))); })
+    .endAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x + d.dx))); })
     .innerRadius(function(d) { 
       if(d.y==0.25){
         return Math.max(0, r1Inner);
@@ -182,7 +182,7 @@ var arc = d3.svg.arc()
 
       var text1 = g.append("text")
         .attr("x", function(d) { 
-            console.log(d.y);
+            //console.log(d.y);
             if(d.y==0.25){
               return r1Inner;
             }else if(d.y==0.5){
@@ -197,7 +197,7 @@ var arc = d3.svg.arc()
         .style("pointer-events","none")
         .text(function(d,i) { return d.name; })
         .attr("transform", function(d) { 
-            console.log(d.y);
+            //console.log(d.y);
             if(d.y==0.25){
               return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r1Inner+r1Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
             }else if(d.y==0.5){
@@ -245,7 +245,7 @@ var arc = d3.svg.arc()
                 }else if(d.y==0.5){
                   return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r2Inner+r2Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
                 }else if(d.y==0.75){
-                  return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r3Inner+r3Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+                  return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r3Inner+r3Padding)) +","+ Math.sin(computeTextRotation(d)) +")"; 
                 }else{
                   return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
                 }})

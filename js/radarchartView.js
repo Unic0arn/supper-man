@@ -125,6 +125,11 @@ var RadarChartView = function (container, model) {
 		    .tickSize(0)
 		    .tickPadding(6)
 		    .orient("bottom");
+		var yAxis = d3.svg.axis()
+		    .scale(y)
+		    .tickSize(1)
+		    .tickPadding(6)
+		    .orient("left");
 
 /*		    console.log(yGroupMax);
 		    console.log(maxValue);
@@ -174,6 +179,10 @@ var RadarChartView = function (container, model) {
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
 	    .call(xAxis);
+	g.append("g")
+	    .attr("class", "y axis")
+	    .attr("transform", "translate(0, 0)")
+	    .call(yAxis);
 
 
 
