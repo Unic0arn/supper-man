@@ -10,12 +10,12 @@ var Model = function () {
     model.search = false;
 
     model.categoricalColors = {
-     "Dairy and Egg Products":[45, 100, 90, 0.7],
-     "Fruits and Fruit Juices":[162, 70, 66, 1],
-     "Legumes and Legume Products":[349, 100, 63, 1],
-     "Nut and Seed Products":[22, 100, 59, 1],
+     "Dairy":[45, 100, 90, 0.7],
+     "Fruits":[162, 70, 66, 1],
+     "Fruit Juices":[349, 100, 63, 1],
+     "Nuts and Seeds":[22, 100, 59, 1],
      "Spices and Herbs":[48, 100, 50, 1],
-     "Vegetables and Vegetable Products":[60, 80, 50, 1]};
+     "Vegetables":[60, 80, 50, 1]};
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
@@ -111,8 +111,8 @@ var Model = function () {
         return {
             id: +d["ABBREV_NDB_No"] || 0 ,
             food_group_id: +d["FOOD_DES_FdGrp_Cd"] || 0 ,
-            food_group_name: d["FdGrp_Desc"],
-            name: d["ABBREV_Shrt_Desc"] || "",
+            food_group_name: d["Only_one_group"],
+            name: d["Name"] || "",
             description: d["Long_Desc"] || "",
             energy: +(d["Energ_Kcal"].replace(",",".")) || 0,
             protein: +(d["Protein_(g)"].replace(",",".")) || 0,
