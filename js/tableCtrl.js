@@ -28,7 +28,7 @@ var TableCtrl = function(tableView, model){
         model.newRecipe();
     });
 
-    tableView.btnCamera.on(interaction[0],function(){
+    tableView.btnCamera.on("click",function(){
         tableView.inputFile[0][0].click();
     });
 
