@@ -59,6 +59,10 @@ var Model = function () {
 
     this.editRecipe = function(id){
         model.recipeDBref.child(id).once("value",function(snapshot){
+            model.ingredientIds = [];
+            for(var index in snapshot.val().ingredients){
+                 model.ingredientIds.push(snapshot.val().ingredients[index].id);
+            }
             model.recipe = snapshot.val();
             model.notifyObservers("newRecipe");
         });
