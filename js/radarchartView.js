@@ -207,7 +207,6 @@ var RadarChartView = function (container, model) {
 
 	function transitionStacked() {
 	  y.domain([0, yStackMax]);
-
 	  rect.transition()
 	      .duration(500)
 	      .delay(function(d, i) { return i * 10; })

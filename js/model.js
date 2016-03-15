@@ -193,52 +193,58 @@ var Model = function () {
         //Men: BMR = 66.5 + ( 13.75 x weight in kg ) + ( 5.003 x height in cm ) – ( 6.755 x age in years )
         //Women: BMR = 655.1 + ( 9.563 x weight in kg ) + ( 1.850 x height in cm ) – ( 4.676 x age in years )
         // returns amount (I think...)
-        var BMR = 0;
+        var gender = 'M';
+        model.dailyCalories = 0;
+        var weight = 80;
+        var height = 179;
+        var age = 25;
+        var exercise = 'little';
         if(gender === 'M'){
-            BMR = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
+            //BMR = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
+            model.dailyCalories = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
         }else{
-            BMR = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age);
+            model.dailyCalories = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age);
         }
 
         if(exercise === 'none'){
-            BMR *= 1.2;
+            model.dailyCalories *= 1.2;
         }else if(exercise === 'little'){
-            BMR *= 1.375;
+            model.dailyCalories *= 1.375;
         }else if(exercise === 'moderate'){
-            BMR *= 1.55;
+            model.dailyCalories *= 1.55;
         }else if(exercise === 'heavy'){
-            BMR *= 1.725;
+            model.dailyCalories *= 1.725;
         }else if(exercise === ' very heavy'){
-            BMR *= 1.9;
+            model.dailyCalories *= 1.9;
         }
-        return BMR;
     };
 
     this.calculateIntakeProteins = function(){
         // Recomended daily intake of proteins in (grams). Based on weight.
-        var dailyProteins = weight * 0.8;
-        return dailyProteins;
+        //model.dailyProteins = weight * 0.8;
+        model.dailyProteins = 80 * 0.8;
     };
 
     this.calculateIntakeCarbs = function(){
         // Recommended daily intake of carbs in (grams). 
         // Carbs grams = (55%) to (75%) of the total calories / 3.75
-        var carbArray = [];
-        var dailyCalories = model.calculateIntakeCalories();
+        model.carbArray = [];
+        var dailyCalories = model.dailyCalories;
         var minimumCarbs =  (dailyCalories * 0.55) / 3.75;
         var maximumCarbs = (dailyCalories * 0.75) / 3.75;
-        carbArray.push(minimumCarbs);
-        carbArray.push(maximumCarbs);
-        return carbArray;
+        model.carbArray.push(minimumCarbs);
+        model.carbArray.push(maximumCarbs);
     };
 
     this.calculateIntakeFats = function(){
         // Recommended daily intake of fats in (grams). 
-        var dailyCalories = model.calculateIntakeCalories;
+        var dailyCalories = model.dailyCalories;
         var minimumFat;
         var maximumFat;
         var saturatedFat;
-        var fatArray = [];
+        model.fatArray = [];
+
+        var age = 25;
         if(age > 1 && age < 4){
             minimumFat = (dailyCalories * 0.3) / 9;
             maximumFat = (dailyCalories * 0.4) / 9;
@@ -251,22 +257,24 @@ var Model = function () {
         }
 
         saturatedFat = (dailyCalories * 0.1) / 9;
-        fatArray.push(minimumFat);
-        fatArray.push(maximumFat);
-        fatArray.push(saturatedFat);
-
-        return fatArray;
+        model.fatArray.push(minimumFat);
+        model.fatArray.push(maximumFat);
+        model.fatArray.push(saturatedFat);
     };
 
     this.calculateDailySodiums = function(){
         // Values in (mg)
         var minimumSodium = 250;
         var maximumSodium = 500;
-        var sodiumArray = [];
-        return sodiumArray;
+        model.sodiumArray = [];
+        model.sodiumArray;
     };
 
 
     this.loadCsv("data/reduced.csv");
+    model.calculateIntakeCalories();
+    model.calculateIntakeProteins();
+    model.calculateIntakeCarbs();
+    model.calculateIntakeFats();
 
 };

@@ -2,7 +2,7 @@ var SunburstCtrl = function (view, model) {
   var ctrl = this;
   var touch = ["touchstart","touchmove","touchend",function(){return d3.event.touches[0];}];
   var mouse = ["mousedown","mousemove","mouseup",function(){d3.event.preventDefault(); return d3.event;}];
-  var interaction = mouse;
+  var interaction = touch;
   var filtering = true;
   model.addObserver(this);
 

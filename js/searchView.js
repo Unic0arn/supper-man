@@ -3,7 +3,7 @@ var SearchView = function(container,model){
     view.container = container;
     model.addObserver(this);
     model.getAllRecipes();
-    
+    view.container.style("overflow","scroll");
 
     var redrawList = function(){
         view.container.html('');
@@ -25,14 +25,52 @@ var SearchView = function(container,model){
 
         listItem.append('img').classed('recipeImg', true).attr("src",function(d){return d.img;});
 
-        var listHeader = listItem.append('div');
-        listHeader.append('h3').classed('recipeName', true).text(function(d){return d.name;});
-        listHeader.append('div').classed('recipeRating', true).text('sexy rating');
+        var listHeader = listItem.append('div').style('display', 'flex').style('flex-direction','column');
+        listHeader.append('h4').classed('recipeName', true).text(function(d){return d.name;});
+        listHeader.append('div').classed('recipeRating', true).text('sexy rating').style();
 
-        listItem.append('div').append('img').classed('recipeGraph', true).attr('src', 'img/placeholderChart.png');
+
+        var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
+        recipeNutContainer.append('div').classed('recipeNutritionValue', true).style("display","flex").style("align-items","center").style("justify-content","center")
+            .text(function(d){
+                return calcPersonalValue(d, 'protein');
+            });
+        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
+            .text(function(d){
+                return calcPersonalValue(d, 'carbohydrate');
+            });
+        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
+            .text(function(d){
+                return calcPersonalValue(d, 'fat');
+            });
+        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
+            .text(function(d){
+                return calcPersonalValue(d, 'energy');
+            });
 
         model.notifyObservers("recipeListReady");
     }; 
+
+    var calcPersonalValue = function(d, type){
+        var returnText = 0;
+        console.log(d.ingredients[0]);
+        for(var i = 0; i < d.ingredients.length; i++){
+            returnText += parseInt(d.ingredients[i][type]);
+        }
+        returnText *= 100;
+        if(type === 'protein'){
+            return (returnText / model.dailyProteins).toFixed(1) + '%';
+        }
+        else if(type === 'carbohydrate'){
+            return (returnText / model.carbArray[1]).toFixed(1) + '%';
+        }
+        else if(type === 'fat'){
+            return (returnText / model.fatArray[1]).toFixed(1) + '%';   
+        }
+        else if(type === 'energy'){
+            return (returnText / model.dailyCalories).toFixed(1) + '%';
+        }
+    }
 
 
 

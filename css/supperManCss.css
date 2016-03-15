@@ -311,7 +311,8 @@ tr{
 
 .recipeListItem{
   display: flex;
-  text-align: left;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   height: 100px;
   border: solid 1px;
@@ -339,6 +340,24 @@ tr{
 .recipeRating{
   margin-left: 1vw;
 }
+
+.recipeNutContainer{
+  display: flex;
+  justify-content:center;
+}
+
+.recipeNutritionValue{
+  background-color: pink;
+  width: 50px;
+  height: 50px;
+  border: solid 1px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-family: Helvetica;
+}
+
 
 
 /* */
