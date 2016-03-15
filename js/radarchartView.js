@@ -90,12 +90,6 @@ var RadarChartView = function (container, model) {
 		var layers = stack(transformed_data);
 		console.log(layers);
 
-		var maxValue = transformed_data.length > 0 ? Math.max(cfg.maxValue, d3.max(transformed_data, function(i){
-			return d3.max(i.values.map(function(o){
-				return radarChartContainer.agg ? o.y0 + o.y : o.value;
-			}))
-		})) : 1;
-
 
 //-------------------------------------------------------//-------------------------------------------------------//-------------------------------------------------------
 
@@ -125,11 +119,14 @@ var RadarChartView = function (container, model) {
 		    .tickSize(0)
 		    .tickPadding(6)
 		    .orient("bottom");
+
+		var formatPercent = d3.format("0%");
 		var yAxis = d3.svg.axis()
 		    .scale(y)
 		    .tickSize(1)
 		    .tickPadding(6)
-		    .orient("left");
+		    .orient("left")
+		    .tickFormat(formatPercent);
 
 /*		    console.log(yGroupMax);
 		    console.log(maxValue);
