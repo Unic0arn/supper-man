@@ -16,11 +16,47 @@ var SunburstView = function(container,model){
   var y = d3.scale.linear()
       .range([0, radius]);
 
+  //new
+  var r1Inner=50;
+  var r1Outer=100;
+  var r2Inner=190;
+  var r2Outer=210;
+  var r3Inner=326;
+  var r3Outer=365;
+  var r1Padding=18;
+  var r2Padding=-5;
+  var r3Padding=-5;
+
+
   var arc = d3.svg.arc()
+    .startAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x+1/360))); })
+    .endAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x + d.dx+1/360))); })
+    .innerRadius(function(d) { 
+      if(d.y==0.25){
+        return Math.max(0, r1Inner);
+      }else if(d.y==0.5){
+        return Math.max(0, r2Inner); 
+      }else if(d.y==0.75){
+        return Math.max(0, r3Inner);
+      }else{
+        return Math.max(0, y(d.y));
+      }})
+
+    .outerRadius(function(d) { 
+      if(d.y==0.25){
+        return Math.max(0, r1Outer);
+      }else if(d.y==0.5){
+        return Math.max(0, r2Outer); 
+      }else if(d.y==0.75){
+        return Math.max(0, r3Outer);
+      }else{return Math.max(0, y(d.y+ d.dy));}});
+/*
+var arc = d3.svg.arc()
     .startAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x))); })
     .endAngle(function(d) { return Math.max(Math.PI, Math.min(2*Math.PI, x(d.x + d.dx))); })
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+*/
 
   //takes a list of ingredients and returns a JSON of categories>subgroups>ingredients
   var foodGroupJSON = function(food){
@@ -79,11 +115,11 @@ var SunburstView = function(container,model){
   var color = function(node,i){    
     //return "rgb(255,0,0)";
     var cuttingBoard = {
-     "Fruits":[0, 80, 50, 0.8],
-     "Dairy":[200, 80, 50, 1],
-     "Nut":[80, 80, 50, 0.8],
-     "Legumes":[120, 80, 50, 1],
-     "Spices":[160, 80, 50, 1],
+     "Dairy":[45, 100, 90, 0.7],
+     "Fruits":[162, 70, 66, 1],
+     "Legumes":[349, 100, 63, 1],
+     "Nut":[22, 100, 59, 1],
+     "Spices":[48, 100, 50, 1],
      "Vegetables":[60, 80, 50, 1],
      "":[240, 80, 50, 1]};
 
@@ -100,7 +136,7 @@ var SunburstView = function(container,model){
       }
       var c = cuttingBoard[node.name];
       i = i%2;
-      o = 50 + 10*o - 10*i;
+      o = 50 + 10*o - 5*i;
     return "hsla("+c[0]+","+c[1]+"%,"+o+"%,"+c[3]+")";
     }
   }
@@ -145,12 +181,32 @@ var SunburstView = function(container,model){
         //.on("touchstart", touchStart);
 
       var text1 = g.append("text")
-        .attr("x", function(d) { return y(d.y); })
+        .attr("x", function(d) { 
+            console.log(d.y);
+            if(d.y==0.25){
+              return r1Inner;
+            }else if(d.y==0.5){
+              return r2Inner; 
+            }else if(d.y==0.75){
+              return r3Inner;
+            }else{
+              return y(d.y);
+            }})
         .attr("dx", "6")// margin
         .attr("dy", ".35em") // vertical-align
         .style("pointer-events","none")
         .text(function(d,i) { return d.name; })
-        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; });
+        .attr("transform", function(d) { 
+            console.log(d.y);
+            if(d.y==0.25){
+              return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r1Inner+r1Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+            }else if(d.y==0.5){
+              return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r2Inner+r2Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+            }else if(d.y==0.75){
+              return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r3Inner+r3Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+            }else{
+              return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+            }});
 
       model.notifyObservers("sunburstReady");
     //});
@@ -182,8 +238,28 @@ var SunburstView = function(container,model){
           // fade in the text element and recalculate positions
           arcText.transition().duration(500)
             .attr("opacity", 1)
-            .attr("transform", function(d) { return "rotate(" + computeTextRotation(e) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; })
-            .attr("x", function(d) { return y(d.y); });
+            .attr("transform", function(d) { 
+                console.log(d.y);
+                if(d.y==0.25){
+                  return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r1Inner+r1Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+                }else if(d.y==0.5){
+                  return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r2Inner+r2Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+                }else if(d.y==0.75){
+                  return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((r3Inner+r3Padding)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+                }else{
+                  return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ ((y(d.y) + this.clientWidth/2)+6) +","+ Math.sin(computeTextRotation(d)) +")"; 
+                }})
+            .attr("x", function(d) { 
+                console.log(d.y);
+                if(d.y==0.25){
+                  return r1Inner;
+                }else if(d.y==0.5){
+                  return r2Inner; 
+                }else if(d.y==0.75){
+                  return r3Inner;
+                }else{
+                  return y(d.y);
+             }});
         }
     });
   }
