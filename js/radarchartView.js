@@ -26,7 +26,7 @@ var RadarChartView = function (container, model) {
 		if("addIngredient" === code){
 			redrawChart();
 		}else if("removeIngredient" === code){
-			radarChartContainer.change();
+			redrawChart();
 		}else if("changeAmount" === code){
 			redrawChart();
 		} else if("changeAgg" === code){
