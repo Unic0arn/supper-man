@@ -28,6 +28,16 @@ var Model = function () {
         model.getAllRecipes();
     };
 
+    this.readCookie = function(key){
+        var cookie = '{"' + document.cookie.replace(/=/g,'":"').replace(/;/g,'","') + '"}';
+        cookie = JSON.parse(cookie);
+        return cookie[key];
+    };
+
+    this.setCookie = function(key,value){
+        document.cookie = key + "=" + value;
+    };
+
     this.addFilter = function(id){
         if (model.filters.indexOf(id) == -1){
             model.filters.push(id);
