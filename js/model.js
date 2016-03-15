@@ -61,14 +61,15 @@ var Model = function () {
             return push;
 
         });
-        console.log(result);
         return result;
     };
 
     this.editRecipe = function(id){
         model.recipeDBref.child(id).once("value",function(snapshot){
             model.ingredientIds = [];
+            var colorExists = false;
             for(var index in snapshot.val().ingredients){
+                if(snapshot.val().ingredients[index].color != undefined) colorExists = true;
                  model.ingredientIds.push(snapshot.val().ingredients[index].id);
             }
             model.recipe = snapshot.val();

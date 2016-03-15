@@ -40,7 +40,7 @@ var NutritionChartView = function (container, model) {
 		var outIngredient = {}
 		outIngredient["key"] = ingredient["id"];
 		outIngredient["values"] = [];
-		outIngredient["color"] = ingredient["color"];
+		outIngredient["color"] = ingredient["color"] || options.color(Math.random()*20);
 		d3.keys(ingredient).forEach(function(d){
 			if(axises.indexOf(d) > -1){
 				outIngredient["values"].push({"key":d, "value":ingredient[d]});
@@ -89,7 +89,6 @@ var NutritionChartView = function (container, model) {
 
 
 		var layers = stack(transformed_data);
-		console.log(layers);
 
 
 //-------------------------------------------------------//-------------------------------------------------------//-------------------------------------------------------

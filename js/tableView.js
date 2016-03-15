@@ -58,14 +58,12 @@ var TableView = function (container, model) {
 
         var td = tr.selectAll("td")
             .data(function(row) {
-                console.log(row);
                 return columns.map(function(column, i) {
                     return {column: column, value: row[column], id: row.id};
                 });
             })
             .enter().append("td")
             .html(function(d) { 
-                console.log(d);
                 if(d.column === 'button'){
                     d3.select(this).classed('removeBtnContainer',true).style('text-align', 'center');
                 }else if(d.column === 'color'){
