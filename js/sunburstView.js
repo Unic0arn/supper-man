@@ -68,10 +68,10 @@ var arc = d3.svg.arc()
       var obj = {};
       if(categories.indexOf(food[i]["food_group_name"]) == -1){
         categories.push(food[i]["food_group_name"]);
-        foodGroups.push({"name":food[i]["food_group_name"].split(" ")[0],"children":[]});
+        foodGroups.push({"name":food[i]["food_group_name"],"children":[]});
       }
       obj["id"] = food[i].id;
-      obj["name"] = food[i].name.split(",")[0];
+      obj["name"] = food[i].name;
       foodGroups[categories.indexOf(food[i]["food_group_name"])].children.push(obj);
     }
 
@@ -109,6 +109,7 @@ var arc = d3.svg.arc()
       }
     }
     finalList = {"name":"ingredients","children":finalList};
+    console.log(finalList);
   return finalList;
   };
 
@@ -117,9 +118,9 @@ var arc = d3.svg.arc()
     var cuttingBoard = {
      "Dairy":[45, 100, 90, 0.7],
      "Fruits":[162, 70, 66, 1],
-     "Legumes":[349, 100, 63, 1],
-     "Nut":[22, 100, 59, 1],
-     "Spices":[48, 100, 50, 1],
+     "Fruit Juices":[349, 100, 63, 1],
+     "Nuts and Seeds":[22, 100, 59, 1],
+     "Spices and Herbs":[48, 100, 50, 1],
      "Vegetables":[60, 80, 50, 1],
      "":[240, 80, 50, 1]};
 
@@ -289,5 +290,5 @@ var arc = d3.svg.arc()
   }
   this.setOverlay = function(opacity){
     d3.select("#overlay").transition().style("opacity",opacity).duration(500);
-  }
-}
+  };
+};

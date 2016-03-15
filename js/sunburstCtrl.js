@@ -67,7 +67,8 @@ var SunburstCtrl = function (view, model) {
           if (move <= 0){
             move = 0;
           }else{
-            move = parseInt(Math.pow(move,1.8)*0.01);
+            move = parseInt(Math.pow(move,1.8)*0.005);
+            move -= move%5;
           }
           amount.text(move + "g");
           if(Math.abs(move-previousAmount)>0){

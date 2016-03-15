@@ -102,8 +102,8 @@ var Model = function () {
         return {
             id: +d["ABBREV_NDB_No"] || 0 ,
             food_group_id: +d["FOOD_DES_FdGrp_Cd"] || 0 ,
-            food_group_name: d["FdGrp_Desc"],
-            name: d["ABBREV_Shrt_Desc"] || "",
+            food_group_name: d["Only_one_group"],
+            name: d["Name"] || "",
             description: d["Long_Desc"] || "",
             energy: +(d["Energ_Kcal"].replace(",",".")) || 0,
             protein: +(d["Protein_(g)"].replace(",",".")) || 0,
