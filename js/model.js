@@ -11,7 +11,7 @@ var Model = function () {
     model.selectedIngredient;
 
     model.categoricalColors = {
-     "Liquid":[45, 100, 90, 0.7],
+     "Liquid":[45, 100, 85, 0.7],
      "Fruits":[162, 70, 66, 1],
      "Nuts and Seeds":[22, 100, 59, 1],
      "Spices and Herbs":[48, 100, 50, 1],
