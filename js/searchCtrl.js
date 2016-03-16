@@ -37,21 +37,15 @@ var SearchCtrl = function (view, model) {
       var tempArray = [];
       for(var i in model.recipeDB){
         var tempValue = 0;
-        if(d === 'P'){
-          for(var j in model.recipeDB[i].ingredients){
-            tempValue +=  model.recipeDB[i].ingredients[j].protein;
-          }
-        }else if(d === 'C'){
-           for(var j in model.recipeDB[i].ingredients){
-            tempValue +=  model.recipeDB[i].ingredients[j].carbohydrate;
-          }
-        }else if(d === 'F'){
-          for(var j in model.recipeDB[i].ingredients){
-            tempValue +=  model.recipeDB[i].ingredients[j].fat;
-          }
-        }else if(d === 'E'){
-          for(var j in model.recipeDB[i].ingredients){
-            tempValue +=  model.recipeDB[i].ingredients[j].energy;
+        for(var j in model.recipeDB[i].ingredients){
+          if(d === 'P'){
+            tempValue +=  model.recipeDB[i].ingredients[j].protein * model.recipeDB[i].ingredients[j].amount;
+          }else if(d === 'C'){
+            tempValue +=  model.recipeDB[i].ingredients[j].carbohydrate * model.recipeDB[i].ingredients[j].amount;
+          }else if(d === 'F'){
+            tempValue +=  model.recipeDB[i].ingredients[j].fat * model.recipeDB[i].ingredients[j].amount;
+          }else if(d === 'E'){
+            tempValue +=  model.recipeDB[i].ingredients[j].energy * model.recipeDB[i].ingredients[j].amount;
           }
         }
 
@@ -75,7 +69,7 @@ var SearchCtrl = function (view, model) {
         for(var m in model.recipeDB){
           if(model.recipeDB[m].id === tempArray[k].id){
             sortedModelDB.push(model.recipeDB[m]);
-            model.recipeDB.splice(m,1)
+            model.recipeDB.splice(m,1);
           }
         }
       }

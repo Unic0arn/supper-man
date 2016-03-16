@@ -81,12 +81,9 @@ var SearchView = function(container,model){
         recipeNutContainer
             .append('div').classed('recipeNutritionValue', true)
                 .text(function(d){
-                    // console.log(d);
-                    // console.log(calcPersonalValue(d, 'carbohydrate'));
                     return calcPersonalValue(d, 'carbohydrate');
                 })
                 .style('background-color', function(d){
-                    // console.log(parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')));
                     return colorFill(parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')));
                 });
 
