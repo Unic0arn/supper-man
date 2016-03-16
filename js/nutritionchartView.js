@@ -1,7 +1,8 @@
 var NutritionChartView = function (container, model) {
 	var axises = ["energy","protein","fat","sodium","carbohydrate"];
-	var NutritionCont = this;
-	NutritionCont.agg = true;
+	var view = this;
+	view.container = container;
+	view.agg = true;
 	model.addObserver(this);
 
 	var margin = {top: 100, right: 100, bottom: 100, left: 100},
@@ -42,6 +43,7 @@ var NutritionChartView = function (container, model) {
 
 		if("addIngredient" === code){
 			updateChart();
+			updateSelectedIngredient(model.selectedIngredient);
 		}else if("removeIngredient" === code){
 			updateChart();
 		}else if("changeAmount" === code){
@@ -50,8 +52,25 @@ var NutritionChartView = function (container, model) {
 			//updateChart();
 		} else if("newRecipe" === code){
 			updateChart();
-		} 
+		} else if(code === "newSelectedIngredient"){
+			updateSelectedIngredient(model.selectedIngredient);
+		}
 	}
+
+	var updateSelectedIngredient = function(id){
+        var layers = view.container.selectAll(".layer");
+        console.log(layers);
+        var selected = layers.filter(function(d){
+            return d.key === id;
+        });
+        var rest = layers.filter(function(d){
+            return d.key != id;
+        });
+        selected.style("opacity",0.5);
+        rest.style("opacity",1);
+        console.log(rest);
+    };
+
 
 	var transFormIngredient = function(ingredient){
 		var outIngredient = {}
@@ -145,8 +164,7 @@ var NutritionChartView = function (container, model) {
 
 
 		rect.enter().append("rect");
-			console.log(NutritionCont.agg);
-		if(NutritionCont.agg === true){
+		if(view.agg === true){
 
 			rect
 			.attr("x", function(d) { return x(d.key); })
@@ -174,13 +192,13 @@ var NutritionChartView = function (container, model) {
 
 
 	this.change = function(){
-		if (NutritionCont.agg === true) {
+		if (view.agg === true) {
 			transitionGrouped();
-			NutritionCont.agg = false;
+			view.agg = false;
 		}
 		else {
 			transitionStacked();
-			NutritionCont.agg = true;
+			view.agg = true;
 		}
 	};
 

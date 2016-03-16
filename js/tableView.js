@@ -115,6 +115,7 @@ var TableView = function (container, model) {
     view.update = function(code){
         if(code === "addIngredient") {
             redrawTable();
+            updateSelectedIngredient(model.selectedIngredient);
         }else if(code === "removeIngredient") {
             redrawTable();
         }else if(code === "changeAmount") {
@@ -123,7 +124,22 @@ var TableView = function (container, model) {
             view.clearNameInput();
             redrawTable();
 
+        }else if(code === "newSelectedIngredient"){
+            updateSelectedIngredient(model.selectedIngredient);
         }
+    };
+
+    var updateSelectedIngredient = function(id){
+        var rows = view.container.selectAll(".ingredientTableRow");
+
+        var selected = rows.filter(function(d){
+            return d.id === id;
+        });
+        var rest = rows.filter(function(d){
+            return d.id != id;
+        });
+        selected.style("opacity",0.5);
+        rest.style("opacity",1);
     };
 
     view.setOverlay = function(opacity){

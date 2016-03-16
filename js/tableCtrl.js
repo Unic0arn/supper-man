@@ -23,6 +23,15 @@ var TableCtrl = function(tableView, model){
 				var ingredientID = d3.select('#ingredientRow_' + i).attr("ingredient_id");
 				model.removeIngredient(parseInt(ingredientID));
 			});
+
+			tableView.container.selectAll('.ingredientTableRow').on("click",function(d){
+				if(d.id === model.selectedIngredient) {
+					model.setSelectedIngredient(0);
+				}else{
+
+					model.setSelectedIngredient(d.id);
+				}
+			})
 		}
 	};
 

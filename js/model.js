@@ -8,6 +8,7 @@ var Model = function () {
     model.observers = [];
     model.filters = [];
     model.search = false;
+    model.selectedIngredient;
 
     model.categoricalColors = {
      "Liquid":[45, 100, 90, 0.7],
@@ -127,6 +128,11 @@ var Model = function () {
 
       });
     };
+
+    this.setSelectedIngredient = function(id){
+        model.selectedIngredient = id;
+        model.notifyObservers("newSelectedIngredient");
+    }
 
     this.getIngredient = function(id){
         var tmp = model.data[model.dataIds.indexOf(id)];
