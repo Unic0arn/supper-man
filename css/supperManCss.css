@@ -342,7 +342,7 @@ tr{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 0 10px;
   height: 100px;
   border: solid 1px;
 }
@@ -373,13 +373,14 @@ tr{
 .recipeNutContainer{
   display: flex;
   justify-content:center;
+  height: 100%;
 }
 
 .recipeNutritionValue{
   background-color: pink;
   width: 50px;
-  height: 50px;
-  border: solid 1px black;
+  height: 100%;
+  /*border: solid 1px black;*/
   display:flex;
   align-items: center;
   justify-content: center;
