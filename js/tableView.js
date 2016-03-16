@@ -53,7 +53,8 @@ var TableView = function (container, model) {
             .append("tr")
             .attr("d", function(d){return d;})
             .attr('id', function(d,i){ return 'ingredientRow_' + i;})
-            .attr("ingredient_id", function(d){return d.id;});
+            .attr("ingredient_id", function(d){return d.id;})
+            .classed("ingredientTableRow", true);
         // cells
 
         var td = tr.selectAll("td")
@@ -64,18 +65,18 @@ var TableView = function (container, model) {
             })
             .enter().append("td")
             .html(function(d) { 
-                if(d.column === 'button'){
-                    d3.select(this).classed('removeBtnContainer',true).style('text-align', 'center');
-                }else if(d.column === 'color'){
-                    d3.select(this).classed('ingredientColorRect',true).style("background", d.value).style("width", "25px");
-                }else{
-                    d3.select(this).classed('table' + d.column, true);
-                    if(d.column === 'amount'){
-                        return d.value + 'g';
-                    }else{
-                        return d.value;
-                    }
-                } 
+                if(d.column === 'color'){
+                    d3.select(this).classed('ingredientColorRect',true).style("background", d.value).style("width", "4%");
+                }else if(d.column === 'name'){
+                    d3.select(this).classed('table' + d.column, true).style("width", "55%");
+                    return d.value;
+                }else if(d.column === 'amount'){
+                    d3.select(this).classed('table' + d.column, true).style("width", "15%");
+                    return d.value + 'g';
+                }
+                else if(d.column === 'button'){
+                    d3.select(this).classed('removeBtnContainer',true).style('text-align', 'center').style("width", "26%");
+                }
             });
 
         d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').text('Remove');
@@ -85,7 +86,7 @@ var TableView = function (container, model) {
     var initialize = function(){
         initNameInput();
         
-        var columns = ['', 'Name', 'Amount', ''];
+        var columns = ['Color', 'Name', 'Amount', 'Button'];
         
         var table = d3.select("#ingredientTable");
         table.append("thead");
@@ -93,7 +94,21 @@ var TableView = function (container, model) {
 
         var thead = d3.select("thead").append("tr").selectAll("th")
         .data(columns)
-        .enter().append("th").text(function(d){return d;});
+        .enter().append("th").text(function(d){
+            if(d === 'Color'){
+                d3.select(this).style("width", "4%");
+                return '';
+            }else if(d === 'Name'){
+                d3.select(this).style("width", "55%");
+                return d;
+            }else if(d === 'Amount'){
+                 d3.select(this).style("width", "15%");
+                 return d;
+            }else if(d === 'Button'){
+                d3.select(this).style("width", "26%");
+                return '';
+            }
+        });
     };
 
 
