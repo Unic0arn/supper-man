@@ -97,37 +97,41 @@ var TableCtrl = function(tableView, model){
 	};
 
 	this.touchStart = function(d, i, element) {
-		console.log(d3.select(element));
-		window.ontouchmove = function(e){ e.preventDefault(); };
 			
 		var move;
 		var previousAmount = d.value;
 		var amountText = previousAmount;
 		var start = interaction[3]();
 		start = parseInt(start.clientX);
-		var amount = d3.select("#overlay").append("div").style("margin","auto").style("margin-top","200px").style("font-size","170px");
+
+		var overlay = d3.select("#overlay");
+
+		overlay.append("div").style("margin","auto").style("margin-top","150px").style("font-size","70px").text(model.getIngredient(d.id).name);
+		var amount = overlay.append("div").style("margin","auto").style("margin-top","50px").style("font-size","70px");
+
+		// var amount = d3.select("#overlay").append("div").style("margin","auto").style("margin-top","200px").style("font-size","170px");
 		
 		tableView.setOverlay(0.5);
-		console.log("start: " + start);
+
 		d3.select("body").on(interaction[1],function(event){
 
 			move = interaction[3]();
-			move = parseInt((move.clientX-start)*0.1);
-			console.log("move: " + move);
+			move = parseInt((move.clientX-start)*0.5);
+			move -= move%5;
 			amountText = previousAmount + move;
 			if(amountText < 0){
 				amountText = 0;
 			}
-			amount.text(amountText);
-			d3.select(element).html(amountText);
+			amount.text(amountText + 'g');
+			d3.select(element).html(amountText + 'g');
 		});
 
 		d3.select("body").on(interaction[2],function(){
-			console.log("Setting new amount: " + amountText);
 			model.changeAmount(d.id, amountText);
 			d3.select("body").on(interaction[1],null);
 			d3.select("body").on(interaction[2],null);
-			amount.remove();
+
+	        overlay.selectAll("div").remove();
 			d3.select("#overlay").transition().style("opacity", 0).duration(500);
 			window.ontouchmove = null;
 		});

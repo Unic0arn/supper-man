@@ -39,7 +39,7 @@ var TableView = function (container, model) {
 
     view.clearNameInput = function(){
         view.nameInput[0][0].value = model.recipe.name && model.recipe.name || "";
-    }
+    };
 
     var redrawTable = function(){
         var table = d3.select("#ingredientTable");
@@ -70,7 +70,11 @@ var TableView = function (container, model) {
                     d3.select(this).classed('ingredientColorRect',true).style("background", d.value).style("width", "25px");
                 }else{
                     d3.select(this).classed('table' + d.column, true);
-                return d.value;
+                    if(d.column === 'amount'){
+                        return d.value + 'g';
+                    }else{
+                        return d.value;
+                    }
                 } 
             });
 
