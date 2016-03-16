@@ -97,7 +97,8 @@ var TableCtrl = function(tableView, model){
 	};
 
 	this.touchStart = function(d, i, element) {
-			
+		d3.event.preventDefault();
+		window.ontouchmove = function(e){e.preventDefault();};
 		var move;
 		var previousAmount = d.value;
 		var amountText = previousAmount;
