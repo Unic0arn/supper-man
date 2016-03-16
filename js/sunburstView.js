@@ -119,9 +119,8 @@ var arc = d3.svg.arc()
   var color = function(node,i){    
     //return "rgb(255,0,0)";
     var cuttingBoard = {
-     "Dairy":[45, 100, 90, 0.7],
+     "Liquid":[45, 100, 90, 0.7],
      "Fruits":[162, 70, 66, 1],
-     "Fruit Juices":[349, 100, 63, 1],
      "Nuts and Seeds":[22, 100, 59, 1],
      "Spices and Herbs":[48, 100, 50, 1],
      "Vegetables":[60, 80, 50, 1],
@@ -146,6 +145,14 @@ var arc = d3.svg.arc()
   }
 
     var initialize = function(hierarchy){
+
+      var iconUrl = {
+     "Fruits":"img/fruit.png",
+     "Liquid":"img/liquid.png",
+     "Nuts and Seeds":"img/nuts.png",
+     "Spices and Herbs":"img/herbs.png",
+     "Vegetables":"img/vegetable.png",
+     "":[240, 80, 50, 1]};
 
     var sunburstSvg = container.append("svg")
         .attr("width", width)
@@ -172,7 +179,6 @@ var arc = d3.svg.arc()
         })
         .sort(function(a,b){return d3.descending(a.name,b.name);});
 
-    //d3.json("data/flare.json", function(error, root) {
     var root = hierarchy;
       var g = sunburstSvg.selectAll("g")
         .data(partition.nodes(root))
@@ -181,6 +187,8 @@ var arc = d3.svg.arc()
           var strClass = "";
           if(d.children === undefined){
             strClass += "leaf";
+          }else if(d.parent != undefined && d.parent.name == "ingredients"){
+            strClass += "category";
           }
           return strClass;
         });
@@ -189,7 +197,7 @@ var arc = d3.svg.arc()
         .attr("d", arc)
         .style("fill", function(d,i) { return color(d,i); })
         .classed("segment",true);
-        //.on("touchstart", touchStart);
+
 
       var text1 = g.append("text")
         .attr("x", function(d) { 
@@ -220,7 +228,20 @@ var arc = d3.svg.arc()
             }});
 
       model.notifyObservers("sunburstReady");
-    //});
+
+      d3.selectAll(".category").select("text").remove();
+      d3.selectAll(".category").append("image")
+        .attr("xlink:href",function(d){return iconUrl[d.name];})
+        .attr("height","26px")
+        .attr("width","26px")
+        .attr("y",-13)
+        .style("pointer-events","none")
+        .style("opacity",0.5)
+        .attr("transform", function(d) { 
+            if(d.y==0.25){
+              return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ (r1Inner) +","+ Math.sin(computeTextRotation(d)) +")";
+            }
+          });
 
   d3.select(self.frameElement).style("height", height + "px");
   d3.selectAll(".leaf").transition().attr("transform","rotate(180)").duration(500).ease("cubic");
@@ -244,6 +265,9 @@ var arc = d3.svg.arc()
     }
 
     view.container.selectAll("text").transition().attr("opacity", 0);
+    view.container.selectAll("image").transition().style("opacity", 0);
+
+
 
     view.container.selectAll(".segment").transition()
       .duration(750)
@@ -253,6 +277,14 @@ var arc = d3.svg.arc()
         if (e.x >= d.x && e.x < (d.x + d.dx)) {
           // get a selection of the associated text element
           var arcText = d3.select(this.parentNode).select("text");
+          var arcImg = d3.select(this.parentNode).select("image");
+
+
+          arcImg.transition().duration(500)
+            .style("opacity", 0.5)
+            .attr("transform", function(d) { 
+              return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ (r1Inner) +","+ Math.sin(computeTextRotation(d)) +")";
+          }); 
           // fade in the text element and recalculate positions
           arcText.transition().duration(500)
             .attr("opacity", 1)
