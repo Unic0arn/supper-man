@@ -5,11 +5,10 @@ var NutritionChartView = function (container, model) {
 	view.agg = true;
 	model.addObserver(this);
 
-	var margin = {top: 100, right: 100, bottom: 100, left: 100},
+	var margin = {top: 40, right: 20, bottom: 40, left: 40},
 	width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
-	height = window.innerHeight * 0.5 - margin.top - margin.bottom - 50;
+	height = window.innerHeight * 0.6 - margin.top - margin.bottom;
 	
-
 	var stack = d3.layout.stack()
 		.offset("zero")
 		.values(function(d) { return d.values; })
@@ -59,7 +58,6 @@ var NutritionChartView = function (container, model) {
 
 	var updateSelectedIngredient = function(id){
         var layers = view.container.selectAll(".layer");
-        console.log(layers);
         var selected = layers.filter(function(d){
             return d.key === id;
         });
@@ -68,7 +66,6 @@ var NutritionChartView = function (container, model) {
         });
         selected.style("opacity",0.5);
         rest.style("opacity",1);
-        console.log(rest);
     };
 
 
@@ -105,19 +102,21 @@ var NutritionChartView = function (container, model) {
 
 
 		this.svg = container.append("svg")
-		.attr("width",  options.w + options.margin.left + options.margin.right)
-		.attr("height", options.h + options.margin.top + options.margin.bottom)
+
+		.attr("viewBox","0 0 "+(width + margin.left + margin.right)+" " + (height + margin.top + margin.bottom))
+		.attr("width",  (width + margin.left + margin.right))
+		.attr("height", (height + margin.top + margin.bottom))
 		.attr("class", "nutrition");
 		//Append a g element		
 		this.g = svg.append("g")
-		.attr("transform", "translate(" + (options.margin.left) + "," + (options.h/2 + options.margin.top) + ")");
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-				this.g.append("g")
+		this.g.append("g")
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis);
 
-				this.g.append("g")
+		this.g.append("g")
 		.attr("class", "y axis")
 		.attr("transform", "translate(0, 0)")
 		.call(yAxis);
@@ -125,6 +124,8 @@ var NutritionChartView = function (container, model) {
 
 
 	var updateChart = function(){
+		console.log(height);
+		console.log(width);
 		transformed_data = [];
 		var origData = model.getPercentageData();
 

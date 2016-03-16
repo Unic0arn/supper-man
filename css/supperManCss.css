@@ -192,7 +192,9 @@ body {
 .blobAndTableContainer{
 	width: 60%;
 	height: 700px;
-    margin-left: 2vw;
+  margin-left: 5vw;
+  margin-top:7vw;
+  margin-bottom: 2vw;
 }
     
  /*REMOVE BUTTON*/   
@@ -240,12 +242,15 @@ body {
 
 /* TABLE CONTAINER */
 .tableContainer  {
-  margin-left: 3vw;
+  margin-left: 1vw;
 }
     
 .form-inline {
   width: 600px;
   position: relative;
+}
+.nutritionChartContainer{
+  margin-left: 1vw;
 }
 
 .ingredientTableRow{
