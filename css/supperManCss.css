@@ -135,14 +135,6 @@ section h3.section-subheading {
 .bg-team {
     background-color: #F6F6F6;
 }
-    
-tr{
-	text-align: left;
-}
-
-.table>tbody>tr>td {
-	vertical-align: middle;
-}
 
 .legend {
 	font-family: 'Raleway', sans-serif;
@@ -164,14 +156,6 @@ body {
 	/*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
 	cursor: default;
 
-}
-
-tr{
-	text-align: left;
-}
-
-.table>tbody>tr>td {
-	vertical-align: middle;
 }
 
 .legend {
@@ -256,13 +240,41 @@ tr{
 
 /* TABLE CONTAINER */
 .tableContainer  {
-    margin-left: 3vw;
-    }
+  margin-left: 3vw;
+}
     
 .form-inline {
-        width: 600px;
-        position: relative;
-    }
+  width: 600px;
+  position: relative;
+}
+
+.ingredientTableRow{
+  width: 100%;
+  display: inline-table;  
+  table-layout: fixed;
+}
+
+.table{
+ height:220px;
+ width: 600px; 
+ position: relative;
+}
+
+tr{
+  text-align: left;
+}
+
+.table>tbody>tr>td {
+  vertical-align: middle;
+}
+
+#ingredientTable tbody{
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
 /*END OF TABLE CONTAINER*/
 
 /* SEARCHVIEW */
