@@ -8,28 +8,11 @@ var SunburstCtrl = function (view, model) {
 
   
 
-
-
-  // var setInterface = function(type){
-  //   console.log("set interface: " + type)
-  //   var segments = view.container.selectAll(".segment").on(interaction[0],null);    
-  //   if(type == "touch"){
-  //     view.container.on("touchstart",null);
-  //     interaction = touch;
-  //     var segments = view.container.selectAll(".segment").on(interaction[0],function(d,i){touchStart(d,i,this)});
-  //     //view.container.on("mousedown", function(){setInterface("mouse")});
-  //   }else{
-  //     view.container.on("mousedown",null);
-  //     interaction = mouse;
-  //     var segments = view.container.selectAll(".segment").on(interaction[0],function(d,i){touchStart(d,i,this)});
-  //     //view.container.on("touchstart", function(){setInterface("touch")});
-  //   }
-  // }
  
   this.update = function(code){
     if(code == "sunburstReady"){
-      var segments = view.container.selectAll(".segment").on(interaction[0],function(d,i){ctrl.touchStart(d,i,this)});
-      //view.container.on("touchstart", function(){setInterface("touch")});
+      view.container.selectAll(".segment").on("touchstart",function(d,i){interaction = touch; ctrl.touchStart(d,i,this)});
+      view.container.selectAll(".segment").on("mousedown",function(d,i){interaction = mouse; ctrl.touchStart(d,i,this)});
     }
   }
   
@@ -48,7 +31,6 @@ var SunburstCtrl = function (view, model) {
         var previousAmount = 0;
         var center = view.svgCenter;
         var start = interaction[3]();
-        //start = parseInt((Math.sqrt(Math.pow(start.clientX-center[0],2) + Math.pow(start.clientY - center[1],2))));
         start = parseInt(start.clientX);
         var overlay = d3.select("#overlay");
         overlay.append
@@ -62,7 +44,6 @@ var SunburstCtrl = function (view, model) {
         d3.select("body").on(interaction[1],function(event){
           amount.style("font-size","170px").style("margin-top","15px");
           move = interaction[3]();
-          //move = parseInt(((Math.sqrt(Math.pow(move.clientX-center[0],2) + Math.pow(move.clientY - center[1],2)))-start)*0.1);
           move = -parseInt(move.clientX-start);
           if (move <= 0){
             move = 0;
