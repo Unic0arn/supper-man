@@ -2,6 +2,8 @@ $(function (){
     
     var model = new Model();
     
+    var startOverviewView = new StartOverviewView(d3.select('#start-overView'), model);
+    var startOverviewCtrl = new StartOverviewCtrl(startOverviewView, model);
 
     var nutritionChartView = new NutritionChartView(d3.select('.nutritionChartContainer'), model);
     var nutritionChartCtrl = new NutritionChartCtrl(nutritionChartView, model);
