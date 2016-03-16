@@ -67,9 +67,9 @@ var SunburstCtrl = function (view, model) {
               d = d.parent;
               view.arcTransition(d.parent);
             }
+          }
           d3.select("body").on(interaction[1],null);
           d3.select("body").on(interaction[2],null);
-          }
           
         });
       }
