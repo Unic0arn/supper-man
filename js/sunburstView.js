@@ -118,13 +118,7 @@ var arc = d3.svg.arc()
 
   var color = function(node,i){    
     //return "rgb(255,0,0)";
-    var cuttingBoard = {
-     "Liquid":[45, 100, 90, 0.7],
-     "Fruits":[162, 70, 66, 1],
-     "Nuts and Seeds":[22, 100, 59, 1],
-     "Spices and Herbs":[48, 100, 50, 1],
-     "Vegetables":[60, 80, 50, 1],
-     "":[240, 80, 50, 1]};
+    var cuttingBoard = model.categoricalColors;
 
     if (node.name == "ingredients"){
       return "white";
