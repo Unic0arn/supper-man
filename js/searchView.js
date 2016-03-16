@@ -7,10 +7,9 @@ var SearchView = function(container,model){
     var redrawList = function(){
         view.container.html('');
         view.container.collapseBtn = view.container.append('button')
-            .text('collapse!')
+            .text('Search')
             .classed('btn btn-success', true)
-            .style('position','absolute').style('right','0').style('top', '0').style('margin','5px 5px');
-
+            .style('position','absolute').style('right','-15px').style('top', '40%').style('margin','5px 5px').style('-webkit-transform','rotate(-90deg)').style('-moz-transform','rotate(-90deg)');
         var filters = view.container.append('div').attr('id', 'searchFilterContainer');
         filters.selectAll("div").data(model.filters).enter()
             .append("div").append("span").text(function(f){
