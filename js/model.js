@@ -8,14 +8,15 @@ var Model = function () {
     model.observers = [];
     model.filters = [];
     model.search = false;
+    model.selectedIngredient;
 
     model.categoricalColors = {
-     "Dairy":[45, 100, 90, 0.7],
+     "Liquid":[45, 100, 90, 0.7],
      "Fruits":[162, 70, 66, 1],
-     "Fruit Juices":[349, 100, 63, 1],
      "Nuts and Seeds":[22, 100, 59, 1],
      "Spices and Herbs":[48, 100, 50, 1],
-     "Vegetables":[60, 80, 50, 1]};
+     "Vegetables":[60, 80, 50, 1],
+     "":[240, 80, 50, 1]};
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
@@ -127,6 +128,11 @@ var Model = function () {
 
       });
     };
+
+    this.setSelectedIngredient = function(id){
+        model.selectedIngredient = id;
+        model.notifyObservers("newSelectedIngredient");
+    }
 
     this.getIngredient = function(id){
         var tmp = model.data[model.dataIds.indexOf(id)];

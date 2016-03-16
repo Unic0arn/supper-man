@@ -4,7 +4,7 @@ var SearchCtrl = function (view, model) {
   var sortToggle = true;
   var initSideView = function(){
 
-    view.container.collapseBtn.on('touchstart',function(){    
+    view.container.collapseBtn.on('click',function(){    
       console.log("slide");
       collapseSideView();
       
@@ -29,11 +29,11 @@ var SearchCtrl = function (view, model) {
       collapseSideView();
     });
 
-    view.container.filterItem.on('touchstart', function(d){
+    view.container.filterItem.on('click', function(d){
       model.removeFilter(d);
     });
 
-    view.container.tableBtn.on('touchstart', function(d){
+    view.container.tableBtn.on('click', function(d){
       var tempArray = [];
       for(var i in model.recipeDB){
         var tempValue = 0;

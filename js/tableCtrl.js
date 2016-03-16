@@ -9,22 +9,37 @@ var TableCtrl = function(tableView, model){
 	this.update = function(code){
 
 		if(code === "tableRowReady"){
-			var amounts = tableView.container.selectAll(".tableamount").on(interaction[0], function(d,i){ 
+			tableView.container.selectAll(".tableamount").on("touchstart", function(d,i){ 
+				interaction = touch;
+				ctrl.touchStart(d, i, this); 
+			});
+			tableView.container.selectAll(".tableamount").on("mousedown", function(d,i){ 
+				interaction = mouse;
 				ctrl.touchStart(d, i, this); 
 			});
 
-			tableView.container.selectAll('.removeBtn').on(interaction[0], function(d, i){
+
+			tableView.container.selectAll('.removeBtn').on("click", function(d, i){
 				var ingredientID = d3.select('#ingredientRow_' + i).attr("ingredient_id");
 				model.removeIngredient(parseInt(ingredientID));
 			});
+
+			tableView.container.selectAll('.ingredientTableRow').on("click",function(d){
+				if(d.id === model.selectedIngredient) {
+					model.setSelectedIngredient(0);
+				}else{
+
+					model.setSelectedIngredient(d.id);
+				}
+			})
 		}
 	};
 
-	tableView.btnSave.on(interaction[0],function(){
+	tableView.btnSave.on("click",function(){
         model.saveRecipe(tableView.nameInput[0][0].value);
     });
 
-    tableView.btnNew.on(interaction[0],function(){
+    tableView.btnNew.on("click",function(){
         model.newRecipe();
     });
 
