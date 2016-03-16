@@ -7,7 +7,7 @@ var NutritionChartCtrl = function (view, model) {
 		}else{
 			this.innerHTML = 'Divide!';
 		}
-		view.agg = !view.agg;
+		console.log(view.agg);
 		view.change();
 		model.notifyObservers("changeAgg");
 	});

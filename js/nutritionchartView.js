@@ -1,7 +1,7 @@
 var NutritionChartView = function (container, model) {
 	var axises = ["energy","protein","fat","sodium","carbohydrate"];
-
-	this.agg = true;
+	var NutritionCont = this;
+	NutritionCont.agg = true;
 	model.addObserver(this);
 
 	var margin = {top: 100, right: 100, bottom: 100, left: 100},
@@ -128,11 +128,9 @@ var NutritionChartView = function (container, model) {
 			}))
 		})) : 1;
 
-		console.log("TEst");
 		y.domain([0, yStackMax])
 		yAxis.scale(y);
 		container.select(".y.axis").call(yAxis);
-		console.log(layers);
 		var layer = this.g.selectAll(".layer")
 		.data(layers, function(d){return d.key;});
 
@@ -142,24 +140,33 @@ var NutritionChartView = function (container, model) {
 		.style("fill", function(d, i) { return d.color; });
 
 		layer.exit().remove();
-		console.log(layer.exit());
 		var rect = layer.selectAll("rect")
 		.data(function(d) { return d.values; });
 
 
-		rect.enter().append("rect")
-		.attr("x", function(d) { return x(d.key); });
+		rect.enter().append("rect");
+			console.log(NutritionCont.agg);
+		if(NutritionCont.agg === true){
 
-		rect.attr("y", height)
-		.attr("width", x.rangeBand())
-		.attr("y", function(d) { return y(d.y0 + d.y); })
-		.attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
+			rect
+			.attr("x", function(d) { return x(d.key); })
+			.attr("width", x.rangeBand())
+			.attr("y", function(d) { return y(d.y0 + d.y); })
+			.attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
 
-		/*rect.transition()
+		}else{
+
+			rect.attr("x", function(d, i, j) { return x(d.key) + x.rangeBand() / layers.length * j; })
+				.attr("width", x.rangeBand() / layers.length)
+				.attr("y", function(d) { return y(d.y); })
+				.attr("height", function(d) { return height - y(d.y); });
+		}
+		/*
+		rect.transition()
 		.delay(function(d, i) { return i * 10; })
 		.attr("y", function(d) { return y(d.y0 + d.y); })
 		.attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
-*/
+		*/
 
 
 
@@ -167,20 +174,25 @@ var NutritionChartView = function (container, model) {
 
 
 	this.change = function(){
-		if (this.agg === false) transitionGrouped();
-		else transitionStacked();
+		if (NutritionCont.agg === true) {
+			transitionGrouped();
+			NutritionCont.agg = false;
+		}
+		else {
+			transitionStacked();
+			NutritionCont.agg = true;
+		}
 	};
 
 
 	function transitionGrouped() {
 		var rect = container.selectAll(".layer").selectAll("rect");
-		console.log(rect);
 		y.domain([0, yGroupMax]);
 
 		rect.transition()
 		.duration(500)
 		.delay(function(d, i) { return i * 10; })
-		.attr("x", function(d, i, j) { console.log("i: " + i + " j: " + j); console.log(d); return x(d.key) + x.rangeBand() / layers.length * j; })
+		.attr("x", function(d, i, j) { return x(d.key) + x.rangeBand() / layers.length * j; })
 		.attr("width", x.rangeBand() / layers.length)
 		.transition()
 		.attr("y", function(d) { return y(d.y); })
