@@ -8,6 +8,7 @@ var NutritionChartView = function (container, model) {
 	var formatPercent = d3.format("0%");
 
 	var margin = {top: 40, right: 40, bottom: 40, left: 40},
+	graphStart = 0,
 	width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
 	height = window.innerHeight * 0.6 - margin.top - margin.bottom;
 	
@@ -28,8 +29,6 @@ var NutritionChartView = function (container, model) {
 		h: height,
 		margin: margin,
 		maxValue: 0.2,
-		levels: 10,
-		roundStrokes: true,
 		color: d3.scale.category20()
 	};
 
@@ -68,9 +67,21 @@ var NutritionChartView = function (container, model) {
             return d.key != id;
         });
 
+        selected.classed("selectedIngredientBar",true);
+        rest.classed("selectedIngredientBar",false);
+
+
+
+/*
+        var popupmargin = {"left":10,"right":10,"top":10,"bottom":10}
+        var popupwidth = width - popupmargin.left - popupmargin.right;
+        var popupheight = height/2 - popupmargin.top - popupmargin.bottom;
 
 		var popup = selected.append("g")
         .attr("class","infoPopUp")
+        .attr("width",popupwidth)
+        .attr("height", popupheight)
+        .attr("transform","translate("+popupmargin.left+","+ popupmargin.top + ")");
 
         popup.append("text")
         .text(function(d){console.log(d); return d.key;});
@@ -78,32 +89,24 @@ var NutritionChartView = function (container, model) {
 		popup.append("rect")
 		.attr("class","infoPopUpRect")
         .attr("transform","translate(0,0)")
-        .attr("width",width)
-        .attr("height", height/2)
-        .attr("rx",20)
-        .attr("ry",20);
+        .style("width", popupwidth)
+        .style("height",popupheight)
+        .attr("rx",5)
+        .attr("ry",5);
+        console.log(y.range());
+        graphStart = id === 0 ? 0 : popupheight + popupmargin.top + popupmargin.bottom;
+        y.range([height, graphStart]);
+        updateChart();
+
+        console.log(y.range());
 
 
-        selected.classed("selectedIngredientBar",true);
-        selected.selectAll("text")
-        .data(function(d){console.log(d.values); return d.values;})
-        .enter().append("text")
-        .text(function(d){
-        	console.log(d);
-        	return formatPercent(d.value);
-        })
-        .attr("transform",function(d,i){
-        	return "translate(" + x(d.key) + ","+y(d.y0 + d.y)+")";
-        });
 
         rest.selectAll(".infoPopUp").remove();
-        rest.classed("selectedIngredientBar",false);
         rest.selectAll("text")
         .remove();
+*/
 
-        	///////////////////////////////////////////
-        //selected.style("opacity",1);
-        //rest.style("opacity",0.5);
     };
 
 
@@ -137,8 +140,6 @@ var NutritionChartView = function (container, model) {
 		.tickPadding(6)
 		.orient("left")
 		.tickFormat(formatPercent);
-
-
 
 		this.svg = container.append("svg")
 
@@ -175,15 +176,24 @@ var NutritionChartView = function (container, model) {
 		.attr("dy", "-.75em")
 		.attr("dx", "-1.5em")
 		.attr("text-anchor","end")
-		.attr("transform","translate("+margin.left+","+margin.top+")")
+		.attr("transform","translate("+margin.left+","+margin.top +")")
 		.text("RDI");
+
+
+		var infoLabel = this.g.selectAll("text").data(axises);
+
+		infoLabel.enter().append("text");
+
+		infoLabel.attr()
+		.attr("class","barChartInfoLabel")
+		.attr("x", function(d) { return x(d); })	
+		.attr("transform", "translate("+ (margin.left + 10) + "," + (height + margin.top - 10) + ")")
+		.text("0");
 
 	}
 
 
 	var updateChart = function(){
-		console.log(height);
-		console.log(width);
 		transformed_data = [];
 		var origData = model.getPercentageData();
 
@@ -222,9 +232,9 @@ var NutritionChartView = function (container, model) {
 		layer.exit().remove();
 
 
+
 		var rect = layer.selectAll("rect")
 		.data(function(d) { return d.values; });
-
 
 		rect.enter().append("rect");
 		if(view.agg === true){
@@ -241,6 +251,17 @@ var NutritionChartView = function (container, model) {
 				.attr("width", x.rangeBand() / layers.length)
 				.attr("y", function(d) { return y(d.y); })
 				.attr("height", function(d) { return height - y(d.y); });
+		}
+
+			var infoLabels = this.g.selectAll(".barChartInfoLabel");
+		if(model.selectedIngredient == 0){
+
+		}else{
+			var selectedIngredient = model.selectedIngredient;
+			infoLabels.forEach(function(d,i){
+				console.log(d[i]);
+			});
+			console.log(infoLabels);
 		}
 		/*
 		rect.transition()
