@@ -191,13 +191,20 @@ body {
 #recipeName{
         height: 50px;
     }
-    
+
+.saveRecipeBtn{
+    background-color: #f3f3eb; 
+    }
 .saveRecipeBtn img{
     width: 40px;
     height: 40px;
     -moz-border-radius:12px;
 	-webkit-border-radius:12px;
 	border-radius:12px; 
+    }
+    
+.newRecipeBtn{
+     background-color: #f3f3eb;
     }
     
 .newRecipeBtn img{
@@ -210,6 +217,12 @@ body {
     
  /*REMOVE BUTTON*/  
 
+/*
+.removeBtn {
+    background-color: #f3f3eb; 
+    }
+*/
+    
 .removeBtn img{
     width: 40px;
     height: 40px;
@@ -285,6 +298,10 @@ tr{
   width: 100%;
   position: absolute;
 }
+    
+.table-striped>tbody>tr:nth-of-type(odd){
+    background-color: #f3f3eb;
+    }
 /*END OF TABLE CONTAINER*/
 
 /* SEARCHVIEW */
