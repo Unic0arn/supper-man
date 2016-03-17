@@ -432,7 +432,9 @@ tr{
 .hihi{
   
 }
-
+.barChartInfoLabel{
+  text-anchor: middle;
+}
 
 .selectedIngredientBar{
   stroke: black;

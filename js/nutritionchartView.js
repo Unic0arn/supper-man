@@ -15,7 +15,7 @@ var NutritionChartView = function (container, model) {
 	
 	var stack = d3.layout.stack()
 		.offset("zero")
-		.values(function(d) { return d.values; })
+		.values(function(d) { return d.values.sort(function(s, s2){ return (s.key < s2.key) ? -1 : (s.key > s2.key) ? 1 : 0; })})
 		.x(function(d) { return d.key; })
 		.y(function(d) { return d.value; });
 
@@ -60,7 +60,6 @@ var NutritionChartView = function (container, model) {
 
 	var updateSelectedIngredient = function(id){
         var layers = view.container.selectAll(".layer");
-        console.log(layers);
         var selected = layers.filter(function(d){
             return d.key === id;
         });
@@ -72,13 +71,11 @@ var NutritionChartView = function (container, model) {
         rest.classed("selectedIngredientBar",false);
 
         var ingredients = model.recipe.ingredients;
-        console.log(ingredients);
         labelValues = {};
         var labelFormat = d3.format("d");
 		axises.forEach(function(a){ labelValues[a] = 0});
         if(id != 0){
         	var selectedIngredient = ingredients.filter(function(i){ return i.id == id})[0];
-        	console.log(selectedIngredient);
 			axises.forEach(function(a){
 				labelValues[a] += selectedIngredient[a] / (100/selectedIngredient["amount"]);
 			});
@@ -222,13 +219,12 @@ var NutritionChartView = function (container, model) {
 	var updateChart = function(){
 		transformed_data = [];
 		var origData = model.getPercentageData();
-
 		origData.forEach(function(d){
 			transformed_data.push(transFormIngredient(d));
 		}); 
 
-		layers = stack(transformed_data);
 
+		layers = stack(transformed_data);
 
 		// Calculate max values for when stacked and grouped
 		yGroupMax = transformed_data.length > 0 ? Math.max(options.maxValue, d3.max(transformed_data, function(i){
