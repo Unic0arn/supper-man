@@ -67,19 +67,23 @@ var Model = function () {
     };
 
     this.filterSearch = function(){
-        result = model.recipeDB.filter(function(d){
-            var push = true;
-            var ingredients = d.ingredients.map(function(i){return i.id;});
-                for(var f in model.filters){
-                    if(ingredients.indexOf(model.filters[f]) == -1){
-                        push = false;
-                        break;
+        if (model.filters.length === 0){
+            return model.recipeDB;
+        }
+        else{
+            console.log('ELSAR');
+            var result = model.recipeDB.filter(function(d){
+                var push = true;
+                var ingredients = d.ingredients.map(function(i){return i.id;});
+                    for(var f in model.filters){
+                        if(ingredients.indexOf(model.filters[f]) == -1){
+                            push = false;
+                        }
                     }
-                }
-            return push;
-
-        });
-        return result;
+                return push;
+            });
+            return result;
+        }
     };
 
     this.editRecipe = function(id){
