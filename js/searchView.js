@@ -32,7 +32,7 @@ var SearchView = function(container,model){
         // tableheader Container
         var tableHeader = view.container.append('div').attr('id', 'searchTableHeader');
 
-        view.container.tableBtn = tableHeader.selectAll('div').data(['P', 'C', 'F', 'E']).enter()
+        view.container.tableBtn = tableHeader.selectAll('div').data(['E', 'P', 'F', 'C']).enter()
             .append('div').style('width','50px').style('border','solid 1px').style('height', '70%')
                 .text(function(d){
                     return d;
@@ -57,6 +57,20 @@ var SearchView = function(container,model){
 
 
         var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
+
+        // td for ENERGY
+        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
+            .text(function(d){
+                return calcPersonalValue(d, 'energy');
+            })
+            .style('background-color', function(d){
+                return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                // if(percentage > 100){
+                //     percentage = 100;
+                // }
+                // return colorFill(percentage);
+            });
 
         // td for PROTEIN
         recipeNutContainer
@@ -87,6 +101,21 @@ var SearchView = function(container,model){
                     }
 
                 });
+
+        // td for FATS
+        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
+            .text(function(d){
+                return calcPersonalValue(d, 'fat');
+            })
+            .style('background-color', function(d){
+                return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                // if(percentage > 100){
+                //     percentage = 100;
+                // }
+                // return colorFill(percentage);
+            });
+            
         // td for CARBOHYDRATES
         recipeNutContainer
             .append('div').classed('recipeNutritionValue', true)
@@ -102,34 +131,6 @@ var SearchView = function(container,model){
                     // return colorFill(percentage);
                 });
 
-        // td for FATS
-        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
-            .text(function(d){
-                return calcPersonalValue(d, 'fat');
-            })
-            .style('background-color', function(d){
-                return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
-                // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
-                // if(percentage > 100){
-                //     percentage = 100;
-                // }
-                // return colorFill(percentage);
-            });
-
-        // td for ENERGY
-        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
-            .text(function(d){
-                return calcPersonalValue(d, 'energy');
-            })
-            .style('background-color', function(d){
-                return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
-                // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
-                // if(percentage > 100){
-                //     percentage = 100;
-                // }
-                // return colorFill(percentage);
-            });
-
         model.notifyObservers("recipeListReady");
     }; 
 
@@ -144,10 +145,10 @@ var SearchView = function(container,model){
             return (returnText / model.dailyProteins).toFixed(1) + '%';
         }
         else if(type === 'carbohydrate'){
-            return (returnText / model.carbArray[1]).toFixed(1) + '%';
+            return (returnText / model.dailyCarbs).toFixed(1) + '%';
         }
         else if(type === 'fat'){
-            return (returnText / model.fatArray[1]).toFixed(1) + '%';   
+            return (returnText / model.dailyFats).toFixed(1) + '%';   
         }
         else if(type === 'energy'){
             return (returnText / model.dailyCalories).toFixed(1) + '%';
