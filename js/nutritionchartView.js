@@ -305,6 +305,8 @@ var NutritionChartView = function (container, model) {
 		var rect = container.selectAll(".layer").selectAll("rect");
 		y.domain([0, yGroupMax]);
 
+		yAxis.scale(y);
+		container.select(".y.axis").transition().duration(500).call(yAxis);
 		rect.transition()
 		.duration(500)
 		.delay(function(d, i) { return i * 10; })
@@ -319,6 +321,8 @@ var NutritionChartView = function (container, model) {
 
 		var rect = container.selectAll("rect");
 		y.domain([0, yStackMax]);
+		yAxis.scale(y);
+		container.select(".y.axis").transition().duration(500).call(yAxis);
 		rect.transition()
 		.duration(500)
 		.delay(function(d, i) { return i * 10; })
