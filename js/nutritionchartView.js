@@ -2,7 +2,7 @@ var NutritionChartView = function (container, model) {
 	var axises = ["energy","protein","fat","sodium","carbohydrate"];
 	var view = this;
 	view.container = container;
-	view.agg = true;
+	view.agg = false;
 	model.addObserver(this);
 
 	var margin = {top: 40, right: 20, bottom: 40, left: 40},
@@ -66,10 +66,14 @@ var NutritionChartView = function (container, model) {
         });
         selected.style("opacity",0.5);
         rest.style("opacity",1);
+        	///////////////////////////////////////////
+        //selected.style("opacity",1);
+        //rest.style("opacity",0.5);
     };
 
 
 	var transFormIngredient = function(ingredient){
+		console.log(ingredient);
 		var outIngredient = {}
 		outIngredient["key"] = ingredient["id"];
 		outIngredient["values"] = [];

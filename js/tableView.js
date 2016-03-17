@@ -1,3 +1,4 @@
+
 var TableView = function (container, model) {
     
     var view = this;
@@ -12,7 +13,7 @@ var TableView = function (container, model) {
             .attr("id","recipeName")
             .attr("placeholder","Name your recipe!")
             .attr("maxlength","30")
-            .style("width","70%")
+            .style("width","60%")
             .classed("form-control",true);
 
         view.btnSave = form.append("button")
@@ -140,6 +141,9 @@ var TableView = function (container, model) {
         });
         selected.style("opacity",0.5);
         rest.style("opacity",1);
+/////////////////////////////////////////////////////////////
+        //selected.style("opacity",1);
+        //rest.style("opacity",0.6);
     };
 
     view.setOverlay = function(opacity){
