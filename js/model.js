@@ -164,7 +164,7 @@ var Model = function () {
 
 
 
-var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Vegetables":0};
+var count={"Liquid":-5,"Fruits":-5,"Nuts and Seeds":-5,"Spices and Herbs":-5, "Vegetables":-5};
     this.addIngredient = function(id,amount){
         var ingredient = model.getIngredient(id);
         if(model.ingredientIds.indexOf(ingredient.id) > -1){
@@ -177,20 +177,20 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
             ingredient["amount"] = amount;
             var c = model.categoricalColors[ingredient.food_group_name];
 
-            var satscale = d3.scale.linear().domain([0,100]).range([Math.max(c[1] - 25, 30), Math.min(c[1] + 25,90)]);
-            var sat = satscale(Math.random()*100);
-            //var sat=       
+            //var satscale = d3.scale.linear().domain([0,100]).range([Math.max(c[1] - 25, 30), Math.min(c[1] + 25,90)]);
+            //var sat = satscale(Math.random()*100);
+            var sat= c[1];     
 //new
             var tempName=ingredient.food_group_name;
             var i=count[tempName];
             //console.log(i);
-            if(i>6){
-                i=0;
+            if(i>1){
+                i=-5;
             }else{
                 i+=1;
             }
             count[tempName]=i;
-            var light=45+i*7;
+            var light=77+i*7;
 
 
             //var lightscale = d3.scale.linear().domain([0,100]).range([Math.max(c[2] - 25, 40), Math.min(c[2] + 25,80)]);

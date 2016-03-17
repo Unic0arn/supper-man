@@ -355,7 +355,7 @@ tr{
   display:flex;
   justify-content:flex-end;
   width:55vw;
-  /*padding-right:10px;*/
+  padding-right:10px;
   height:7vh;
 }
 #searchTableHeader > div{
@@ -368,7 +368,7 @@ tr{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /*padding: 0 10px;*/
+  padding: 0 10px;
   height: 100px;
   border: solid 1px;
 }
@@ -417,6 +417,15 @@ tr{
 /* */
 .btn{
   padding: 4px 15px 4px 15px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#smallImg{
+  
+  margin-right: 3px; 
+}
+.hihi{
+  
 }
 
 

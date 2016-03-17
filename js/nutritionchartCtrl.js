@@ -4,9 +4,9 @@ var NutritionChartCtrl = function (view, model) {
 	var NutritionChartCtrl = this;
 	view.container.select("#agg-switch").on("click", function(){
 		if(view.agg){
-			this.innerHTML = 'Aggregate!';
+			this.innerHTML = '<img id="smallImg" src="img/stack.png"> Aggregate!';
 		}else{
-			this.innerHTML = 'Divide!';
+			this.innerHTML = '<img id="smallImg" src="img/chart.png"> Divide!';
 		}
 		view.change();
 		model.notifyObservers("changeAgg");
