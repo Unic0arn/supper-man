@@ -169,9 +169,11 @@ body {
 
 
 #agg-switch{
-  position: relative;
-  left:85%;
-  top: -400px;
+  /*position: relative;*/
+    background-color: #f3f3eb; 
+    width: 62px;
+    height: 40px;
+    margin-left: 10px;
 }
 
 .wholeContainer{
@@ -426,10 +428,6 @@ tr{
   
   margin-right: 3px; 
 }
-.hihi{
-  
-}
-
 
 .selectedIngredientBar{
   stroke: black;

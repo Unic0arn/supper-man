@@ -2,7 +2,7 @@ var NutritionChartCtrl = function (view, model) {
 
 	model.addObserver(this);
 	var NutritionChartCtrl = this;
-	view.container.select("#agg-switch").on("click", function(){
+	d3.select("#agg-switch").on("click", function(){
 		if(view.agg){
 			this.innerHTML = '<img id="smallImg" src="img/stack.png"> ';
 		}else{

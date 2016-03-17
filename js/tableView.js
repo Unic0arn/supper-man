@@ -6,27 +6,33 @@ var TableView = function (container, model) {
     model.addObserver(view);
 
     var initNameInput = function(){
-        var form = container.insert("div",":first-child").classed("form-inline",true).style("width","100%");
+        var form = container.insert("div",":first-child").classed("form-inline",true).style("width","100%").style("height",window.innerHeight * 0.5);
         
         view.nameInput = form.append("input")
             .attr("type","text")
             .attr("id","recipeName")
             .attr("placeholder","Name your recipe!")
             .attr("maxlength","30")
-            .style("width","60%")
+            .style("width","50%")
             .classed("form-control",true);
-
-        view.btnSave = form.append("button")
-            .classed("btn btn-default saveRecipeBtn",true)
-            .append("img").attr('src','img/save.png');
 
         view.btnNew = form.append("button")
             .classed("btn btn-default newRecipeBtn",true)
             .append("img").attr('src','img/new.png');
 
+        view.btnSave = form.append("button")
+            .classed("btn btn-default saveRecipeBtn",true)
+            .append("img").attr('src','img/save.png');
+
+
         view.btnCamera = form.append("button")
             .classed("btn btn-default newRecipeBtn",true)
             .append("img").attr('src','img/photo.png');
+
+        view.btnAgg = form.append("button")
+            .classed("btn btn-default",true)
+            .attr("id","agg-switch")
+            .append("img").attr('src','img/stack.png');
 
         view.inputFile = form.append("input")
             .attr("type","file")

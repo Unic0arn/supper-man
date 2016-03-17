@@ -5,11 +5,11 @@ $(function (){
     var startOverviewView = new StartOverviewView(d3.select('#start-overView'), model);
     var startOverviewCtrl = new StartOverviewCtrl(startOverviewView, model);
 
-    var nutritionChartView = new NutritionChartView(d3.select('.nutritionChartContainer'), model);
-    var nutritionChartCtrl = new NutritionChartCtrl(nutritionChartView, model);
-
     var tableView = new TableView(d3.select('.tableContainer'), model);
     var tableCtrl = new TableCtrl(tableView, model);
+
+    var nutritionChartView = new NutritionChartView(d3.select('.nutritionChartContainer'), model);
+    var nutritionChartCtrl = new NutritionChartCtrl(nutritionChartView, model);
     
     var sunburstView = new SunburstView(d3.select('.sunburstContainer'), model);
     var sunburstCtrl = new SunburstCtrl(sunburstView, model);
