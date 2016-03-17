@@ -18,15 +18,15 @@ var TableView = function (container, model) {
 
         view.btnSave = form.append("button")
             .classed("btn btn-default saveRecipeBtn",true)
-            .text("Save");
+            .append("img").attr('src','img/save.png');
 
         view.btnNew = form.append("button")
             .classed("btn btn-default newRecipeBtn",true)
-            .text("New");
+            .append("img").attr('src','img/new.png');
 
         view.btnCamera = form.append("button")
             .classed("btn btn-default newRecipeBtn",true)
-            .text("Photo");
+            .append("img").attr('src','img/photo.png');
 
         view.inputFile = form.append("input")
             .attr("type","file")
@@ -80,7 +80,7 @@ var TableView = function (container, model) {
                 }
             });
 
-        d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').text('Remove');
+        d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').append("img").attr('src','img/remove.png');
         model.notifyObservers('tableRowReady');
     };
     
