@@ -19,7 +19,7 @@ var SearchCtrl = function (view, model) {
           return "0vw";
         }else{
           model.search = false;
-          return "-55vw";
+          return "-60vw";
         }
       }).duration(500);
   };
