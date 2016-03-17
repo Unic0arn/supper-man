@@ -22,6 +22,7 @@ var StartOverviewCtrl = function (view, model) {
       model.calculateIntakeFats();
 
       model.notifyObservers('newRecipe');
+    
     }else{
       console.log('save default data!');
       model.personalData = false;

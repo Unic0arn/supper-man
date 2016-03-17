@@ -110,7 +110,8 @@ var StartOverviewView = function(container,model){
             if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
                 e.preventDefault();
                 heightText.text("Special characters are not allowed. Use only numbers.");
-        }});
+            }
+        });
 
         view.container.append("br");
         view.container.append("br");
@@ -131,6 +132,7 @@ var StartOverviewView = function(container,model){
 
         view.container.startBtn = buttonContainer.append("button").classed('btn btn-success', true).text("start!").style('font-size', '24px').style('margin','10px 10px').style('width','90px').style('height','50px');
         view.container.skipBtn = buttonContainer.append("button").classed('btn btn-success', true).text("skip").style('margin','10px 10px').style('background-color','grey').style('margin-top','0%');
+    
     };
 
     initialize();
