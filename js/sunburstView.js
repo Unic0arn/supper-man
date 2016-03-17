@@ -134,7 +134,7 @@ var arc = d3.svg.arc()
     var cuttingBoard = model.categoricalColors;
 
     if (node.name == "ingredients"){
-      return "#CCC";
+      return "#e6e6e6";
     }else if (node.name in cuttingBoard){
       var c = cuttingBoard[node.name];
       return "hsla("+c[0]+","+c[1]+"%,"+c[2]+"%,"+c[3]+")";

@@ -6,7 +6,7 @@ var TableView = function (container, model) {
     model.addObserver(view);
 
     var initNameInput = function(){
-        var form = container.insert("div",":first-child").classed("form-inline",true);
+        var form = container.insert("div",":first-child").classed("form-inline",true).style("width","100%");
         
         view.nameInput = form.append("input")
             .attr("type","text")
