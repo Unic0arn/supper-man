@@ -263,8 +263,8 @@ body {
   width: 580px;
   position: relative;
 }
-.nutritionChartContainer{
-  float: left;
+.nutritionChartContainer svg{
+  margin-top: 10px;
 }
 
 .ingredientTableRow{
