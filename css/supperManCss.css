@@ -189,9 +189,24 @@ body {
   /*margin-top:7vw;*/
   margin-bottom: 2vw;
 }
+
+.saveRecipeBtn img{
+    width: 40px;
+    height: 40px;
+    -moz-border-radius:12px;
+	-webkit-border-radius:12px;
+	border-radius:12px; 
+    }
+    
+.newRecipeBtn img{
+    width: 40px;
+    height: 40px;
+    -moz-border-radius:12px;
+	-webkit-border-radius:12px;
+	border-radius:12px;
+    }
     
  /*REMOVE BUTTON*/  
-
 
 .removeBtn {
 	background-color:#FF6060;
@@ -283,7 +298,7 @@ tr{
 #searchContainer{
   width: 60vw;
   height: 100vh;
-  background-color: #F1F1F1;
+  background-color: #f3f3eb;
   position: absolute;
   box-shadow:3px 0px 3px grey;
   top: 0;
@@ -293,8 +308,12 @@ tr{
 }
 
 #searchFilterContainer{
-  background-color: #F1F1F1;
+
+
+  background-color: Lightgrey;
   min-height: 5vh;
+  background-color: #f3f3eb;
+  height: 50px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
