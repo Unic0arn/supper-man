@@ -1,5 +1,5 @@
 var NutritionChartView = function (container, model) {
-	var axises = ["energy","protein","fat","sodium","carbohydrate"];
+	var axises = ["energy","protein","fat","carbohydrate"];
 	var view = this;
 	view.container = container;
 	view.agg = false;

@@ -45,75 +45,44 @@ var StartOverviewView = function(container,model){
 
         // Age
         view.container.append("text").text("Age: ").style('font-weight','bold').style('font-size','16px');
-        view.container.append("input")
-         .attr('type', 'button')
-         .attr('id','minusAge')
-         .attr('value','-')
-         .attr('onClick','ageInput.value = Math.max(0,(ageInput.value-1))');
 
          view.container.append("input")
-         .attr('type', 'button')
+         .attr('type', 'number')
          .attr('id','ageInput')
          .attr('name','age')
          .attr('value','18')
          .attr('min','0')
-         .style('width','30px');
+         .style('width','40px');
 
-        view.container.append("input")
-         .attr('type', 'button')
-         .attr('id','plusAge')
-         .attr('value','+')
-         .attr('onClick','ageInput.value = Math.max(0,(+ageInput.value+1))');
 
         view.container.append("br");
         view.container.append("br");
 
         //Weight
         view.container.append("text").text("Weight(kg): ").style('font-weight','bold').style('font-size','16px');
-         view.container.append("input")
-         .attr('type', 'button')
-         .attr('id','minusWeight')
-         .attr('value','-')
-         .attr('onClick','weightInput.value = Math.max(0,(weightInput.value-1))');
 
          view.container.append("input")
-         .attr('type', 'button')
+         .attr('type', 'number')
          .attr('id','weightInput')
          .attr('name','weight')
          .attr('value','70')
          .attr('min','0')
-         .style('width','30px');
+         .style('width','40px');
 
-        view.container.append("input")
-         .attr('type', 'button')
-         .attr('id','plusWeight')
-         .attr('value','+')
-         .attr('onClick','weightInput.value = Math.max(0,(+weightInput.value+1))');
 
         view.container.append("br");
         view.container.append("br");
 
         //Height
         view.container.append("text").text("Height(cm): ").style('font-weight','bold').style('font-size','16px');
-         view.container.append("input")
-         .attr('type', 'button')
-         .attr('id','minusHeight')
-         .attr('value','-')
-         .attr('onClick','heightInput.value = Math.max(0,(heightInput.value-1))');
 
          view.container.append("input")
-         .attr('type', 'button')
+         .attr('type', 'number')
          .attr('id','heightInput')
-         .attr('name','weight')
+         .attr('name','height')
          .attr('value','170')
          .attr('min','0')
-         .style('width','30px');
-
-        view.container.append("input")
-         .attr('type', 'button')
-         .attr('id','plusHeight')
-         .attr('value','+')
-         .attr('onClick','heightInput.value = Math.max(0,(+heightInput.value+1))');
+         .style('width','40px');
 
         view.container.append("br");
         view.container.append("br");
@@ -130,16 +99,10 @@ var StartOverviewView = function(container,model){
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'heavy').attr('id','exerciseHeavy');
         view.container.append('text').text("Heavy ").style('font-size','14px');
 
+        var buttonContainer = view.container.append('div').style('margin-top','50px');
 
-
-
-        
-
-
-        view.container.append("div").append("section");
-
-        view.container.startBtn = view.container.append("button").classed('btn btn-success', true).text("start!");
-        view.container.skipBtn = view.container.append("button").classed('btn btn-success', true).text("skip!");
+        view.container.startBtn = buttonContainer.append("button").classed('btn btn-success', true).text("start!").style('margin','10px 10px');
+        view.container.skipBtn = buttonContainer.append("button").classed('btn btn-success', true).text("skip!").style('margin','10px 10px');
     };
 
     initialize();

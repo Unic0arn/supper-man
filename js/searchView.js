@@ -16,13 +16,6 @@ var SearchView = function(container,model){
         // collapse button
         view.container.collapseBtn = view.container.append('img').attr('src','img/search.png').style('width','30px').style('position','absolute').style('right','7px').style('top', '2%').style('margin','5px 5px').style('-webkit-transform','rotate(-90deg)').style('-moz-transform','rotate(-90deg)');
 
-           
-        /*
-        view.container.append('button')
-            .text('Search')
-            .classed('btn btn-success', true)
-            .style('position','absolute').style('right','-15px').style('top', '40%').style('margin','5px 5px').style('-webkit-transform','rotate(-90deg)').style('-moz-transform','rotate(-90deg)');
-        */
 
         // filter Container
         var filters = view.container.append('div').attr('id', 'searchFilterContainer');

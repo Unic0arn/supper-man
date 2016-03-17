@@ -229,7 +229,15 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
     };
 
     this.calculateIngredient = function(ingredient){
-        var daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50,"sodium":2400};
+        var daily_intake;
+        if(model.personalData){
+            // calc personal RDI
+            console.log('SETTING PERSONAL DATA');
+            daily_intake = {"energy":model.dailyCalories,"fat":model.fatArray[1],"carbohydrate":model.carbArray[1],"protein":model.dailyProteins};
+        }else{
+            console.log('USING DEFAULT VALUES');
+            daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50};
+        }
         var outIngredient = {};
         d3.keys(ingredient).forEach(function(d){
             if(d3.keys(daily_intake).indexOf(d) > -1){
@@ -248,29 +256,24 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         //Men: BMR = 66.5 + ( 13.75 x weight in kg ) + ( 5.003 x height in cm ) – ( 6.755 x age in years )
         //Women: BMR = 655.1 + ( 9.563 x weight in kg ) + ( 1.850 x height in cm ) – ( 4.676 x age in years )
         // returns amount (I think...)
-        var gender = 'M';
+
         model.dailyCalories = 0;
-        var weight = 80;
-        var height = 179;
-        var age = 25;
-        var exercise = 'little';
-        if(gender === 'M'){
+
+        if(model.gender === 'male'){
             //BMR = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
-            model.dailyCalories = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
+            model.dailyCalories = 66.5 + (13.75 * model.weight) + (5.003 * model.height) - (6.755 * model.age);
         }else{
-            model.dailyCalories = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age);
+            model.dailyCalories = 655.1 + (9.563 * model.weight) + (1.850 * model.height) - (4.676 * model.age);
         }
 
-        if(exercise === 'none'){
+        if(model.exercise === 'none'){
             model.dailyCalories *= 1.2;
-        }else if(exercise === 'little'){
+        }else if(model.exercise === 'light'){
             model.dailyCalories *= 1.375;
-        }else if(exercise === 'moderate'){
+        }else if(model.exercise === 'moderate'){
             model.dailyCalories *= 1.55;
-        }else if(exercise === 'heavy'){
+        }else if(model.exercise === 'heavy'){
             model.dailyCalories *= 1.725;
-        }else if(exercise === ' very heavy'){
-            model.dailyCalories *= 1.9;
         }
     };
 
@@ -284,9 +287,9 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         // Recommended daily intake of carbs in (grams). 
         // Carbs grams = (55%) to (75%) of the total calories / 3.75
         model.carbArray = [];
-        var dailyCalories = model.dailyCalories;
-        var minimumCarbs =  (dailyCalories * 0.55) / 3.75;
-        var maximumCarbs = (dailyCalories * 0.75) / 3.75;
+
+        var minimumCarbs =  (model.dailyCalories * 0.55) / 3.75;
+        var maximumCarbs = (model.dailyCalories * 0.75) / 3.75;
         model.carbArray.push(minimumCarbs);
         model.carbArray.push(maximumCarbs);
     };
@@ -299,14 +302,13 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         var saturatedFat;
         model.fatArray = [];
 
-        var age = 25;
-        if(age > 1 && age < 4){
+        if(model.age > 1 && model.age < 4){
             minimumFat = (dailyCalories * 0.3) / 9;
             maximumFat = (dailyCalories * 0.4) / 9;
-        }else if(age > 3 && age < 19){
+        }else if(model.age > 3 && model.age < 19){
             minimumFat = (dailyCalories * 0.25) / 9;
             maximumFat = (dailyCalories * 0.35) / 9;
-        }else if(age > 18){
+        }else if(model.age > 18){
             minimumFat = (dailyCalories * 0.2) / 9;
             maximumFat = (dailyCalories * 0.35) / 9;
         }
@@ -327,9 +329,6 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
 
 
     this.loadCsv("data/reduced.csv");
-    model.calculateIntakeCalories();
-    model.calculateIntakeProteins();
-    model.calculateIntakeCarbs();
-    model.calculateIntakeFats();
+    
 
 };
