@@ -22,11 +22,11 @@ var Model = function () {
 
 
      model.categoricalColors = {
-        "Fruits":[224, 59, 35, 1],//dark blue
-        "Liquid":[234, 36, 57, 1],//light blue
-        "Nuts and Seeds":[90, 40, 58, 1], //green
-        "Spices and Herbs":[50, 96, 48, 1],//yellow
-        "Vegetables":[16, 96, 43, 1]};//red
+        "Fruits":[194, 65, 60, 1],//dark blue
+        "Liquid":[234, 65, 60, 1],//light blue
+        "Nuts and Seeds":[90, 65, 60, 1], //green
+        "Spices and Herbs":[50, 65, 60, 1],//yellow
+        "Vegetables":[16, 65, 60, 1]};//red
      
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");

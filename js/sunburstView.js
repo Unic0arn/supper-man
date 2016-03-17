@@ -121,20 +121,21 @@ var arc = d3.svg.arc()
     var cuttingBoard = model.categoricalColors;
 
     if (node.name == "ingredients"){
-      return "white";
+      return "#CCC";
     }
     if (node.name in cuttingBoard){
       var c = cuttingBoard[node.name];
       return "hsla("+c[0]+","+c[1]+"%,"+c[2]+"%,"+c[3]+")";
     }else{
       o=node.depth;
+      console.log(i, node.name);
+      i = i%2;
+      o = 50 + 10*o - 8*i;
       while (node.parent.name != "ingredients"){
         node = node.parent;
       }
       var c = cuttingBoard[node.name];
-      
-      i = i%2;
-      o = 50 + 10*o - 8*i;
+
     return "hsla("+c[0]+","+c[1]+"%,"+o+"%,"+c[3]+")";
     }
   }
