@@ -16,9 +16,11 @@ var StartOverviewCtrl = function (view, model) {
 
   view.container.startBtn.on('click', function(){
     ctrl.savePersonalData(true);
+    view.container.style('display','none');
   });
   view.container.skipBtn.on('click', function(){
     ctrl.savePersonalData(false);
+    view.container.style('display','none');
   });
 
   this.update = function(){
