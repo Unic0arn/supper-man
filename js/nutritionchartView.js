@@ -5,6 +5,8 @@ var NutritionChartView = function (container, model) {
 	view.agg = false;
 	model.addObserver(this);
 
+	var formatPercent = d3.format("0%");
+
 	var margin = {top: 40, right: 40, bottom: 40, left: 40},
 	width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
 	height = window.innerHeight * 0.6 - margin.top - margin.bottom;
@@ -58,6 +60,7 @@ var NutritionChartView = function (container, model) {
 
 	var updateSelectedIngredient = function(id){
         var layers = view.container.selectAll(".layer");
+        console.log(layers);
         var selected = layers.filter(function(d){
             return d.key === id;
         });
@@ -65,8 +68,22 @@ var NutritionChartView = function (container, model) {
             return d.key != id;
         });
         selected.classed("selectedIngredientBar",true);
+        selected.selectAll("text")
+        .data(function(d){console.log(d.values); return d.values;})
+        .enter().append("text")
+        .text(function(d){
+        	console.log(d);
+        	return formatPercent(d.value);
+        })
+        .attr("transform",function(d,i){
+        	return "translate(" + x(d.key) + ","+y(d.y0 + d.y)+")";
+        });
+
+
         rest.classed("selectedIngredientBar",false);
-        	
+        rest.selectAll("text")
+        .remove();
+
         	///////////////////////////////////////////
         //selected.style("opacity",1);
         //rest.style("opacity",0.5);
@@ -74,7 +91,7 @@ var NutritionChartView = function (container, model) {
 
 
 	var transFormIngredient = function(ingredient){
-		console.log(ingredient);
+		//console.log(ingredient);
 		var outIngredient = {}
 		outIngredient["key"] = ingredient["id"];
 		outIngredient["values"] = [];
@@ -97,7 +114,6 @@ var NutritionChartView = function (container, model) {
 		.orient("bottom");
 
 		y.domain([0, 1])
-		var formatPercent = d3.format("0%");
 		yAxis.scale(y)
 		.tickSize(1)
 		.tickPadding(6)
@@ -186,6 +202,8 @@ var NutritionChartView = function (container, model) {
 		.style("fill", function(d, i) { return d.color; });
 
 		layer.exit().remove();
+
+
 		var rect = layer.selectAll("rect")
 		.data(function(d) { return d.values; });
 
