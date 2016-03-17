@@ -8,7 +8,7 @@ var Model = function () {
     model.observers = [];
     model.filters = [];
     model.search = false;
-    model.selectedIngredient;
+    model.selectedIngredient = 0;
 
     // Default PERSONAL RDI Values
     model.dailyCalories = 2000;
