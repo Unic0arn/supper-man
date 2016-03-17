@@ -24,14 +24,14 @@ var SearchView = function(container,model){
             .append("div")
                 .style('background-color', function(d){
                     var categoryColor = model.categoricalColors[model.getIngredient(d).food_group_name];
-                    console.log('hsla(' + categoryColor[0] + ',' + categoryColor[1] + '%,' + categoryColor[2] + '%,' + categoryColor[3] + ')');
                     return 'hsla(' + categoryColor[0] + ',' + categoryColor[1] + '%,' + categoryColor[2] + '%,' + categoryColor[2] + ')';
                 })
+                .style('color','white')
             .append("span").text(function(d){
                 return model.getIngredient(d).name;
             });
         view.container.filterItem = filters.selectAll("div");
-        view.container.filterItem.append("img").attr('src','img/remove.png').style('width','14px').classed("glyphicon glyphicon-remove filterRemove", true);
+        view.container.filterItem.append("span").style('width','14px').style('color','white').classed("glyphicon glyphicon-remove filterRemove", true);
         }else{
             filters.append("div").append("span").text(function(f){
                 return 'Use the sunburst to select ingredients for filtering!';
