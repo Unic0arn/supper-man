@@ -112,23 +112,21 @@ var arc = d3.svg.arc()
       }
     }
     finalList = {"name":"ingredients","children":finalList};
-    console.log(finalList);
   return finalList;
   };
   
-  var color = function(node,i){    
+  var color = function(node,i){
     //return "rgb(255,0,0)";
     var cuttingBoard = model.categoricalColors;
 
     if (node.name == "ingredients"){
       return "#CCC";
-    }
-    if (node.name in cuttingBoard){
+    }else if (node.name in cuttingBoard){
       var c = cuttingBoard[node.name];
       return "hsla("+c[0]+","+c[1]+"%,"+c[2]+"%,"+c[3]+")";
     }else{
+      i = node.parent.children.indexOf(node);    
       o=node.depth;
-      console.log(i, node.name);
       i = i%2;
       o = 50 + 10*o - 8*i;
       while (node.parent.name != "ingredients"){
