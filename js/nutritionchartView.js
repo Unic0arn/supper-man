@@ -61,9 +61,6 @@ var NutritionChartView = function (container, model) {
 
 	var updateSelectedIngredient = function(id){
         var layers = view.container.selectAll(".layer");
-        console.log(model.selectedIngredient);
-        console.log(layers);
-		if(layers[0].length == 0) return;
         var selected = layers.filter(function(d){
             return d.key === id;
         });
