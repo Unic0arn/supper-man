@@ -44,7 +44,7 @@ var SearchView = function(container,model){
 
         // tableheader Container
         var tableHeader = view.container.append('div').attr('id', 'searchTableHeader');
-        tableHeader.append('span').text('Click on a category to sort recipes!').style('position','absolute').style("left","20%").style('top',"7%");
+        tableHeader.append('span').text('Click on a category to sort recipes!').style('position','absolute').style("left","2%").style('top',"10%");
        var tableArrows = tableHeader.append('span').style('position','relative').style('width','20px').style('height','100%');
        tableArrows.append('img').attr('src','img/arrowUp.png')
            .style('position', 'absolute')
@@ -78,7 +78,7 @@ var SearchView = function(container,model){
                 .style('height', '100%')
                 .style('border', function(d){
                     if(d === model.sortCategory){
-                        return 'solid 1px green';
+                        return 'solid 1px darkgrey';
                     }
                 });
         view.container.tableBtn.append('div')
@@ -107,6 +107,36 @@ var SearchView = function(container,model){
             var listHeader = listItem.append('div').style('display', 'flex').style('flex-direction','column');
             listHeader.append('h4').classed('recipeName', true).text(function(d){return d.name;});
             //listHeader.append('div').classed('recipeRating', true).text('sexy rating');
+        var listItem = list.selectAll('div')
+            .data(model.filterSearch()).enter()
+                .append('div')
+                    .classed('recipeListItem',true);
+
+        listItem.append('img').classed('recipeImg', true).attr("src",function(d){return d.img;});
+
+        var listHeader = listItem.append('div').style('display', 'flex').style('flex-direction','column');
+        listHeader.append('h4').classed('recipeName', true).text(function(d){return d.name;});
+        //listHeader.append('div').classed('recipeRating', true).text('sexy rating');
+
+
+        var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
+
+        // td for ENERGY
+        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
+            .text(function(d){
+                return calcPersonalValue(d, 'energy');
+            })
+            .style('background-color', function(d){
+                 return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+//                var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+//                if(percentage > 100){
+//                    percentage = 100;
+//                }
+//                return colorFill(percentage);
+            })
+            .style('color',function(d){
+                return "rgba(255,255,255,0.8)";
+            });
 
 
             var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
