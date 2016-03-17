@@ -9,24 +9,22 @@ var Model = function () {
     model.filters = [];
     model.search = false;
     model.selectedIngredient;
-/*
-    model.categoricalColors = {
-     "Liquid":[45, 100, 90, 1],
-     "Fruits":[162, 70, 66, 1],
-     "Nuts and Seeds":[22, 100, 59, 1],
-     "Spices and Herbs":[48, 100, 50, 1],
-     "Vegetables":[60, 85, 63, 1],
-     //"Vegetables":[0, 100, 75, 1],
-     "":[240, 80, 50, 1]};
-*/
+
+    // Default PERSONAL RDI Values
+    model.dailyCalories = 2000;
+    model.dailyFats = 65;
+    model.dailyCarbs = 300;
+    model.dailyProteins = 50;
+
+
 
 
      model.categoricalColors = {
-        "Fruits":[224, 59, 35, 1],//dark blue
-        "Liquid":[234, 36, 57, 1],//light blue
-        "Nuts and Seeds":[90, 40, 58, 1], //green
-        "Spices and Herbs":[50, 96, 48, 1],//yellow
-        "Vegetables":[16, 96, 43, 1]};//red
+        "Fruits":[194, 65, 60, 1],//dark blue
+        "Liquid":[234, 65, 60, 1],//light blue
+        "Nuts and Seeds":[90, 65, 60, 1], //green
+        "Spices and Herbs":[50, 65, 60, 1],//yellow
+        "Vegetables":[16, 65, 60, 1]};//red
      
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
@@ -71,19 +69,23 @@ var Model = function () {
     };
 
     this.filterSearch = function(){
-        result = model.recipeDB.filter(function(d){
-            var push = true;
-            var ingredients = d.ingredients.map(function(i){return i.id;});
-                for(var f in model.filters){
-                    if(ingredients.indexOf(model.filters[f]) == -1){
-                        push = false;
-                        break;
+        if (model.filters.length === 0){
+            return model.recipeDB;
+        }
+        else{
+            console.log('ELSAR');
+            var result = model.recipeDB.filter(function(d){
+                var push = true;
+                var ingredients = d.ingredients.map(function(i){return i.id;});
+                    for(var f in model.filters){
+                        if(ingredients.indexOf(model.filters[f]) == -1){
+                            push = false;
+                        }
                     }
-                }
-            return push;
-
-        });
-        return result;
+                return push;
+            });
+            return result;
+        }
     };
 
     this.editRecipe = function(id){
@@ -240,7 +242,15 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
     };
 
     this.calculateIngredient = function(ingredient){
-        var daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50,"sodium":2400};
+        var daily_intake;
+        if(model.personalData){
+            // calc personal RDI
+            console.log('SETTING PERSONAL DATA');
+            daily_intake = {"energy":model.dailyCalories,"fat":model.dailyFats,"carbohydrate":model.dailyCarbs,"protein":model.dailyProteins};
+        }else{
+            console.log('USING DEFAULT VALUES');
+            daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50};
+        }
         var outIngredient = {};
         d3.keys(ingredient).forEach(function(d){
             if(d3.keys(daily_intake).indexOf(d) > -1){
@@ -259,29 +269,24 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         //Men: BMR = 66.5 + ( 13.75 x weight in kg ) + ( 5.003 x height in cm ) – ( 6.755 x age in years )
         //Women: BMR = 655.1 + ( 9.563 x weight in kg ) + ( 1.850 x height in cm ) – ( 4.676 x age in years )
         // returns amount (I think...)
-        var gender = 'M';
+
         model.dailyCalories = 0;
-        var weight = 80;
-        var height = 179;
-        var age = 25;
-        var exercise = 'little';
-        if(gender === 'M'){
+
+        if(model.gender === 'male'){
             //BMR = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
-            model.dailyCalories = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
+            model.dailyCalories = 66.5 + (13.75 * model.weight) + (5.003 * model.height) - (6.755 * model.age);
         }else{
-            model.dailyCalories = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age);
+            model.dailyCalories = 655.1 + (9.563 * model.weight) + (1.850 * model.height) - (4.676 * model.age);
         }
 
-        if(exercise === 'none'){
+        if(model.exercise === 'none'){
             model.dailyCalories *= 1.2;
-        }else if(exercise === 'little'){
+        }else if(model.exercise === 'light'){
             model.dailyCalories *= 1.375;
-        }else if(exercise === 'moderate'){
+        }else if(model.exercise === 'moderate'){
             model.dailyCalories *= 1.55;
-        }else if(exercise === 'heavy'){
+        }else if(model.exercise === 'heavy'){
             model.dailyCalories *= 1.725;
-        }else if(exercise === ' very heavy'){
-            model.dailyCalories *= 1.9;
         }
     };
 
@@ -294,12 +299,14 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
     this.calculateIntakeCarbs = function(){
         // Recommended daily intake of carbs in (grams). 
         // Carbs grams = (55%) to (75%) of the total calories / 3.75
-        model.carbArray = [];
-        var dailyCalories = model.dailyCalories;
-        var minimumCarbs =  (dailyCalories * 0.55) / 3.75;
-        var maximumCarbs = (dailyCalories * 0.75) / 3.75;
-        model.carbArray.push(minimumCarbs);
-        model.carbArray.push(maximumCarbs);
+        // model.carbArray = [];
+        model.dailyCarbs = 0;
+
+        var minimumCarbs =  (model.dailyCalories * 0.55) / 3.75;
+        var maximumCarbs = (model.dailyCalories * 0.75) / 3.75;
+        // model.carbArray.push(minimumCarbs);
+        // model.carbArray.push(maximumCarbs);
+        model.dailyCarbs = maximumCarbs;
     };
 
     this.calculateIntakeFats = function(){
@@ -308,24 +315,25 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         var minimumFat;
         var maximumFat;
         var saturatedFat;
-        model.fatArray = [];
+        // model.fatArray = [];
+        model.dailyFats = 0;
 
-        var age = 25;
-        if(age > 1 && age < 4){
+        if(model.age > 1 && model.age < 4){
             minimumFat = (dailyCalories * 0.3) / 9;
             maximumFat = (dailyCalories * 0.4) / 9;
-        }else if(age > 3 && age < 19){
+        }else if(model.age > 3 && model.age < 19){
             minimumFat = (dailyCalories * 0.25) / 9;
             maximumFat = (dailyCalories * 0.35) / 9;
-        }else if(age > 18){
+        }else if(model.age > 18){
             minimumFat = (dailyCalories * 0.2) / 9;
             maximumFat = (dailyCalories * 0.35) / 9;
         }
 
         saturatedFat = (dailyCalories * 0.1) / 9;
-        model.fatArray.push(minimumFat);
-        model.fatArray.push(maximumFat);
-        model.fatArray.push(saturatedFat);
+        model.dailyFats = maximumFat;
+        // model.fatArray.push(minimumFat);
+        // model.fatArray.push(maximumFat);
+        // model.fatArray.push(saturatedFat);
     };
 
     this.calculateDailySodiums = function(){
@@ -333,14 +341,10 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         var minimumSodium = 250;
         var maximumSodium = 500;
         model.sodiumArray = [];
-        model.sodiumArray;
     };
 
 
     this.loadCsv("data/reduced.csv");
-    model.calculateIntakeCalories();
-    model.calculateIntakeProteins();
-    model.calculateIntakeCarbs();
-    model.calculateIntakeFats();
+    
 
 };

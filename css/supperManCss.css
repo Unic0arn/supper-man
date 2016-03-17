@@ -190,6 +190,11 @@ body {
   margin-bottom: 2vw;
 }
 
+    
+#recipeName{
+        height: 50px;
+    }
+    
 .saveRecipeBtn img{
     width: 40px;
     height: 40px;
@@ -322,7 +327,7 @@ tr{
 
 #searchFilterContainer > div{
   border-radius: 50px;
-  background-color: #F1F1F1;
+  /*background-color: #F1F1F1;*/
   font-size: 14px;
   padding: 5px 10px;
   margin: 5px 5px;
