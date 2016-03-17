@@ -273,7 +273,7 @@ body {
 
 .table{
  height:220px;
- width: 600px; 
+ width: 100%; 
  position: relative;
 }
 
