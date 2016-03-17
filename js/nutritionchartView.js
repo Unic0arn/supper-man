@@ -1,5 +1,6 @@
 var NutritionChartView = function (container, model) {
 	var axises = ["energy","protein","fat","carbohydrate"];
+	var units = {"energy":"kcal","protein":"g","fat":"g","carbohydrate":"g"}
 	var view = this;
 	view.container = container;
 	view.agg = false;
@@ -9,7 +10,7 @@ var NutritionChartView = function (container, model) {
 
 	var margin = {top: 40, right: 40, bottom: 40, left: 40},
 	graphStart = 0,
-	width = window.innerWidth*0.5 - 10 - margin.left - margin.right,
+	width = window.innerWidth*0.5 - 10 - margin.left - margin.right, 
 	height = window.innerHeight * 0.6 - margin.top - margin.bottom;
 	
 	var stack = d3.layout.stack()
@@ -70,6 +71,31 @@ var NutritionChartView = function (container, model) {
         selected.classed("selectedIngredientBar",true);
         rest.classed("selectedIngredientBar",false);
 
+        var ingredients = model.recipe.ingredients;
+        console.log(ingredients);
+        labelValues = {};
+        var labelFormat = d3.format("d");
+		axises.forEach(function(a){ labelValues[a] = 0});
+        if(id != 0){
+        	var selectedIngredient = ingredients.filter(function(i){ return i.id == id})[0];
+        	console.log(selectedIngredient);
+			axises.forEach(function(a){
+				labelValues[a] += selectedIngredient[a] / (100/selectedIngredient["amount"]);
+			});
+        }else{
+        	
+        	ingredients.forEach(function(i){
+        		axises.forEach(function(a){
+        			labelValues[a] += i[a] / (100/i["amount"]);
+        		})
+        	})
+        }
+        
+        var infoLabels = this.g.selectAll(".barChartInfoLabel");
+
+		infoLabels.text(function(d){
+			return d3.round(labelValues[d],0)+units[d];
+		});
 
 
 /*
@@ -253,16 +279,7 @@ var NutritionChartView = function (container, model) {
 				.attr("height", function(d) { return height - y(d.y); });
 		}
 
-			var infoLabels = this.g.selectAll(".barChartInfoLabel");
-		if(model.selectedIngredient == 0){
 
-		}else{
-			var selectedIngredient = model.selectedIngredient;
-			infoLabels.forEach(function(d,i){
-				console.log(d[i]);
-			});
-			console.log(infoLabels);
-		}
 		/*
 		rect.transition()
 		.delay(function(d, i) { return i * 10; })
