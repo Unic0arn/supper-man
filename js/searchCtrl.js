@@ -1,7 +1,8 @@
 var SearchCtrl = function (view, model) {
   
   model.addObserver(this);
-  var sortToggle = true;
+  model.sortAscending = true;
+  model.sortCategory = '';
   var initSideView = function(){
 
     view.container.collapseBtn.on('click',function(){    
@@ -34,17 +35,18 @@ var SearchCtrl = function (view, model) {
     });
 
     view.container.tableBtn.on('click', function(d){
+      model.sortCategory = d;
       var tempArray = [];
       for(var i in model.recipeDB){
         var tempValue = 0;
         for(var j in model.recipeDB[i].ingredients){
-          if(d === 'P'){
+          if(d === 'Protein'){
             tempValue +=  model.recipeDB[i].ingredients[j].protein * model.recipeDB[i].ingredients[j].amount;
-          }else if(d === 'C'){
+          }else if(d === 'Carbs'){
             tempValue +=  model.recipeDB[i].ingredients[j].carbohydrate * model.recipeDB[i].ingredients[j].amount;
-          }else if(d === 'F'){
+          }else if(d === 'Fat'){
             tempValue +=  model.recipeDB[i].ingredients[j].fat * model.recipeDB[i].ingredients[j].amount;
-          }else if(d === 'E'){
+          }else if(d === 'Energy'){
             tempValue +=  model.recipeDB[i].ingredients[j].energy * model.recipeDB[i].ingredients[j].amount;
           }
         }
@@ -54,7 +56,7 @@ var SearchCtrl = function (view, model) {
             'val' : tempValue
           });
       }
-      if(sortToggle){
+      if(model.sortAscending){
         console.log('true');
         tempArray.sort(function(a,b) {return b.val - a.val;});
       }else{
@@ -62,7 +64,7 @@ var SearchCtrl = function (view, model) {
         tempArray.sort(function(a,b) {return a.val - b.val;});
       }
 
-      sortToggle = !sortToggle;
+      model.sortAscending = !model.sortAscending;
 
       var sortedModelDB = [];
       for(var k in tempArray){

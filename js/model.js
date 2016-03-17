@@ -10,6 +10,13 @@ var Model = function () {
     model.search = false;
     model.selectedIngredient;
 
+
+    // Default PERSONAL RDI Values
+    model.dailyCalories = 2000;
+    model.dailyFats = 65;
+    model.dailyCarbs = 300;
+    model.dailyProteins = 50;
+
     model.categoricalColors = {
      "Liquid":[45, 100, 85, 0.7],
      "Fruits":[162, 70, 66, 1],
@@ -60,19 +67,23 @@ var Model = function () {
     };
 
     this.filterSearch = function(){
-        result = model.recipeDB.filter(function(d){
-            var push = true;
-            var ingredients = d.ingredients.map(function(i){return i.id;});
-                for(var f in model.filters){
-                    if(ingredients.indexOf(model.filters[f]) == -1){
-                        push = false;
-                        break;
+        if (model.filters.length === 0){
+            return model.recipeDB;
+        }
+        else{
+            console.log('ELSAR');
+            var result = model.recipeDB.filter(function(d){
+                var push = true;
+                var ingredients = d.ingredients.map(function(i){return i.id;});
+                    for(var f in model.filters){
+                        if(ingredients.indexOf(model.filters[f]) == -1){
+                            push = false;
+                        }
                     }
-                }
-            return push;
-
-        });
-        return result;
+                return push;
+            });
+            return result;
+        }
     };
 
     this.editRecipe = function(id){
@@ -233,7 +244,7 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         if(model.personalData){
             // calc personal RDI
             console.log('SETTING PERSONAL DATA');
-            daily_intake = {"energy":model.dailyCalories,"fat":model.fatArray[1],"carbohydrate":model.carbArray[1],"protein":model.dailyProteins};
+            daily_intake = {"energy":model.dailyCalories,"fat":model.dailyFats,"carbohydrate":model.dailyCarbs,"protein":model.dailyProteins};
         }else{
             console.log('USING DEFAULT VALUES');
             daily_intake = {"energy":2000,"fat":65,"carbohydrate":300,"protein":50};
@@ -286,12 +297,14 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
     this.calculateIntakeCarbs = function(){
         // Recommended daily intake of carbs in (grams). 
         // Carbs grams = (55%) to (75%) of the total calories / 3.75
-        model.carbArray = [];
+        // model.carbArray = [];
+        model.dailyCarbs = 0;
 
         var minimumCarbs =  (model.dailyCalories * 0.55) / 3.75;
         var maximumCarbs = (model.dailyCalories * 0.75) / 3.75;
-        model.carbArray.push(minimumCarbs);
-        model.carbArray.push(maximumCarbs);
+        // model.carbArray.push(minimumCarbs);
+        // model.carbArray.push(maximumCarbs);
+        model.dailyCarbs = maximumCarbs;
     };
 
     this.calculateIntakeFats = function(){
@@ -300,7 +313,8 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         var minimumFat;
         var maximumFat;
         var saturatedFat;
-        model.fatArray = [];
+        // model.fatArray = [];
+        model.dailyFats = 0;
 
         if(model.age > 1 && model.age < 4){
             minimumFat = (dailyCalories * 0.3) / 9;
@@ -314,9 +328,10 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         }
 
         saturatedFat = (dailyCalories * 0.1) / 9;
-        model.fatArray.push(minimumFat);
-        model.fatArray.push(maximumFat);
-        model.fatArray.push(saturatedFat);
+        model.dailyFats = maximumFat;
+        // model.fatArray.push(minimumFat);
+        // model.fatArray.push(maximumFat);
+        // model.fatArray.push(saturatedFat);
     };
 
     this.calculateDailySodiums = function(){
@@ -324,7 +339,6 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
         var minimumSodium = 250;
         var maximumSodium = 500;
         model.sodiumArray = [];
-        model.sodiumArray;
     };
 
 
