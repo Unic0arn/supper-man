@@ -6,7 +6,10 @@ var SunburstView = function(container,model){
   view.container = container;
   model.addObserver(this);
 
-  var height = 760,
+  var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+  var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+
+  var height = Math.min(h-40,w*0.8),
     width = height/2,
     radius = height/2;//Math.min(width, height) / 2;
 
@@ -16,13 +19,24 @@ var SunburstView = function(container,model){
   var y = d3.scale.linear()
       .range([0, radius]);
 
-  //new
-  var r1Inner=45;
-  var r1Outer=100;
-  var r2Inner=170;
-  var r2Outer=200;
-  var r3Inner=326;
-  var r3Outer=365;
+  //new //380
+  // var r1Inner=45;
+  // var r1Outer=100;
+  // var r2Inner=170;
+  // var r2Outer=200;
+  // var r3Inner=326;
+  // var r3Outer=365;
+  // var r1Padding=-2;
+  // var r2Padding=-5;
+  // var r3Padding=0;
+
+  //dirty fix responsive
+  var r1Inner=height*(45/760);
+  var r1Outer=height*(100/760);
+  var r2Inner=height*(170/760);
+  var r2Outer=height*(200/760);
+  var r3Inner=height*(326/760);
+  var r3Outer=height*(365/760);
   var r1Padding=-2;
   var r2Padding=-5;
   var r3Padding=0;
@@ -252,18 +266,19 @@ var arc = d3.svg.arc()
   }
 
   this.arcTransition = function(d,i){
+    var depth = d.depth;
     if (d.name == "ingredients"){
       d3.selectAll(".leaf").transition().attr("transform","rotate(180)").duration(500).ease("cubic");
     }else{
       d3.selectAll(".leaf").transition().attr("transform","rotate(0)").duration(500).ease("cubic");
     }
-
-    view.container.selectAll("text").transition().attr("opacity", 0);
+    //fugly fix to prevent transition on root
+    view.container.selectAll("text").filter(function(d){return d.name != "ingredients";}).transition().attr("opacity", 0);
     view.container.selectAll("image").transition().style("opacity", 0);
 
 
-
-    view.container.selectAll(".segment").transition()
+    //fugly fix to prevent transition on root
+    view.container.selectAll(".segment").filter(function(d){return d.name != "ingredients";}).transition()
       .duration(750)
       .attrTween("d", arcTween(d))
       .each("end", function(e, i) {
@@ -272,13 +287,12 @@ var arc = d3.svg.arc()
           // get a selection of the associated text element
           var arcText = d3.select(this.parentNode).select("text");
           var arcImg = d3.select(this.parentNode).select("image");
-
-
           arcImg.transition().duration(500)
             .style("opacity", 0.5)
             .attr("transform", function(d) { 
-              return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ (r1Inner+r1Padding) +","+ Math.sin(computeTextRotation(d)) +")";
-          }); 
+                return "rotate(" + computeTextRotation(d) + ") rotate(180,"+ (r1Inner+r1Padding) +","+ Math.sin(computeTextRotation(d)) +")";
+            }); 
+
           // fade in the text element and recalculate positions
           arcText.transition().duration(500)
             .attr("opacity", 1)

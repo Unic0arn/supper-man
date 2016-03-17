@@ -20,11 +20,11 @@ var Model = function () {
 
 
      model.categoricalColors = {
-        "Fruits":[194, 65, 60, 1],//dark blue
-        "Liquid":[234, 65, 60, 1],//light blue
-        "Nuts and Seeds":[90, 65, 60, 1], //green
-        "Spices and Herbs":[50, 65, 60, 1],//yellow
-        "Vegetables":[16, 65, 60, 1]};//red
+        "Liquid":[194, 65, 60, 1],//light blue
+        "Spices and Herbs":[234, 65, 60, 1],//dark blue
+        "Vegetables":[90, 65, 60, 1], //green
+        "Fruits":[50, 65, 60, 1],//yellow
+        "Nuts and Seeds":[16, 65, 60, 1]};//red
      
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
@@ -97,8 +97,32 @@ var Model = function () {
                  model.ingredientIds.push(snapshot.val().ingredients[index].id);
             }
             model.recipe = snapshot.val();
+            model.recolorIngredients();
             model.notifyObservers("newRecipe");
         });
+    };
+
+    this.recolorIngredients = function(){
+        var ingredients = model.recipe.ingredients;
+        for(var x in ingredients){
+            ingredient = model.getIngredient(ingredients[x].id);
+            var c = model.categoricalColors[ingredient.food_group_name];
+
+            var sat = c[1];     
+
+            var tempName=ingredient.food_group_name;
+            var i=count[tempName];
+
+            if(i>1){
+                i=-5;
+            }else{
+                i+=1;
+            }
+            count[tempName]=i;
+            var light=77+i*7;
+
+            ingredients[x]["color"] = "hsla("+c[0]+","+ sat +"%,"+ light +"%,"+ 1 +")"; // Adding a color with the same heu as the category but differing other values (25% off)
+        }
     };
 
     this.newRecipe = function(){

@@ -76,9 +76,9 @@ var SearchView = function(container,model){
             .append('div')
                 .style('width','50px')
                 .style('height', '100%')
-                .style('border', function(d){
+                .style('font-weight', function(d){
                     if(d === model.sortCategory){
-                        return 'solid 1px darkgrey';
+                        return 'bold';
                     }
                 });
         view.container.tableBtn.append('div')

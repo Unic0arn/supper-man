@@ -10,7 +10,7 @@ var NutritionChartView = function (container, model) {
 
 	var margin = {top: 40, right: 40, bottom: 40, left: 40},
 	graphStart = 0,
-	width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
+	width = window.innerWidth*0.5 - 10 - margin.left - margin.right, 
 	height = window.innerHeight * 0.6 - margin.top - margin.bottom;
 	
 	var stack = d3.layout.stack()
