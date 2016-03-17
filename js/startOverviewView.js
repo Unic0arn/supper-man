@@ -5,14 +5,17 @@ var StartOverviewView = function(container,model){
 
     var initialize = function(){
         view.container.append("div")
-        .text("Welcome to Crazy Blends!")
+        .text("SMOOTHLY")
         .classed("title", true)
+        .style('margin-top','5%')
         .style('font-size','50px')
         .style('color','#ffa901');
 
         view.container.append("div")
         .text("Enter your personal data")
-        .style('font-size','22px');
+        .style('font-size','22px')
+        .style('color','black')
+        .style('margin-top','3%');
 
         view.container.append("br");
         view.container.append("br");
@@ -44,65 +47,92 @@ var StartOverviewView = function(container,model){
         view.container.append("br");
 
         // Age
-        view.container.append("text").text("Age: ").style('font-weight','bold').style('font-size','16px');
+        var ageDiv = view.container.append("div").text("Age: ").style('font-weight','bold').style('font-size','20px');
 
-         view.container.append("input")
+         ageDiv.append("input")
          .attr('type', 'number')
          .attr('id','ageInput')
          .attr('name','age')
          .attr('value','18')
          .attr('min','0')
-         .style('width','40px');
+         .style('width','60px');
 
+       var ageText = view.container.append("div");
+        $("#ageInput").keypress(function(e) {
+            ageText.text('');
+            if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
+                e.preventDefault();
+                ageText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
+           }
+        });
 
         view.container.append("br");
         view.container.append("br");
 
         //Weight
-        view.container.append("text").text("Weight(kg): ").style('font-weight','bold').style('font-size','16px');
+        var weightDiv = view.container.append("div").text("Weight(kg): ").style('font-weight','bold').style('font-size','20px');
 
-         view.container.append("input")
+         weightDiv.append("input")
          .attr('type', 'number')
          .attr('id','weightInput')
          .attr('name','weight')
          .attr('value','70')
          .attr('min','0')
-         .style('width','40px');
+         .style('width','60px');
+
+         var weightText = view.container.append("p");
+         $("#weightInput").keypress(function(e) {
+            weightText.text('');
+            if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
+                e.preventDefault();
+                weightText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
+           }
+        });
 
 
         view.container.append("br");
         view.container.append("br");
 
         //Height
-        view.container.append("text").text("Height(cm): ").style('font-weight','bold').style('font-size','16px');
+        var heightDiv = view.container.append("div").text("Height(cm): ").style('font-weight','bold').style('font-size','20px');
 
-         view.container.append("input")
+         heightDiv.append("input")
          .attr('type', 'number')
          .attr('id','heightInput')
          .attr('name','height')
          .attr('value','170')
          .attr('min','0')
-         .style('width','40px');
+         .style('width','60px');
+
+         var heightText = view.container.append("p");
+         $("#heightInput").keypress(function(e) {
+            heightText.text('');
+            if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
+                e.preventDefault();
+                heightText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
+            }
+        });
 
         view.container.append("br");
         view.container.append("br");
 
         //Exercise    
 
-        view.container.append('text').text("Daily Exercise: ").style('font-weight','bold').style('font-size','16px');
+        view.container.append('text').text("Daily Exercise: ").style('font-weight','bold').style('font-size','20px');
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'none').attr('id','exerciseNone');
-        view.container.append('text').text("None ").style('font-size','14px');
+        view.container.append('text').text("None ").style('font-size','18px');
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'light').attr('id','exerciseLight');
-        view.container.append('text').text("Light ").style('font-size','14px');
+        view.container.append('text').text("Light ").style('font-size','18px');
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'moderate').attr('id','exerciseModerate');
-        view.container.append('text').text("Moderate ").style('font-size','14px');
+        view.container.append('text').text("Moderate ").style('font-size','18px').style('color','black');
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'heavy').attr('id','exerciseHeavy');
-        view.container.append('text').text("Heavy ").style('font-size','14px');
+        view.container.append('text').text("Heavy ").style('font-size','18px');
 
         var buttonContainer = view.container.append('div').style('margin-top','50px');
 
-        view.container.startBtn = buttonContainer.append("button").classed('btn btn-success', true).text("start!").style('margin','10px 10px');
-        view.container.skipBtn = buttonContainer.append("button").classed('btn btn-success', true).text("skip!").style('margin','10px 10px');
+        view.container.startBtn = buttonContainer.append("button").classed('btn btn-success', true).text("start!").style('font-size', '24px').style('margin','10px 10px').style('width','90px').style('height','50px');
+        view.container.skipBtn = buttonContainer.append("button").classed('btn btn-success', true).text("skip").style('margin','10px 10px').style('background-color','grey').style('margin-top','0%');
+    
     };
 
     initialize();

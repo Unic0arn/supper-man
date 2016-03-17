@@ -24,14 +24,14 @@ var SearchView = function(container,model){
             .append("div")
                 .style('background-color', function(d){
                     var categoryColor = model.categoricalColors[model.getIngredient(d).food_group_name];
-                    console.log('hsla(' + categoryColor[0] + ',' + categoryColor[1] + '%,' + categoryColor[2] + '%,' + categoryColor[3] + ')');
                     return 'hsla(' + categoryColor[0] + ',' + categoryColor[1] + '%,' + categoryColor[2] + '%,' + categoryColor[2] + ')';
                 })
+                .style('color','white')
             .append("span").text(function(d){
                 return model.getIngredient(d).name;
             });
         view.container.filterItem = filters.selectAll("div");
-        view.container.filterItem.append("img").attr('src','img/remove.png').style('width','14px').classed("glyphicon glyphicon-remove filterRemove", true);
+        view.container.filterItem.append("span").style('width','14px').style('color','white').classed("glyphicon glyphicon-remove filterRemove", true);
         }else{
             filters.append("div").append("span").text(function(f){
                 return 'Use the sunburst to select ingredients for filtering!';
@@ -93,78 +93,28 @@ var SearchView = function(container,model){
         // searchlist Container
         var list = view.container.append('div').attr('id', 'searchList').style('height',searchListHeight + 'px');
         view.container.list = list;
-        var listItem = list.selectAll('div')
-            .data(model.filterSearch()).enter()
-                .append('div')
-                    .classed('recipeListItem',true);
+        if(model.filterSearch().length === 0){
+            list.append('div').text('No results found!').style('margin', '0 auto').style('height','20px').style('font-size','20px');
+        }
+        else{
+            var listItem = list.selectAll('div')
+                .data(model.filterSearch()).enter()
+                    .append('div')
+                        .classed('recipeListItem',true);
 
-        listItem.append('img').classed('recipeImg', true).attr("src",function(d){return d.img;});
+            listItem.append('img').classed('recipeImg', true).attr("src",function(d){return d.img;});
 
-        var listHeader = listItem.append('div').style('display', 'flex').style('flex-direction','column');
-        listHeader.append('h4').classed('recipeName', true).text(function(d){return d.name;});
-        //listHeader.append('div').classed('recipeRating', true).text('sexy rating');
+            var listHeader = listItem.append('div').style('display', 'flex').style('flex-direction','column');
+            listHeader.append('h4').classed('recipeName', true).text(function(d){return d.name;});
+            //listHeader.append('div').classed('recipeRating', true).text('sexy rating');
 
 
-        var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
+            var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
 
-        // td for ENERGY
-        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
-            .text(function(d){
-                return calcPersonalValue(d, 'energy');
-            })
-            .style('background-color', function(d){
-                // return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
-                var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
-                if(percentage > 100){
-                    percentage = 100;
-                }
-                return colorFill(percentage);
-            })
-            .style('color',function(d){
-                return "rgba(255,255,255,0.8)";
-            });
-
-        // td for PROTEIN
-        recipeNutContainer
-            .append('div').classed('recipeNutritionValue', true)
+            // td for ENERGY
+            recipeNutContainer.append('div').classed('recipeNutritionValue', true)
                 .text(function(d){
-                    return calcPersonalValue(d, 'protein');
-                })
-                .style('background-color', function(d){
-                    // return "rgba(0,0,0," + d3.select(this).attr('opacity') + ")";
-                    // return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
-                    var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
-                    if(percentage > 100){
-                        percentage = 100;
-                    }
-                    return colorFill(percentage);
-                })
-                .style('color',function(d){
-                    return "rgba(255,255,255,0.8)";
-                });
-
-        // td for FATS
-        recipeNutContainer.append('div').classed('recipeNutritionValue', true)
-            .text(function(d){
-                return calcPersonalValue(d, 'fat');
-            })
-            .style('background-color', function(d){
-                // return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
-                var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
-                if(percentage > 100){
-                    percentage = 100;
-                }
-                return colorFill(percentage);
-            })
-            .style('color',function(d){
-                return "rgba(255,255,255,0.8)";
-            });
-
-        // td for CARBOHYDRATES
-        recipeNutContainer
-            .append('div').classed('recipeNutritionValue', true)
-                .text(function(d){
-                    return calcPersonalValue(d, 'carbohydrate');
+                    return calcPersonalValue(d, 'energy');
                 })
                 .style('background-color', function(d){
                     // return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
@@ -177,6 +127,61 @@ var SearchView = function(container,model){
                 .style('color',function(d){
                     return "rgba(255,255,255,0.8)";
                 });
+
+            // td for PROTEIN
+            recipeNutContainer
+                .append('div').classed('recipeNutritionValue', true)
+                    .text(function(d){
+                        return calcPersonalValue(d, 'protein');
+                    })
+                    .style('background-color', function(d){
+                        // return "rgba(0,0,0," + d3.select(this).attr('opacity') + ")";
+                        // return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                        var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                        if(percentage > 100){
+                            percentage = 100;
+                        }
+                        return colorFill(percentage);
+                    })
+                    .style('color',function(d){
+                        return "rgba(255,255,255,0.8)";
+                    });
+
+            // td for FATS
+            recipeNutContainer.append('div').classed('recipeNutritionValue', true)
+                .text(function(d){
+                    return calcPersonalValue(d, 'fat');
+                })
+                .style('background-color', function(d){
+                    // return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                    var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                    if(percentage > 100){
+                        percentage = 100;
+                    }
+                    return colorFill(percentage);
+                })
+                .style('color',function(d){
+                    return "rgba(255,255,255,0.8)";
+                });
+
+            // td for CARBOHYDRATES
+            recipeNutContainer
+                .append('div').classed('recipeNutritionValue', true)
+                    .text(function(d){
+                        return calcPersonalValue(d, 'carbohydrate');
+                    })
+                    .style('background-color', function(d){
+                        // return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                        var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                        if(percentage > 100){
+                            percentage = 100;
+                        }
+                        return colorFill(percentage);
+                    })
+                    .style('color',function(d){
+                        return "rgba(255,255,255,0.8)";
+                    });
+        }
 
         model.notifyObservers("recipeListReady");
     }; 
