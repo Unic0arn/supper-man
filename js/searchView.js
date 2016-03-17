@@ -5,8 +5,11 @@ var SearchView = function(container,model){
     model.getAllRecipes();
 
     var colorFill = d3.scale.linear()
-        .domain([0,50,100])
-        .range(["#FF0000","#ffff00", "#00FF00"]);
+        .domain([0,100])
+        .range(["hsl(200, 0%, 44%)","hsl(200, 100%, 44%)"]);
+    // var colorFill = d3.scale.linear()
+    //     .domain([0, 100])
+    //     .range("rgb(1, 149, 223)");
 
     var redrawList = function(){
         view.container.html('');
@@ -71,8 +74,17 @@ var SearchView = function(container,model){
                     opacity = 1* (totalVal/100);
                     return opacity;
                 })
+                .text(function(d){
+                    return calcPersonalValue(d, 'protein');
+                })
                 .style('background-color', function(d){
-                    return "rgba(0,0,0," + d3.select(this).attr('opacity') + ")";
+                    // return "rgba(0,0,0," + d3.select(this).attr('opacity') + ")";
+                    return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                    // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                    // if(percentage > 100){
+                    //     percentage = 100;
+                    // }
+                    // return colorFill(percentage);
                 })
                 .style('color',function(d){
                     if(d3.select(this).attr('opacity') < 0.5){
@@ -80,9 +92,7 @@ var SearchView = function(container,model){
                     }else{
                         return 'white';
                     }
-                })
-                .text(function(d){
-                    return calcPersonalValue(d, 'protein');
+
                 });
         // td for CARBOHYDRATES
         recipeNutContainer
@@ -91,19 +101,40 @@ var SearchView = function(container,model){
                     return calcPersonalValue(d, 'carbohydrate');
                 })
                 .style('background-color', function(d){
-                    return colorFill(parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')));
+                    return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                    // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                    // if(percentage > 100){
+                    //     percentage = 100;
+                    // }
+                    // return colorFill(percentage);
                 });
 
         // td for FATS
         recipeNutContainer.append('div').classed('recipeNutritionValue', true)
             .text(function(d){
                 return calcPersonalValue(d, 'fat');
+            })
+            .style('background-color', function(d){
+                return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                // if(percentage > 100){
+                //     percentage = 100;
+                // }
+                // return colorFill(percentage);
             });
 
         // td for ENERGY
         recipeNutContainer.append('div').classed('recipeNutritionValue', true)
             .text(function(d){
                 return calcPersonalValue(d, 'energy');
+            })
+            .style('background-color', function(d){
+                return "rgba(1, 149, 223," + (parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, '')) / 100) + ")" ;
+                // var percentage = parseFloat(d3.select(this)[0][0].innerHTML.replace(/%/g, ''));
+                // if(percentage > 100){
+                //     percentage = 100;
+                // }
+                // return colorFill(percentage);
             });
 
         model.notifyObservers("recipeListReady");
