@@ -62,7 +62,7 @@ var StartOverviewView = function(container,model){
             ageText.text('');
             if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
                 e.preventDefault();
-                ageText.text("Special characters are not allowed. Use only numbers.");
+                ageText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
            }
         });
 
@@ -85,7 +85,7 @@ var StartOverviewView = function(container,model){
             weightText.text('');
             if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
                 e.preventDefault();
-                weightText.text("Special characters are not allowed. Use only numbers.");
+                weightText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
            }
         });
 
@@ -109,7 +109,7 @@ var StartOverviewView = function(container,model){
             heightText.text('');
             if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
                 e.preventDefault();
-                heightText.text("Special characters are not allowed. Use only numbers.");
+                heightText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
             }
         });
 
