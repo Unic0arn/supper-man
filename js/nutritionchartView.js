@@ -1,5 +1,5 @@
 var NutritionChartView = function (container, model) {
-	var axises = ["energy","protein","fat","sodium","carbohydrate"];
+	var axises = ["energy","protein","fat","carbohydrate"];
 	var view = this;
 	view.container = container;
 	view.agg = false;
@@ -64,8 +64,9 @@ var NutritionChartView = function (container, model) {
         var rest = layers.filter(function(d){
             return d.key != id;
         });
-        selected.style("opacity",0.5);
-        rest.style("opacity",1);
+        selected.classed("selectedIngredientBar",true);
+        rest.classed("selectedIngredientBar",false);
+        	
         	///////////////////////////////////////////
         //selected.style("opacity",1);
         //rest.style("opacity",0.5);

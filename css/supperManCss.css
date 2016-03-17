@@ -167,13 +167,6 @@ body {
 	fill: #333333;
 }
 
-.radarChart{
-	width:100%;
-}
-
-.radarChartContainer{
-  position: relative;
-}
 
 #agg-switch{
   position: absolute;
@@ -402,7 +395,11 @@ tr{
 }
 
 
-
+.selectedIngredientBar{
+  stroke: black;
+  stroke-width: 2px;
+}
+sadadas
 .x.axis{
    text-transform:capitalize;
 }
