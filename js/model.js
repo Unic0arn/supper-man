@@ -10,20 +10,22 @@ var Model = function () {
     model.search = false;
     model.selectedIngredient;
 
-
     // Default PERSONAL RDI Values
     model.dailyCalories = 2000;
     model.dailyFats = 65;
     model.dailyCarbs = 300;
     model.dailyProteins = 50;
 
-    model.categoricalColors = {
-     "Liquid":[45, 100, 85, 0.7],
-     "Fruits":[162, 70, 66, 1],
-     "Nuts and Seeds":[22, 100, 59, 1],
-     "Spices and Herbs":[48, 100, 50, 1],
-     "Vegetables":[60, 85, 63, 1],
-     "":[240, 80, 50, 1]};
+
+
+
+     model.categoricalColors = {
+        "Fruits":[194, 65, 60, 1],//dark blue
+        "Liquid":[234, 65, 60, 1],//light blue
+        "Nuts and Seeds":[90, 65, 60, 1], //green
+        "Spices and Herbs":[50, 65, 60, 1],//yellow
+        "Vegetables":[16, 65, 60, 1]};//red
+     
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
@@ -175,20 +177,20 @@ var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Veget
             ingredient["amount"] = amount;
             var c = model.categoricalColors[ingredient.food_group_name];
 
-            var satscale = d3.scale.linear().domain([0,100]).range([Math.max(c[1] - 25, 20), Math.min(c[1] + 25,90)]);
+            var satscale = d3.scale.linear().domain([0,100]).range([Math.max(c[1] - 25, 30), Math.min(c[1] + 25,90)]);
             var sat = satscale(Math.random()*100);
-            
+            //var sat=       
 //new
             var tempName=ingredient.food_group_name;
             var i=count[tempName];
-            console.log(i);
-            if(i>7){
+            //console.log(i);
+            if(i>6){
                 i=0;
             }else{
                 i+=1;
             }
             count[tempName]=i;
-            var light=50+i*7;
+            var light=45+i*7;
 
 
             //var lightscale = d3.scale.linear().domain([0,100]).range([Math.max(c[2] - 25, 40), Math.min(c[2] + 25,80)]);
