@@ -169,9 +169,9 @@ body {
 
 
 #agg-switch{
-  position: absolute;
-  left:120px;
-  top: 6px;
+  position: relative;
+  left:85%;
+  top: -400px;
 }
 
 .wholeContainer{
@@ -189,18 +189,17 @@ body {
 
     
 #recipeName{
-        height: 50px;
+        height: 40px;
     }
 
 .saveRecipeBtn{
     background-color: #f3f3eb; 
     }
 .saveRecipeBtn img{
-    width: 40px;
-    height: 40px;
-    -moz-border-radius:12px;
-	-webkit-border-radius:12px;
-	border-radius:12px; 
+    width: 30px;
+    height: 30px;
+   
+	
     }
     
 .newRecipeBtn{
@@ -208,11 +207,10 @@ body {
     }
     
 .newRecipeBtn img{
-    width: 40px;
-    height: 40px;
-    -moz-border-radius:12px;
-	-webkit-border-radius:12px;
-	border-radius:12px;
+    width: 30px;
+    height: 30px;
+   
+	
     }
     
  /*REMOVE BUTTON*/  
@@ -224,11 +222,9 @@ body {
 */
     
 .removeBtn img{
-    width: 40px;
-    height: 40px;
-    -moz-border-radius:12px;
-  -webkit-border-radius:12px;
-  border-radius:12px;
+    width: 30px;
+    height: 30px;
+   
     }
 .removeBtn:hover {
 	background-color:#D25050;
@@ -264,11 +260,11 @@ body {
 } */
     
 .form-inline {
-  width: 600px;
+  width: 580px;
   position: relative;
 }
 .nutritionChartContainer{
-  margin-left: 1vw;
+  float: left;
 }
 
 .ingredientTableRow{
@@ -278,7 +274,7 @@ body {
 }
 
 .table{
- height:220px;
+ height:180px;
  width: 100%; 
  position: relative;
 }
@@ -381,9 +377,10 @@ tr{
 .recipeImg{
   height: 80px;
   width: 80px;
+  margin: 10px 5px 10px 5px;
   border: solid;
   border-width: 1px;
-  border-radius: 50%;
+  border-radius: 25%;
 }
 
 .recipeGraph{
@@ -394,7 +391,7 @@ tr{
 
 .recipeName{
   margin-left: 1vw;
-  margin-top: 0;
+  margin-top: 1vw;
 }
 
 .recipeRating{

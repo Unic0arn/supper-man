@@ -19,13 +19,40 @@ var Model = function () {
 
 
 
+     //强红蓝
+     /*
      model.categoricalColors = {
-        "Liquid":[194, 65, 60, 1],//light blue
-        "Spices and Herbs":[234, 65, 60, 1],//dark blue
-        "Vegetables":[90, 65, 60, 1], //green
-        "Fruits":[50, 65, 60, 1],//yellow
-        "Nuts and Seeds":[16, 65, 60, 1]};//red
-     
+        "Fruits":[307, 45, 42, 1],//dark blue
+         "Liquid":[234, 36, 57, 1],//light blue
+         "Nuts and Seeds":[90, 40, 58, 1], //green
+         "Spices and Herbs":[50, 96, 48, 1],//yellow
+         "Vegetables":[16, 96, 43, 1]};//red
+     //*/
+     ///*
+     //强红蓝改变顺序
+     model.categoricalColors = {
+        "Fruits":[234, 36, 57, 1],
+         "Liquid":[90, 40, 58, 1],//light blue
+         "Nuts and Seeds": [50, 96, 48, 1],//green
+         "Spices and Herbs":[16, 96, 43, 1],//yellow
+         "Vegetables":[307, 45, 42, 1]};//red
+     //*/
+     /*
+     model.categoricalColors = {
+        "Fruits":[169, 57, 44, 1],
+         "Liquid":[199, 82, 76, 1],
+         "Nuts and Seeds": [46, 100, 51, 1],//green
+         "Spices and Herbs":[325, 50, 58, 1],//yellow
+         "Vegetables":[325, 74, 49, 1]};//red
+     //*/
+     /*
+     model.categoricalColors = {
+        "Fruits":[194, 65, 60, 1],//dark blue
+        "Liquid":[234, 65, 60, 1],//light blue
+        "Nuts and Seeds":[90, 65, 60, 1], //green
+        "Spices and Herbs":[50, 65, 60, 1],//yellow
+        "Vegetables":[16, 65, 60, 1]};//red
+    //*/
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
