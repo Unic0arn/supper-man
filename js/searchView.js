@@ -60,7 +60,7 @@ var SearchView = function(container,model){
 
         var listHeader = listItem.append('div').style('display', 'flex').style('flex-direction','column');
         listHeader.append('h4').classed('recipeName', true).text(function(d){return d.name;});
-        listHeader.append('div').classed('recipeRating', true).text('sexy rating');
+        //listHeader.append('div').classed('recipeRating', true).text('sexy rating');
 
 
         var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
