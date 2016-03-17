@@ -190,6 +190,11 @@ body {
   margin-bottom: 2vw;
 }
 
+    
+#recipeName{
+        height: 50px;
+    }
+    
 .saveRecipeBtn img{
     width: 40px;
     height: 40px;
