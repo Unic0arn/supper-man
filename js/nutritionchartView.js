@@ -67,6 +67,23 @@ var NutritionChartView = function (container, model) {
         var rest = layers.filter(function(d){
             return d.key != id;
         });
+
+
+		var popup = selected.append("g")
+        .attr("class","infoPopUp")
+
+        popup.append("text")
+        .text(function(d){console.log(d); return d.key;});
+
+		popup.append("rect")
+		.attr("class","infoPopUpRect")
+        .attr("transform","translate(0,0)")
+        .attr("width",width)
+        .attr("height", height/2)
+        .attr("rx",20)
+        .attr("ry",20);
+
+
         selected.classed("selectedIngredientBar",true);
         selected.selectAll("text")
         .data(function(d){console.log(d.values); return d.values;})
@@ -79,7 +96,7 @@ var NutritionChartView = function (container, model) {
         	return "translate(" + x(d.key) + ","+y(d.y0 + d.y)+")";
         });
 
-
+        rest.selectAll(".infoPopUp").remove();
         rest.classed("selectedIngredientBar",false);
         rest.selectAll("text")
         .remove();
@@ -93,6 +110,7 @@ var NutritionChartView = function (container, model) {
 	var transFormIngredient = function(ingredient){
 		//console.log(ingredient);
 		var outIngredient = {}
+		outIngredient["name"] = ingredient["name"];
 		outIngredient["key"] = ingredient["id"];
 		outIngredient["values"] = [];
 		outIngredient["color"] = ingredient["color"] || options.color(Math.random()*20);

@@ -400,6 +400,10 @@ tr{
   stroke-width: 2px;
 }
 
+.infoPopUpRect{
+  fill: red;
+  opacity: 0.5;
+}
 .x.axis{
    text-transform:capitalize;
 }
