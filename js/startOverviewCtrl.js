@@ -17,6 +17,21 @@ var StartOverviewCtrl = function (view, model) {
   view.container.startBtn.on('click', function(){
     ctrl.savePersonalData(true);
     view.container.style('display','none');
+    var genderMale = document.getElementById("genderMale").value;
+    console.log(genderMale);
+    var genderFemale = document.getElementById("genderFemale").value;
+    console.log(genderFemale);
+    var age = document.getElementById("ageInput").value;
+    console.log(age);
+    var height = document.getElementById("heightInput").value;
+    console.log(height);
+    var weight = document.getElementById("weightInput").value;
+    console.log(weight);
+    var exercise = document.getElementById("exerciseInput").value;
+    console.log(exercise);
+    model.age = age;
+    
+ 
   });
   view.container.skipBtn.on('click', function(){
     ctrl.savePersonalData(false);
@@ -26,4 +41,6 @@ var StartOverviewCtrl = function (view, model) {
   this.update = function(){
     return;
   };
+
+  
 };

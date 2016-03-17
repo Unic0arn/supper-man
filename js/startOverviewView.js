@@ -124,7 +124,7 @@ var StartOverviewView = function(container,model){
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'none').attr('id','exerciseNone');
         view.container.append('text').text("None ").style('font-size','14px');
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'light').attr('id','exerciseLight');
-        view.container.append('text').text("Ligth ").style('font-size','14px');
+        view.container.append('text').text("Light ").style('font-size','14px');
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'moderate').attr('id','exerciseModerate');
         view.container.append('text').text("Moderate ").style('font-size','14px');
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'heavy').attr('id','exerciseHeavy');
