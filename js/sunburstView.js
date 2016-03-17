@@ -115,7 +115,7 @@ var arc = d3.svg.arc()
     console.log(finalList);
   return finalList;
   };
-
+  
   var color = function(node,i){    
     //return "rgb(255,0,0)";
     var cuttingBoard = model.categoricalColors;
@@ -132,8 +132,9 @@ var arc = d3.svg.arc()
         node = node.parent;
       }
       var c = cuttingBoard[node.name];
+      
       i = i%2;
-      o = 50 + 10*o - 5*i;
+      o = 50 + 10*o - 8*i;
     return "hsla("+c[0]+","+c[1]+"%,"+o+"%,"+c[3]+")";
     }
   }
