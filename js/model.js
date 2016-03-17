@@ -15,7 +15,7 @@ var Model = function () {
      "Fruits":[162, 70, 66, 1],
      "Nuts and Seeds":[22, 100, 59, 1],
      "Spices and Herbs":[48, 100, 50, 1],
-     "Vegetables":[60, 80, 50, 1],
+     "Vegetables":[60, 85, 63, 1],
      "":[240, 80, 50, 1]};
 
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
@@ -148,6 +148,10 @@ var Model = function () {
         return obj;
     };
 
+
+
+
+var count={"Liquid":0,"Fruits":0,"Nuts and Seeds":0,"Spices and Herbs":0, "Vegetables":0};
     this.addIngredient = function(id,amount){
         var ingredient = model.getIngredient(id);
         if(model.ingredientIds.indexOf(ingredient.id) > -1){
@@ -159,17 +163,37 @@ var Model = function () {
         }else{
             ingredient["amount"] = amount;
             var c = model.categoricalColors[ingredient.food_group_name];
+
             var satscale = d3.scale.linear().domain([0,100]).range([Math.max(c[1] - 25, 20), Math.min(c[1] + 25,90)]);
             var sat = satscale(Math.random()*100);
-            var lightscale = d3.scale.linear().domain([0,100]).range([Math.max(c[2] - 25, 20), Math.min(c[2] + 25,90)]);
-            var light = lightscale(Math.random()*100);
+            
+//new
+            var tempName=ingredient.food_group_name;
+            var i=count[tempName];
+            console.log(i);
+            if(i>7){
+                i=0;
+            }else{
+                i+=1;
+            }
+            count[tempName]=i;
+            var light=50+i*7;
+
+
+            //var lightscale = d3.scale.linear().domain([0,100]).range([Math.max(c[2] - 25, 40), Math.min(c[2] + 25,80)]);
+            //var light = lightscale(Math.random()*100);
+
 
             ingredient["color"] = "hsla("+c[0]+","+ sat +"%,"+ light +"%,"+ 1 +")"; // Adding a color with the same heu as the category but differing other values (25% off)
+        
             model.recipe.ingredients.push(ingredient);
             model.ingredientIds.push(ingredient.id);
         }
         model.notifyObservers("addIngredient");
     };
+
+
+
 
     this.removeIngredient = function(id){
         var index = model.ingredientIds.indexOf(id);

@@ -141,6 +141,9 @@ var TableView = function (container, model) {
         });
         selected.style("opacity",0.5);
         rest.style("opacity",1);
+/////////////////////////////////////////////////////////////
+        //selected.style("opacity",1);
+        //rest.style("opacity",0.6);
     };
 
     view.setOverlay = function(opacity){
