@@ -434,6 +434,12 @@ tr{
   stroke-width: 2px;
 }
 
+
+.barChartInfoLabel{
+  text-anchor:middle;
+}
+
+
 .infoPopUpRect{
   fill: red;
   opacity: 0.5;
