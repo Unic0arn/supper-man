@@ -173,7 +173,7 @@ body {
     background-color: #f3f3eb; 
     width: 62px;
     height: 40px;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .wholeContainer{
@@ -276,7 +276,7 @@ body {
 }
 
 .table{
- height:180px;
+ height:240px;
  width: 100%; 
  position: relative;
 }
