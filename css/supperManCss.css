@@ -428,6 +428,15 @@ tr{
   
   margin-right: 3px; 
 }
+<<<<<<< HEAD
+=======
+.hihi{
+  
+}
+.barChartInfoLabel{
+  text-anchor: middle;
+}
+>>>>>>> a95729228a87a3b9a49c221ec4ae95c45dc85665
 
 .selectedIngredientBar{
   stroke: black;

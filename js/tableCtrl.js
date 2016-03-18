@@ -18,12 +18,6 @@ var TableCtrl = function(tableView, model){
 				ctrl.touchStart(d, i, this); 
 			});
 
-
-			tableView.container.selectAll('.removeBtn').on("click", function(d, i){
-				var ingredientID = d3.select('#ingredientRow_' + i).attr("ingredient_id");
-				model.removeIngredient(parseInt(ingredientID));
-			});
-
 			tableView.container.selectAll('.ingredientTableRow').on("click",function(d){
 				if(d.id === model.selectedIngredient) {
 					model.setSelectedIngredient(0);
@@ -32,6 +26,13 @@ var TableCtrl = function(tableView, model){
 					model.setSelectedIngredient(d.id);
 				}
 			})
+			tableView.container.selectAll('.removeBtn').on("click", function(d, i){
+				var ingredientID = d3.select('#ingredientRow_' + i).attr("ingredient_id");
+				model.removeIngredient(parseInt(ingredientID));
+				d3.event.stopPropagation();
+			});
+
+
 		}
 	};
 

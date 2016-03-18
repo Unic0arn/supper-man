@@ -263,6 +263,7 @@ var count={"Liquid":-5,"Fruits":-5,"Nuts and Seeds":-5,"Spices and Herbs":-5, "V
         var index = model.ingredientIds.indexOf(id);
         model.recipe.ingredients.splice(index, 1);
         model.ingredientIds.splice(index, 1);
+        if(id == model.selectedIngredient) model.selectedIngredient = 0;
         model.notifyObservers("removeIngredient");
     };
 
