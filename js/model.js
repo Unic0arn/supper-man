@@ -188,7 +188,6 @@ var Model = function () {
         model.data = data;
         model.dataIds = data.map(function(d){return d.id;});
         model.notifyObservers("dataReady");
-        model.addIngredient(1001, 150);
 
       });
     };
