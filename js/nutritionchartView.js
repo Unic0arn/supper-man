@@ -182,7 +182,7 @@ var NutritionChartView = function (container, model) {
         .attr("y", (margin.top / 2))
         .attr("text-anchor", "middle")  
         .style("font-size", "16px") 
-        .style("text-decoration", "underline")  
+        .style("font-weight", "bold")  
         .text("Nutritional Values");
 
 		this.svg.append("g")
