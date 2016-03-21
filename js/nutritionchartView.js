@@ -187,7 +187,8 @@ var NutritionChartView = function (container, model) {
 
 		this.svg.append("g")
 		.attr("class", "x axis")
-		.attr("transform", "translate("+ margin.left + "," + (height + margin.top) + ")")
+		.attr("transform", "translate("+ margin.left + "," + (height + margin.top+2) + ")")
+		.attr("style","font-size:12px")
 		.call(xAxis);
 
 		this.svg.append("g")
@@ -200,7 +201,7 @@ var NutritionChartView = function (container, model) {
 		.attr("dy", "-.75em")
 		.attr("dx", "-1.5em")
 		.attr("text-anchor","end")
-		.attr("transform","translate("+margin.left+","+margin.top +")")
+		.attr("transform","translate("+margin.left+","+(margin.top-5) +")")
 		.text("RDI");
 
 
@@ -211,7 +212,7 @@ var NutritionChartView = function (container, model) {
 		infoLabel.attr()
 		.attr("class","barChartInfoLabel")
 		.attr("x", function(d) { return x(d); })	
-		.attr("transform", "translate("+ (margin.left + 10) + "," + (height + margin.top - 10) + ")")
+		.attr("transform", "translate("+ (margin.left + 10) + "," + (height + margin.top-2) + ")")
 		.text("0");
 
 	}

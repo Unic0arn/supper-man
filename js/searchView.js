@@ -44,7 +44,7 @@ var SearchView = function(container,model){
 
         // tableheader Container
         var tableHeader = view.container.append('div').attr('id', 'searchTableHeader');
-        tableHeader.append('span').text('Click on a category to sort recipes!').style('position','absolute').style("left","2%").style('top',"10%");
+        tableHeader.append('span').text('Click on a category to sort recipes!').style('position','absolute').style("left","2%").style('top',"10%").style('font-size','16px');
        var tableArrows = tableHeader.append('span').style('position','relative').style('width','20px').style('height','100%');
        tableArrows.append('img').attr('src','img/arrowUp.png')
            .style('position', 'absolute')
@@ -76,6 +76,7 @@ var SearchView = function(container,model){
             .append('div')
                 .style('width','50px')
                 .style('height', '100%')
+                .style('font-size','14px')
                 .style('font-weight', function(d){
                     if(d === model.sortCategory){
                         return 'bold';

@@ -242,6 +242,7 @@ body {
 	width: 40%;
 	background-color: white;
 	text-align:right;
+  font-size: 12px;
 }
 
 #overlay{
@@ -263,10 +264,12 @@ body {
     
 .form-inline {
   width: 580px;
+  padding-top: 20px;
   position: relative;
 }
 .nutritionChartContainer svg{
   margin-top: 10px;
+
 }
 
 .ingredientTableRow{
@@ -287,6 +290,7 @@ tr{
 
 .table>tbody>tr>td {
   vertical-align: middle;
+  font-size: 14px;
 }
 
 #ingredientTable tbody{
@@ -358,7 +362,7 @@ tr{
   display:flex;
   justify-content:flex-end;
   width:55vw;
-  padding-right:10px;
+  
   height:7vh;
 }
 #searchTableHeader > div{
@@ -371,7 +375,7 @@ tr{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+ 
   height: 100px;
   border: solid 1px;
 }
@@ -435,9 +439,7 @@ tr{
 }
 
 
-.barChartInfoLabel{
-  text-anchor:middle;
-}
+
 
 
 .infoPopUpRect{
@@ -472,4 +474,12 @@ section-subheading {
     /*font-style: italic;*/
     font-weight: 400;
 
+}
+
+
+/*Font-related*/
+.barChartInfoLabel{
+  text-anchor:middle;
+  font-size: 16px;
+  
 }
