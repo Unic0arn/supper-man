@@ -146,6 +146,23 @@ section h3.section-subheading {
 }
     
 /*END OF SECTION*/
+    
+/*START OF SPLASHSCREEN*/
+    
+.submitBtn{
+    font-size: 24px;
+    margin: 10px 10px;
+    width: 200px;
+    height: 50px;
+    }
+
+.skipBtn{
+    margin: 10px 10px;
+    background-color: grey;
+    margin-top: 0%;
+    
+    }
+/*END OF SPLASHSCREEN*/
 
 body {
 	font-family: 'Open Sans', sans-serif;
