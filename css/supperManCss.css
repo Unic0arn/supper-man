@@ -2,6 +2,7 @@
 
 .navbar .container{
     background-color: transparent;
+    text-align: left;
 }
 
 .navbar-default .navbar-collapse {
@@ -22,9 +23,25 @@
     /*RED*/
 
 }
+@media (min-width: 768px){
+.container>.navbar-collapse{
+    
+    padding-right: 28%;
+    
+}
+}
+
+@media (min-width: 1024px){
+.container>.navbar-collapse{
+    
+    padding-right: 42%;
+    
+}
+}
 
 @media(min-width: 768px) {
     .navbar-default {
+        
         padding: 15px 0;
         border: 0;
         background-color: transparent;
@@ -146,21 +163,35 @@ header .intro-text .intro-heading {
     }
 
 #team {
+    background-color: #f3f3eb;
     height: 100%;
     padding-top: 90px;
     }
-    
+
+
 #team-members {
-        
-    display: block;
+    background-color: #f3f3eb;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
     margin-left: auto;
-    margin-right: auto 
+    margin-right: auto;
     
     }
-    
-#last-members {
-        margin-left: 20%;
+
+.team-member{
+     height: 300px;
+     width: 400px;
+     overflow: hidden;
     }
+    
+.team-member img{
+    height: auto;
+    width: 400px;
+
+    }
+    
 section h2.section-heading {
     margin-top: 0;
     margin-bottom: 15px;
@@ -541,9 +572,7 @@ tr{
 .col-md-6{
   margin: 20px 0 15px 0;
 }
-.img-responsive{
-  margin: 25px 0 15px 0;
-}
+
 section-subheading {
     margin-bottom: 25px;
     text-transform: none;
