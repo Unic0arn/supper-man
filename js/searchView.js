@@ -53,7 +53,7 @@ var SearchView = function(container,model){
            .style('width','10px')
            .style('height','auto')
            .style('opacity', function(d){
-                if(model.sortAscending === false){
+                if(model.sortAscending === true){
                     return '1';
                 }else{
                     return '0.2';
@@ -66,7 +66,7 @@ var SearchView = function(container,model){
            .style('width','10px')
            .style('height','auto')
            .style('opacity', function(d){
-                if(model.sortAscending === true){
+                if(model.sortAscending === false){
                     return '1';
                 }else{
                     return '0.2';
