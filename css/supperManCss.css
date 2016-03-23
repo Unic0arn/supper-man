@@ -208,7 +208,6 @@ body {
 
 .blobAndTableContainer{
 	width: 60%;
-	height: 700px;
   margin-left: 5vw;
   /*margin-top:7vw;*/
   margin-bottom: 2vw;
@@ -282,10 +281,13 @@ body {
   pointer-events: none;
 }
 
-/* TABLE CONTAINER
 .tableContainer  {
-  margin-left: 1vw;
-} */
+  height: 35vh;
+} 
+
+.tableContainer table  {
+  height: 100%;
+} 
     
 .form-inline {
   width: 580px;
@@ -304,9 +306,9 @@ body {
 }
 
 .table{
- height:240px;
  width: 100%; 
  position: relative;
+ margin:0;
 }
 
 tr{
@@ -324,6 +326,7 @@ tr{
   height: 100%;
   width: 100%;
   position: absolute;
+  margin:0;
 }
     
 .table-striped>tbody>tr:nth-of-type(odd){

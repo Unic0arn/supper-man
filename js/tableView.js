@@ -6,7 +6,7 @@ var TableView = function (container, model) {
     model.addObserver(view);
 
     var initNameInput = function(){
-        var form = container.insert("div",":first-child").classed("form-inline",true).style("width","100%").style("height",window.innerHeight * 0.5);
+        var form = container.insert("div",":first-child").classed("form-inline",true).style("width","100%").style("height","20%");
         
         view.nameInput = form.append("input")
             .attr("type","text")
@@ -50,6 +50,7 @@ var TableView = function (container, model) {
 
     var redrawTable = function(){
         var table = d3.select("#ingredientTable");
+        table.style("height",function(){var vb = document.getElementById("ingredientTable").getBoundingClientRect(); return document.documentElement.clientHeight - vb.top;});
         var tbody = table.select("tbody");
         var columns = ['color','name', 'amount', 'button'];
         tbody.html('');
