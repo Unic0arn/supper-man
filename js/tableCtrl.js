@@ -22,7 +22,6 @@ var TableCtrl = function(tableView, model){
 				if(d.id === model.selectedIngredient) {
 					model.setSelectedIngredient(0);
 				}else{
-
 					model.setSelectedIngredient(d.id);
 				}
 			})
@@ -37,15 +36,27 @@ var TableCtrl = function(tableView, model){
 	};
 
 	tableView.btnSave.on("click",function(){
-        model.saveRecipe(tableView.nameInput[0][0].value);
+        var state = model.saveRecipe(tableView.nameInput[0][0].value);
+        if(state == true){
+        	tableView.btnSave.style("background-color","green");
+        	tableView.btnSave.transition().style("background-color","#f3f3eb").duration(1000);
+        }else{
+        	tableView.btnSave.style("background-color","red");
+        	tableView.btnSave.transition().style("background-color","#f3f3eb").duration(1000);
+
+        }
     });
 
     tableView.btnNew.on("click",function(){
         model.newRecipe();
+        // tableView.btnNew.style("background-color","green");
+        // tableView.btnNew.transition().style("background-color","#f3f3eb").duration(1000);
     });
 
     tableView.btnCamera.on("click",function(){
         tableView.inputFile[0][0].click();
+        // tableView.btnCamera.style("background-color","green");
+        // tableView.btnCamera.transition().style("background-color","#f3f3eb").duration(1000);
     });
 
     tableView.inputFile[0][0].addEventListener("change",function(e){

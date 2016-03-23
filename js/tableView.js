@@ -17,22 +17,23 @@ var TableView = function (container, model) {
             .classed("form-control",true);
 
         view.btnNew = form.append("button")
-            .classed("btn btn-default newRecipeBtn",true)
-            .append("img").attr('src','img/new.png');
+            .classed("btn btn-default newRecipeBtn",true);
+        view.btnNew.append("img").attr('src','img/new.png');
 
         view.btnSave = form.append("button")
-            .classed("btn btn-default saveRecipeBtn",true)
-            .append("img").attr('src','img/save.png');
+            .classed("btn btn-default saveRecipeBtn",true);
+        view.btnSave.append("img").attr('src','img/save.png');
 
 
         view.btnCamera = form.append("button")
-            .classed("btn btn-default newRecipeBtn",true)
-            .append("img").attr('src','img/photo.png');
+            .classed("btn btn-default newRecipeBtn",true);
+        view.btnCamera.append("img").attr('src','img/photo.png');
 
         view.btnAgg = form.append("button")
             .classed("btn btn-default",true)
-            .attr("id","agg-switch")
-            .append("img").attr('src','img/stack.png');
+            .attr("id","agg-switch");
+
+        view.btnAgg .append("img").attr('src','img/stack.png');
 
         view.inputFile = form.append("input")
             .attr("type","file")

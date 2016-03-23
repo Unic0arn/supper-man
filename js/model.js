@@ -57,6 +57,9 @@ var Model = function () {
     model.recipeDBref = new Firebase("https://brilliant-heat-2649.firebaseio.com/");
 
     this.saveRecipe = function(name){
+        if(name.length < 1 || model.recipe.ingredients.length < 1){
+            return false;
+        }
         model.recipe.name = name;
         if(model.recipe.img == undefined || model.recipe.img == ""){
             model.recipe.img = "img/Logo.png";
@@ -71,6 +74,7 @@ var Model = function () {
             ref.update(model.recipe);
         }
         model.getAllRecipes();
+        return true;
     };
 
     this.readCookie = function(key){
@@ -156,6 +160,7 @@ var Model = function () {
         model.recipe = {"ingredients":[]};
         model.ingredientIds = [];
         model.notifyObservers("newRecipe"); 
+        return true;
     };
 
     this.getAllRecipes = function(){
