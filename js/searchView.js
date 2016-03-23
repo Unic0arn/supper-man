@@ -6,7 +6,7 @@ var SearchView = function(container,model){
 
     var colorFill = d3.scale.linear()
         .domain([0,100])
-        .range(["hsl(200, 100%, 30%)","hsl(200, 100%, 60%)"]);
+        .range(["hsl(200, 80%, 20%)","hsl(180, 80%, 70%)"]);
     // var colorFill = d3.scale.linear()
     //     .domain([0, 100])
     //     .range("rgb(1, 149, 223)");
