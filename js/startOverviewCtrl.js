@@ -46,11 +46,23 @@ var StartOverviewCtrl = function (view, model) {
 
   view.container.startBtn.on('click', function(){
     if(ctrl.savePersonalData(true))
-    view.container.style('display','none'); 
+      $('#start-overView').fadeOut('fast');
   });
   view.container.skipBtn.on('click', function(){
     if(ctrl.savePersonalData(false))
-    view.container.style('display','none');
+      $('#start-overView').fadeOut('fast');
+  });
+
+  view.container.select('#ageInput').on('input',function(){
+    view.container.select('#ageText').text("Age: " + this.value);
+  });
+
+  view.container.select('#weightInput').on('input',function(){
+    view.container.select('#weightText').text("Weight (kg): " + this.value);
+  });
+
+  view.container.select('#heightInput').on('input',function(){
+    view.container.select('#heightText').text("Height (cm): " + this.value);
   });
 
   this.update = function(){

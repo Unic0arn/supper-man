@@ -27,18 +27,16 @@ var StartOverviewView = function(container,model){
          .attr('name','gender')
          .attr('value', 'male')
          .attr('id','genderMale');
+
         gender.append('img')
             .attr('src','img/male.png')
             .attr('width','30')
             .attr('height','40');
 
-
         gender.append('img')
             .attr('src','img/female.png')
             .attr('width','30')
             .attr('height','40');
-
-
 
         gender.append("input")
          .attr('type', 'radio')
@@ -50,9 +48,10 @@ var StartOverviewView = function(container,model){
         view.container.append("br");
 
         // Age
-        var ageDiv = view.container.append("div").text("Age: ").style('font-weight','bold').style('font-size','20px');
+        var ageDiv = view.container.append("div").classed("ageInputDiv",true).style('font-weight','bold').style('font-size','20px');
 
-         ageDiv.append("input")
+        var ageText = ageDiv.append("div").attr('id',"ageText").text("Age: 18");
+        var ageSelector = ageDiv.append("input")
          .attr('type', 'range')
          .attr('id','ageInput')
          .attr('name','age')
@@ -60,62 +59,50 @@ var StartOverviewView = function(container,model){
          .attr('min','0')
          .attr('max','100')
          .attr('step','1')
-         .style('width','300px');
-      var ageText = view.container.append("div");
-        $("#ageInput").keypress(function(e) {
-            ageText.text('');
-            if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
-                e.preventDefault();
-                ageText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
-           }
-        });
+         .style('width','400px')
+         .style('margin','auto')
+         .style('margin-top','15px');
+
+       
 
         view.container.append("br");
         view.container.append("br");
 
         //Weight
-        var weightDiv = view.container.append("div").text("Weight(kg): ").style('font-weight','bold').style('font-size','20px');
+        var weightDiv = view.container.append("div").style('font-weight','bold').style('font-size','20px');
 
-         weightDiv.append("input")
-         .attr('type', 'number')
+        var weightText = weightDiv.append("div").attr('id',"weightText").text("Weight (kg): 70");
+        var weightSelector = weightDiv.append("input")
+         .attr('type', 'range')
          .attr('id','weightInput')
          .attr('name','weight')
          .attr('value','70')
-         .attr('min','0')
-         .style('width','60px');
-
-         var weightText = view.container.append("p");
-         $("#weightInput").keypress(function(e) {
-            weightText.text('');
-            if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
-                e.preventDefault();
-                weightText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
-           }
-        });
+         .attr('min','30')
+         .attr('max','150')
+         .attr('step','1')
+         .style('width','400px')
+         .style('margin','auto')
+         .style('margin-top','15px');
 
 
         view.container.append("br");
         view.container.append("br");
 
         //Height
-        var heightDiv = view.container.append("div").text("Height(cm): ").style('font-weight','bold').style('font-size','20px');
+        var heightDiv = view.container.append("div").style('font-weight','bold').style('font-size','20px');
 
-         heightDiv.append("input")
-         .attr('type', 'number')
+        var heightText = heightDiv.append("div").attr('id',"heightText").text("Height (cm): 170");
+        var heightSelector = heightDiv.append("input")
+         .attr('type', 'range')
          .attr('id','heightInput')
          .attr('name','height')
          .attr('value','170')
-         .attr('min','0')
-         .style('width','60px');
-
-         var heightText = view.container.append("p");
-         $("#heightInput").keypress(function(e) {
-            heightText.text('');
-            if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {
-                e.preventDefault();
-                heightText.text("Special characters are not allowed. Use only numbers.").style('font-size','17px');
-            }
-        });
+         .attr('min','100')
+         .attr('max','210')
+         .attr('step','1')
+         .style('width','400px')
+         .style('margin','auto')
+         .style('margin-top','15px');
 
         view.container.append("br");
         view.container.append("br");
@@ -132,7 +119,7 @@ var StartOverviewView = function(container,model){
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'heavy').attr('id','exerciseHeavy');
         view.container.append('text').text("Heavy ").style('font-size','18px');
 
-        var buttonContainer = view.container.append('div').classed('wrap', true).style('margin-top','50px');
+        var buttonContainer = view.container.append('div').classed('wrap', true).style('margin','auto').style('margin-top','25px');
 
         view.container.startBtn = buttonContainer.append("button").classed('btn btn-success submitBtn', true).text("Submit!");
         view.container.skipBtn = buttonContainer.append("button").classed('btn btn-default skipBtn', true).text("Use average values");
