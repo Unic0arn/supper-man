@@ -1,35 +1,14 @@
 /*START OF NAVBAR*/
 
-.navbar-default {
-    background-color: white;
+.navbar .container{
+    background-color: transparent;
 }
-.navbar-default .navbar-brand {
-    font-family: "Kaushan Script", "Helvetica Neue", Helvetica, Arial, cursive;
-    color: rgba(58, 83, 155, 1);
-    /*blue*/
-}
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:active, .navbar-default .navbar-brand.active {
-    color: #E9E581
-    /*yellow*/
-}
+
 .navbar-default .navbar-collapse {
     border-color: rgba(255, 255, 255, .02);
     padding-right: 25%;
 }
-.navbar-default .navbar-toggle {
-    border-color: #2B2B2B
-    /*grey*/
 
-background-color: rgba(58, 83, 155, 1);
-    /*blue*/
-}
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: #fff;
-}
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: rgba(58, 83, 155, 1);
-    /*blue*/
-}
 .navbar-default .nav li a {
     text-transform: uppercase;
     font-family: 'Bariol', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -40,21 +19,9 @@ background-color: rgba(58, 83, 155, 1);
 .navbar-default .nav li a:hover, .navbar-default .nav li a:focus {
     outline: 0;
     color: #DE1B1B;
-    /*pink*/
+    /*RED*/
 
 }
-.navbar-default .navbar-nav>.active>a {
-    border-radius: 0;
-    color: #fff;
-    background-color: rgba(58, 83, 155, 1);
-    /*blue*/
-}
-.navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-    color: #fff;
-    background-color: rgba(214, 184, 189, 1);
-    /*pink*/
-}
-
 
 @media(min-width: 768px) {
     .navbar-default {
@@ -81,22 +48,105 @@ background-color: rgba(58, 83, 155, 1);
 .navbar-default.navbar-shrink .navbar-brand {
     font-size: 1.5em;
 }
-    
-    
-    img .page-scroll {
-        
+img .page-scroll {
         vertical-align: right;
     }
+    
 /*END OF NAVBAR*/
     
-/*START OF SECTIONS*/
+/*START OF HEADER*/
     
-#background-text{
+header {
+    text-align: center;
+    color: #fff;
+    background-attachment: scroll;
+    background-color: #f3f3eb;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+header .intro-text {
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+header .intro-text .intro-lead-in {
+    margin-bottom: 25px;
+    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 22px;
+}
+header .intro-text .intro-heading {
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 50px;
+}
+.embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+.embed-container iframe, .embed-container object, .embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.video-player {
+    padding: 100px 0;
+}
+@media(min-width: 768px) {
+    header .intro-text {
+        padding-top: 300px;
+        padding-bottom: 200px;
+   }
+   header .intro-text .intro-lead-in {
+       margin-bottom: 25px;
+       font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+       font-size: 40px;
+       font-style: italic;
+       line-height: 40px;
+  }
+  header .intro-text .intro-heading {
+      margin-bottom: 50px;
+      text-transform: uppercase;
+      font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 75px;
+      font-weight: 700;
+      line-height: 75px;
+ }
+}
+    
+/*END OF HEADER*/
+    
+/*START OF SECTIONS*/
+
+#theApp {
     height: 1000px;
+    }
+#howitworks-text{
+    margin: 0px;
+    height: 100%;
+    background-color: #f3f3eb;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    background-attachment: scroll;
+    }
+#background-text{
+    height: 100%;
     }
 
 #team {
-    height: 1000px;
+    height: 100%;
     padding-top: 90px;
     }
     
