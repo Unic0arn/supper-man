@@ -20,28 +20,31 @@ var StartOverviewView = function(container,model){
         view.container.append("br");
         view.container.append("br");
 
+        var gender = view.container.append("div").classed("genderInput",true).attr("title","Please select a gender");
         //Gender
-        view.container.append("input")
+        gender.append("input")
          .attr('type', 'radio')
          .attr('name','gender')
          .attr('value', 'male')
          .attr('id','genderMale');
-
-        view.container.append('img')
+        gender.append('img')
             .attr('src','img/male.png')
             .attr('width','30')
             .attr('height','40');
 
-        view.container.append("input")
+
+        gender.append('img')
+            .attr('src','img/female.png')
+            .attr('width','30')
+            .attr('height','40');
+
+
+
+        gender.append("input")
          .attr('type', 'radio')
          .attr('name','gender')
          .attr('value', 'female')
          .attr('id','genderFemale');
-
-        view.container.append('img')
-            .attr('src','img/female.png')
-            .attr('width','30')
-            .attr('height','40');
 
         view.container.append("br");
         view.container.append("br");

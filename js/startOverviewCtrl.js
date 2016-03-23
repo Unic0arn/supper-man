@@ -9,11 +9,24 @@ var StartOverviewCtrl = function (view, model) {
     // Depending on bool, we either save personal data or store default data to the model!
     if(savePersonalData){
       console.log('Save personal data!');
+      try{
       model.gender = d3.select('input[name="gender"]:checked').node().value;
+        
+      }catch(err){
+        alert("Please select a gender");
+        return false;
+      }
       model.age = parseInt(d3.select('input[name="age"]').node().value);
       model.height = parseInt(d3.select('input[name="height"]').node().value);
       model.weight = parseInt(d3.select('input[name="weight"]').node().value);
+      try{
+      
       model.exercise = d3.select('input[name="exercise"]:checked').node().value;
+        
+      }catch(err){
+        alert("Please select how much you exercise");
+        return false;
+      }
       model.personalData = true;
 
       model.calculateIntakeCalories();
@@ -23,18 +36,20 @@ var StartOverviewCtrl = function (view, model) {
 
       model.notifyObservers('newRecipe');
       model.notifyObservers('getAllRecipes');
+      return true;
     }else{
       console.log('save default data!');
       model.personalData = false;
+      return true;
     }
   };
 
   view.container.startBtn.on('click', function(){
-    ctrl.savePersonalData(true);
+    if(ctrl.savePersonalData(true))
     view.container.style('display','none'); 
   });
   view.container.skipBtn.on('click', function(){
-    ctrl.savePersonalData(false);
+    if(ctrl.savePersonalData(false))
     view.container.style('display','none');
   });
 
