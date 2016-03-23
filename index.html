@@ -33,56 +33,38 @@
                 display: none;
             }
         </style>
-
-        <script type="text/javascript">
-          var xSeconds = 3000; // 1 second
-
-          setTimeout(function() {
-            $('#splash').fadeOut('slow');
-          }, xSeconds);
-
-         $('#start-overView').hide().removeClass('hiddenDiv');
-
-        </script>
-	
 	</head>
 	<body id="page-top">
-
-     <div id ="splash" style="width:100%; height:100vh; background: url('img/splash.png') center center; background-size: 100% 100%;background-repeat: no-repeat; position:absolute;left:0;top:0; z-index:99999; display:block"></div>
-    <div class="hiddenDiv" id="start-overView" style="width:100%; height:100vh; background: #f3f3eb; background-size: 100% 100%;
-            background-repeat: no-repeat; position:absolute;left:0;top:0; z-index:9999; display:block"></div>
-
     <!-- Navigation -->
-    <!-- <nav class="navbar navbar-default navbar-fixed-top"> -->
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <!-- <div class="navbar-header page-scroll">
+            <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#page-top"><img class="page-scroll" src="img/Logo.png" style="height:40px; margin:10px;" href="#page-top"></a>
             </div> 
-            -->
+            
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-<!--             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right"><li class="hidden">
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#get-started">A video?</a>
+                        <a class="page-scroll" href="#page-top">Home</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#page-top">The smoothie maker?</a>
+                        <a class="page-scroll" href="#theApp">The app</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#howitworks-text">How it Works</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#background-text">Background</a>
+                        <a class="page-scroll" href="#background-text">About</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#team">Team</a>
@@ -91,33 +73,35 @@
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
                 </ul></div>
-            <!-- /.navbar-collapse 
         </div>
-    </nav> -->
-        </div>
+    </nav>  
+     <!-- Header -->
+        
+        <header>
+            <div class="container">
+                
+            <!-- Actual Player -->
+                <div class="video-player ">
+                    <div class="embed-container"><iframe src="https://player.vimeo.com/video/126268902" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
+                </div>     
+            </div>
+        </header>
+        
 		<div id="overlay">
 		</div>
-		<div class="wholeContainer">
-			<div class="blobAndTableContainer text-center">
-					<div class="nutritionChartContainer">
-						<!-- <button class="btn btn-success" name="click" id="agg-switch"><img id="smallImg" src="img/stack.png"></button> -->
-					</div>
-				
-				<div  class="tableContainer">
-					<table id="ingredientTable" class="table table-striped" style="font-size: 12px">
+		<section id="theApp">
+            <div class="container">
+                <div class="row explanation">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">The Smoothly application</h2>
+                        <button class="btn btn-success "><a href="/app.html">Go to the app</a></button>
+                        <br>
+                    </div>
+                </div>
+        </section>
 
-					</table>
-					
-				</div>
-					
-			</div>
-
-			<div class="sunburstContainer"></div>
-            <div id="searchContainer"></div>
-			
-		</div>
         <!-- How it works text-->
-        <!--
+        
         <section id="howitworks-text">
             <div class="container">
                 <div class="row explanation">
@@ -158,9 +142,9 @@
                 </div>
             </div>
         </section>
-        -->
+       
         <!-- About the project text -->
-        <!--
+       
         <section id="background-text">
             <div class="container">
                 <h2 class="section-heading">About the project</h1>
@@ -177,10 +161,10 @@
                 
             </div>
         </section>
-        -->
+
     
         <!-- Team Section -->
-        <!-- <section id="team" class="bg-team"><div class="container">
+      <section id="team" class="bg-team"><div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Team Smoothie</h2>
@@ -233,29 +217,16 @@
                     <p class="large text-muted">This team was formed during the Information Visualization course from KTH, Stockholm, Sweden under the supervision of <a href="se.linkedin.com/in/marioromero/en">Mario Romero</a>.</p>
                 </div>
             </div>
-        </div> -->
+        </div>
             
-<!--     <footer><div class="container">
+          <footer><div class="container">
             <div class="row">
                     <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
                 
                     <span class="copyright">Copyright &copy; Smoothiemakers 2016</span>
             </div>
         </div>
-    </footer> --> 
-
-        <script type="text/javascript" src="js/model.js"></script>
-        <script type="text/javascript" src="js/startOverviewView.js"></script>
-        <script type="text/javascript" src="js/startOverviewCtrl.js"></script>
-        <script type="text/javascript" src="js/nutritionchartCtrl.js"></script>
-        <script type="text/javascript" src="js/nutritionchartView.js"></script>
-        <script type="text/javascript" src="js/sunburstView.js"></script>
-        <script type="text/javascript" src="js/sunburstCtrl.js"></script>
-        <script type="text/javascript" src="js/tableView.js"></script>
-        <script type="text/javascript" src="js/tableCtrl.js"></script>
-        <script type="text/javascript" src="js/searchView.js"></script>
-        <script type="text/javascript" src="js/searchCtrl.js"></script>
-        <script type="text/javascript" src="js/app.js"></script>
+    </footer>
 
 		<!-- SUNBURST -->
 	</body>
