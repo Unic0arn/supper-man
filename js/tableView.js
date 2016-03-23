@@ -81,6 +81,7 @@ var TableView = function (container, model) {
                     return d.value;
                 }else if(d.column === 'amount'){
                     d3.select(this).classed('table' + d.column, true).style("width", "15%");
+                    d3.select(this).append("img")
                     return d.value + 'g';
                 }
                 else if(d.column === 'button'){
@@ -89,6 +90,7 @@ var TableView = function (container, model) {
             });
 
         d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').append("img").attr('src','img/remove.png');
+        d3.selectAll('.tableamount').append("img").attr('src','img/increase.png').style("height","20px").style("float","right").style("pointer-events","none");//.style("margin-right","30px");
         model.notifyObservers('tableRowReady');
     };
     
