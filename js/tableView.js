@@ -6,7 +6,7 @@ var TableView = function (container, model) {
     model.addObserver(view);
 
     var initNameInput = function(){
-        var form = container.insert("div",":first-child").classed("form-inline",true).style("width","100%").style("height",window.innerHeight * 0.5);
+        var form = container.insert("div",":first-child").classed("form-inline",true).style("width","100%").style("height","20%");
         
         view.nameInput = form.append("input")
             .attr("type","text")
@@ -17,22 +17,23 @@ var TableView = function (container, model) {
             .classed("form-control",true);
 
         view.btnNew = form.append("button")
-            .classed("btn btn-default newRecipeBtn",true)
-            .append("img").attr('src','img/new.png');
+            .classed("btn btn-default newRecipeBtn",true);
+        view.btnNew.append("img").attr('src','img/new.png');
 
         view.btnSave = form.append("button")
-            .classed("btn btn-default saveRecipeBtn",true)
-            .append("img").attr('src','img/save.png');
+            .classed("btn btn-default saveRecipeBtn",true);
+        view.btnSave.append("img").attr('src','img/save.png');
 
 
         view.btnCamera = form.append("button")
-            .classed("btn btn-default newRecipeBtn",true)
-            .append("img").attr('src','img/photo.png');
+            .classed("btn btn-default newRecipeBtn",true);
+        view.btnCamera.append("img").attr('src','img/photo.png');
 
         view.btnAgg = form.append("button")
             .classed("btn btn-default",true)
-            .attr("id","agg-switch")
-            .append("img").attr('src','img/stack.png');
+            .attr("id","agg-switch");
+
+        view.btnAgg .append("img").attr('src','img/stack.png');
 
         view.inputFile = form.append("input")
             .attr("type","file")
@@ -50,6 +51,7 @@ var TableView = function (container, model) {
 
     var redrawTable = function(){
         var table = d3.select("#ingredientTable");
+        table.style("height",function(){var vb = document.getElementById("ingredientTable").getBoundingClientRect(); return document.documentElement.clientHeight - vb.top;});
         var tbody = table.select("tbody");
         var columns = ['color','name', 'amount', 'button'];
         tbody.html('');
@@ -79,6 +81,7 @@ var TableView = function (container, model) {
                     return d.value;
                 }else if(d.column === 'amount'){
                     d3.select(this).classed('table' + d.column, true).style("width", "15%");
+                    d3.select(this).append("img")
                     return d.value + 'g';
                 }
                 else if(d.column === 'button'){
@@ -87,6 +90,7 @@ var TableView = function (container, model) {
             });
 
         d3.selectAll('.removeBtnContainer').append('button').attr('class', 'btn btn-default removeBtn').append("img").attr('src','img/remove.png');
+        d3.selectAll('.tableamount').append("img").attr('src','img/increase.png').style("height","20px").style("float","right").style("pointer-events","none");//.style("margin-right","30px");
         model.notifyObservers('tableRowReady');
     };
     

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/ >
+		<title>Smoothly</title>
+        <link rel="icon" href="img/icon.ico">
+
+		<!-- Google fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+       
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+		<!-- Bootstrap JS 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        -->
+        <script src="js/bootstrap.min.js"></script>
+
+		<!-- D3.js -->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script> -->
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/supperManCss.css">
+
+        <!-- Firebase -->
+        <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+         <style type="text/css">
+            .hiddenDiv{
+                display: none;
+            }
+        </style>
+
+        <script type="text/javascript">
+          var xSeconds = 3000; // 1 second
+
+          setTimeout(function() {
+            $('#splash').fadeOut('slow');
+          }, xSeconds);
+
+         $('#start-overView').hide().removeClass('hiddenDiv');
+
+        </script>
+	
+	</head>
+	<body id="page-top">
+
+         <div id ="splash" style="width:100%; height:100vh;background-color: #F1F4E9; position:absolute;left:0;top:0; z-index:99999; display:block"><img src="img/splash.png" style="width:60%;margin-top:20vh"></div>
+        <div class="hiddenDiv" id="start-overView" style="width:100%; height:100vh; background-color: #F1F4E9; position:absolute;left:0;top:0; z-index:9999; display:block"></div>
+
+        <div class="container">
+        </div>
+		<div id="overlay">
+		</div>
+		<div class="wholeContainer">
+			<div class="blobAndTableContainer text-center">
+					<div class="nutritionChartContainer">
+					</div>
+				
+				<div  class="tableContainer">
+					<table id="ingredientTable" class="table table-striped" style="font-size: 12px">
+
+					</table>
+					
+				</div>
+					
+			</div>
+
+			<div class="sunburstContainer"></div>
+            <div id="searchContainer"></div>
+			
+		</div>
+        
+
+        <script type="text/javascript" src="js/model.js"></script>
+        <script type="text/javascript" src="js/startOverviewView.js"></script>
+        <script type="text/javascript" src="js/startOverviewCtrl.js"></script>
+        <script type="text/javascript" src="js/nutritionchartCtrl.js"></script>
+        <script type="text/javascript" src="js/nutritionchartView.js"></script>
+        <script type="text/javascript" src="js/sunburstView.js"></script>
+        <script type="text/javascript" src="js/sunburstCtrl.js"></script>
+        <script type="text/javascript" src="js/tableView.js"></script>
+        <script type="text/javascript" src="js/tableCtrl.js"></script>
+        <script type="text/javascript" src="js/searchView.js"></script>
+        <script type="text/javascript" src="js/searchCtrl.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+
+		<!-- SUNBURST -->
+	</body>
+</html>

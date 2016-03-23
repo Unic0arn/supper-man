@@ -6,7 +6,7 @@ var SearchView = function(container,model){
 
     var colorFill = d3.scale.linear()
         .domain([0,100])
-        .range(["hsl(200, 100%, 30%)","hsl(200, 100%, 60%)"]);
+        .range(["hsl(200, 80%, 20%)","hsl(180, 80%, 70%)"]);
     // var colorFill = d3.scale.linear()
     //     .domain([0, 100])
     //     .range("rgb(1, 149, 223)");
@@ -53,7 +53,7 @@ var SearchView = function(container,model){
            .style('width','10px')
            .style('height','auto')
            .style('opacity', function(d){
-                if(model.sortAscending === false){
+                if(model.sortAscending === true){
                     return '1';
                 }else{
                     return '0.2';
@@ -66,7 +66,7 @@ var SearchView = function(container,model){
            .style('width','10px')
            .style('height','auto')
            .style('opacity', function(d){
-                if(model.sortAscending === true){
+                if(model.sortAscending === false){
                     return '1';
                 }else{
                     return '0.2';
@@ -107,6 +107,7 @@ var SearchView = function(container,model){
 
             var listHeader = listItem.append('div').style('display', 'flex').style('flex-direction','column');
             listHeader.append('h4').classed('recipeName', true).text(function(d){return d.name;});
+            listHeader.append('p').classed('recipeName', true).text(function(d){return d.ingredients.length + " ingredients";}).style("margin",0);
             //listHeader.append('div').classed('recipeRating', true).text('sexy rating');
 
             var recipeNutContainer = listItem.append('div').classed("recipeNutContainer", true);
