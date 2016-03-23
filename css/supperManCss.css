@@ -148,7 +148,13 @@ section h3.section-subheading {
 /*END OF SECTION*/
     
 /*START OF SPLASHSCREEN*/
+
+.wrap{
+    width: 200px;
+    margin-left: 40%;
     
+    }    
+
 .submitBtn{
     font-size: 24px;
     margin: 10px 10px;
@@ -158,8 +164,10 @@ section h3.section-subheading {
 
 .skipBtn{
     margin: 10px 10px;
-    background-color: grey;
+    background-color: lightgray;
     margin-top: 0%;
+    width: 200px;
+    height: 50px;
     
     }
 /*END OF SPLASHSCREEN*/

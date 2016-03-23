@@ -128,10 +128,10 @@ var StartOverviewView = function(container,model){
         view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'heavy').attr('id','exerciseHeavy');
         view.container.append('text').text("Heavy ").style('font-size','18px');
 
-        var buttonContainer = view.container.append('div').style('margin-top','50px');
+        var buttonContainer = view.container.append('div').classed('wrap', true).style('margin-top','50px');
 
-        view.container.startBtn = buttonContainer.append("button").classed('btn btn-success submitBtn', true).text("start!");
-        view.container.skipBtn = buttonContainer.append("button").classed('btn btn-success skipBtn', true).text("skip");
+        view.container.startBtn = buttonContainer.append("button").classed('btn btn-success submitBtn', true).text("Submit!");
+        view.container.skipBtn = buttonContainer.append("button").classed('btn btn-default skipBtn', true).text("Use average values");
     
     };
 
