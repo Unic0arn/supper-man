@@ -145,11 +145,17 @@ var TableView = function (container, model) {
         var rest = rows.filter(function(d){
             return d.id != id;
         });
-        selected.style("opacity",0.5);
-        rest.style("opacity",1);
-/////////////////////////////////////////////////////////////
-        //selected.style("opacity",1);
-        //rest.style("opacity",0.6);
+        selected.classed("selectedRow",true);
+        selected.classed("unSelectedRow",false);
+        rest.classed("unSelectedRow",true);
+        rest.classed("selectedRow",false);
+
+        selected.classed("highlightedRow",true);
+        rest.classed("highlightedRow",false);
+
+        if(id==0){
+            rest.classed("highlightedRow",true);
+        }
     };
 
     view.setOverlay = function(opacity){

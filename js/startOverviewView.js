@@ -50,14 +50,15 @@ var StartOverviewView = function(container,model){
         var ageDiv = view.container.append("div").text("Age: ").style('font-weight','bold').style('font-size','20px');
 
          ageDiv.append("input")
-         .attr('type', 'number')
+         .attr('type', 'range')
          .attr('id','ageInput')
          .attr('name','age')
          .attr('value','18')
          .attr('min','0')
-         .style('width','60px');
-
-       var ageText = view.container.append("div");
+         .attr('max','100')
+         .attr('step','1')
+         .style('width','300px');
+      var ageText = view.container.append("div");
         $("#ageInput").keypress(function(e) {
             ageText.text('');
             if (String.fromCharCode(e.which).match(/[^A-Za-z0-9_ ]/)) {

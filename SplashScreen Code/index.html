@@ -38,7 +38,7 @@
 						<br>
 					  	<b>Age:</b> 
 					    <input type="button" id="minusAge" value="-" onClick="ageInput.value = Math.max(0,(ageInput.value-1))">
-					    <input type="number" id="ageInput" name="age" value="18" min="0" style="width: 30px;" onchange="handleChange(this);"/>
+					   					    <input type="range"  id="ageInput" name="age" min="0" max="100" value="18" step="1" oninput="handleChange(this);" style="width:70%;" />
 					    <input type="button" value="+" onClick="ageInput.value = Math.max(0,(+ageInput.value+1))">
 					    <br>
 					    <b>Weight(kg):</b>

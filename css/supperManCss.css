@@ -433,9 +433,35 @@ tr{
   margin-right: 3px; 
 }
 
+
+.selectedRow{
+  font-weight:bold;
+}
+
+.unSelectedRow{
+  /* opacity:0.5; */
+}
+
+.highlightedRow{
+  /* opacity:1; */
+}
+
 .selectedIngredientBar{
+    opacity:1;
+     
   stroke: black;
-  stroke-width: 2px;
+  stroke-width: 1px;
+  stroke-alignment: inner;
+}
+
+.unSelectedIngredientBar{
+    opacity:0.5;
+}
+
+.highlightedIngredientBar{
+
+    opacity:1; 
+
 }
 
 

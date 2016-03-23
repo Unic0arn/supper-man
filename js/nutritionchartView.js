@@ -69,7 +69,16 @@ var NutritionChartView = function (container, model) {
         });
 
         selected.classed("selectedIngredientBar",true);
+        selected.classed("unSelectedIngredientBar",false);
+        rest.classed("unSelectedIngredientBar",true);
         rest.classed("selectedIngredientBar",false);
+
+        selected.classed("highlightedIngredientBar",true);
+        rest.classed("highlightedIngredientBar",false);
+
+        if(id==0){
+            rest.classed("highlightedIngredientBar",true);
+        }
 
         var ingredients = model.recipe.ingredients;
         labelValues = {};
