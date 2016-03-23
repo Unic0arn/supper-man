@@ -8,11 +8,11 @@ var NutritionChartView = function (container, model) {
 
 	var formatPercent = d3.format("0%");
 
-	var margin = {top: 40, right: 40, bottom: 40, left: 40},
+	var margin = {top: 50, right: 40, bottom: 20, left: 40},
 	graphStart = 0,
 	width = window.innerWidth*0.5 - 10 - margin.left - margin.right, 
 	height = window.innerHeight * 0.5 - margin.top - margin.bottom;
-	
+	var labelValues = {};
 	var stack = d3.layout.stack()
 		.offset("zero")
 		.values(function(d) { return d.values.sort(function(s, s2){ return (s.key < s2.key) ? -1 : (s.key > s2.key) ? 1 : 0; })})
@@ -54,6 +54,8 @@ var NutritionChartView = function (container, model) {
 			//updateChart();
 		} else if("newRecipe" === code){
 			updateChart();
+
+			updateSelectedIngredient(model.selectedIngredient);
 		} else if(code === "newSelectedIngredient"){
 			updateSelectedIngredient(model.selectedIngredient);
 		}
@@ -80,10 +82,13 @@ var NutritionChartView = function (container, model) {
             rest.classed("highlightedIngredientBar",true);
         }
 
+
+
         var ingredients = model.recipe.ingredients;
-        labelValues = {};
         var labelFormat = d3.format("d");
 		axises.forEach(function(a){ labelValues[a] = 0});
+        
+
         if(id != 0){
         	var selectedIngredient = ingredients.filter(function(i){ return i.id == id})[0];
 			axises.forEach(function(a){
@@ -98,13 +103,15 @@ var NutritionChartView = function (container, model) {
         	})
         }
         
+		container.select(".x.axis").call(xAxis);
+
+		/*
         var infoLabels = this.g.selectAll(".barChartInfoLabel");
 
 		infoLabels.text(function(d){
 			return d3.round(labelValues[d],0)+units[d];
 		});
-
-
+*/
 /*
         var popupmargin = {"left":10,"right":10,"top":10,"bottom":10}
         var popupwidth = width - popupmargin.left - popupmargin.right;
@@ -165,7 +172,11 @@ var NutritionChartView = function (container, model) {
 		xAxis.scale(x)
 		.tickSize(0)
 		.tickPadding(6)
-		.orient("bottom");
+		.orient("bottom")
+		.tickFormat(function(d){
+			var val = d3.round(labelValues[d],0) || 0;
+			return d + " " + val + units[d];
+		});
 
 		y.domain([0, 1])
 		yAxis.scale(y)
@@ -213,7 +224,7 @@ var NutritionChartView = function (container, model) {
 		.attr("transform","translate("+margin.left+","+(margin.top-5) +")")
 		.text("RDI");
 
-
+/*
 		var infoLabel = this.g.selectAll("text").data(axises);
 
 		infoLabel.enter().append("text");
@@ -221,8 +232,8 @@ var NutritionChartView = function (container, model) {
 		infoLabel.attr()
 		.attr("class","barChartInfoLabel")
 		.attr("x", function(d) { return x(d); })	
-		.attr("transform", "translate("+ (margin.left + 10) + "," + (height + margin.top-2) + ")")
-		.text("0");
+		.attr("transform", "translate("+ (margin.left + 10) + "," + (height + margin.top -10) + ")")
+		.text("0");*/
 
 	}
 

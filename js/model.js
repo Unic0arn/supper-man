@@ -120,7 +120,9 @@ var Model = function () {
     };
 
     this.editRecipe = function(id){
+
         model.recipeDBref.child(id).once("value",function(snapshot){
+            model.selectedIngredient = 0;
             model.ingredientIds = [];
             var colorExists = false;
             for(var index in snapshot.val().ingredients){
