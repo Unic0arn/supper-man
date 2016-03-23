@@ -1,5 +1,5 @@
 var StartOverviewCtrl = function (view, model) {
-  
+  var debugging = false;
   model.addObserver(this);
   var ctrl = this;
     
@@ -68,6 +68,12 @@ var StartOverviewCtrl = function (view, model) {
   this.update = function(){
     return;
   };
+$(function(){
+   if(debugging){
+    $('#start-overView').fadeOut('fast'); 
+    $('#splash').fadeOut('slow');
+  }
+});
 
   
 };
