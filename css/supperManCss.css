@@ -163,33 +163,72 @@ header .intro-text .intro-heading {
 
 #team {
     background-color: #f3f3eb;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    background-attachment: scroll;
+    margin: 0px;
     height: 100%;
     padding-top: 90px;
+    padding-bottom: 0;
     }
 
 
 #team-members {
     background-color: #f3f3eb;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-left: auto;
-    margin-right: auto;
-    
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    background-attachment: scroll;
+    display: block;
     }
 
-.team-member{
-     height: 300px;
-     width: 400px;
-     overflow: hidden;
+.team-member {
+    margin-bottom: 50px;
+    text-align: center;
+}
+.team-member img {
+    width: 170px;
+    height: 170px;
+    margin: 0 auto;
+}
+.team-member h4 {
+    margin-top: 25px;
+    margin-bottom: 0;
+    text-transform: none;
+}
+.team-member p {
+    font-size: 12px;
+    margin-top: 0;
+}
+.text-center{
+    font-size: 18px;
     }
-    
-.team-member img{
-    height: auto;
-    width: 400px;
+ul.social-buttons {
+    margin: 10px;
+}
+ul.social-buttons li a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    font-size: 20px;
+    line-height: 40px;
+    outline: 0;
+    color: #fff;
+    background-color: #222;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    transition: all .3s;
+}
+ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li a:active {
+    background-color: rgba(214, 184, 189, 1);
+    /*pink*/
 
-    }
+}
+.btn:focus, .btn:active, .btn.active, .btn:active:focus {
+    outline: 0;
+}
     
 section h2.section-heading {
     margin-top: 0;
@@ -226,6 +265,13 @@ section h3.section-subheading {
 }
     
 /*END OF SECTION*/
+    
+footer{
+    background-color: white;
+    }
+    footer .row {
+        margin: 20px;
+    }
     
 /*START OF SPLASHSCREEN*/
 
