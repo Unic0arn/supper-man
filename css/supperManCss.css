@@ -183,12 +183,16 @@ header .intro-text .intro-heading {
     display: block;
     }
 
+.profile-img{
+  width:120px;
+}
+
 .team-member {
     margin-bottom: 50px;
     text-align: center;
 }
 .team-member img {
-    width: 170px;
+    width: 150px;
     height: 170px;
     margin: 0 auto;
 }
