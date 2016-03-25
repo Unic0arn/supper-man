@@ -29,7 +29,7 @@ var NutritionChartView = function (container, model) {
 		w: width,
 		h: height,
 		margin: margin,
-		maxValue: 0.2,
+		maxValue: 0.1,
 		color: d3.scale.category20()
 	};
 
