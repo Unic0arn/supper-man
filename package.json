@@ -4,7 +4,6 @@
   "description": "Smoothly",
   "main": "backend/app.js",
   "dependencies": {
-    "Percolator": "^1.0.16",
     "express": "^4.13.4",
     "nodemon": "^1.9.1",
     "request": ""
