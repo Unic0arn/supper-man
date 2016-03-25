@@ -145,7 +145,7 @@ header .intro-text .intro-heading {
 /*START OF SECTIONS*/
 
 #theApp {
-    height: 1000px;
+    /* height: 1000px; */
     }
 #howitworks-text{
     margin: 0px;
