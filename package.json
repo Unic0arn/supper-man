@@ -1,0 +1,25 @@
+{
+  "name": "Smoothly",
+  "version": "0.0.0",
+  "description": "Smoothly",
+  "main": "backend/app.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "nodemon": "^1.9.1",
+    "request": ""
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Unic0arn/supper-man.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Unic0arn/supper-man/issues"
+  }
+}
