@@ -20,29 +20,29 @@ var StartOverviewView = function(container,model){
         view.container.append("br");
         view.container.append("br");
 
-        var gender = view.container.append("div").classed("genderInput",true).attr("title","Please select a gender");
+        var gender = view.container.append("div").classed("genderInput",true).attr("title","Please select a gender").attr("name","gender");
         //Gender
-        gender.append("input")
-         .attr('type', 'radio')
-         .attr('name','gender')
-         .attr('value', 'male')
-         .attr('id','genderMale');
+        var male = gender.append("button")
+            //.attr('value', 'male')
+            .attr('id','genderMale')
+            .classed("btn btnGender", true)
+            .style("margin-right","10px");
 
-        gender.append('img')
+        male.append('img')
             .attr('src','img/male.png')
-            .attr('width','30')
             .attr('height','40');
 
-        gender.append('img')
+        var female = gender.append("button")
+            //.attr('value', 'female')
+            .attr('id','genderFemale')
+            .classed("btn btnGender", true)
+            .style("margin-left","10px");
+
+        female.append('img')
             .attr('src','img/female.png')
-            .attr('width','30')
             .attr('height','40');
 
-        gender.append("input")
-         .attr('type', 'radio')
-         .attr('name','gender')
-         .attr('value', 'female')
-         .attr('id','genderFemale');
+
 
         view.container.append("br");
         view.container.append("br");
@@ -55,9 +55,9 @@ var StartOverviewView = function(container,model){
          .attr('type', 'range')
          .attr('id','ageInput')
          .attr('name','age')
-         .attr('value','18')
          .attr('min','0')
          .attr('max','100')
+         .attr('value','18')
          .attr('step','1')
          .style('width','400px')
          .style('margin','auto')
@@ -76,9 +76,9 @@ var StartOverviewView = function(container,model){
          .attr('type', 'range')
          .attr('id','weightInput')
          .attr('name','weight')
-         .attr('value','70')
          .attr('min','30')
          .attr('max','150')
+         .attr('value','70')
          .attr('step','1')
          .style('width','400px')
          .style('margin','auto')
@@ -96,9 +96,9 @@ var StartOverviewView = function(container,model){
          .attr('type', 'range')
          .attr('id','heightInput')
          .attr('name','height')
-         .attr('value','170')
          .attr('min','100')
          .attr('max','210')
+         .attr('value','170')
          .attr('step','1')
          .style('width','400px')
          .style('margin','auto')
@@ -107,17 +107,20 @@ var StartOverviewView = function(container,model){
         view.container.append("br");
         view.container.append("br");
 
-        //Exercise    
+        var exerciseDiv = view.container.append("div").style('font-weight','bold').style('font-size','20px');
 
-        view.container.append('text').text("Daily Exercise: ").style('font-weight','bold').style('font-size','20px');
-        view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'none').attr('id','exerciseNone');
-        view.container.append('text').text("None ").style('font-size','18px');
-        view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'light').attr('id','exerciseLight');
-        view.container.append('text').text("Light ").style('font-size','18px');
-        view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'moderate').attr('id','exerciseModerate');
-        view.container.append('text').text("Moderate ").style('font-size','18px').style('color','black');
-        view.container.append("input").attr('type', 'radio').attr('name','exercise').attr('value', 'heavy').attr('id','exerciseHeavy');
-        view.container.append('text').text("Heavy ").style('font-size','18px');
+        var exerciseText = exerciseDiv.append("div").attr('id',"exerciseText").text("Daily Exercise: None");
+        var exerciseSelector = exerciseDiv.append("input")
+         .attr('type', 'range')
+         .attr('id','exerciseInput')
+         .attr('name','exercise')
+         .attr('value','0')
+         .attr('min','0')
+         .attr('max','3')
+         .attr('step','1')
+         .style('width','400px')
+         .style('margin','auto')
+         .style('margin-top','15px');
 
         var buttonContainer = view.container.append('div').classed('wrap', true).style('margin','auto').style('margin-top','25px');
 

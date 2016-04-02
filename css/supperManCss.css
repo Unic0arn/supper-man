@@ -292,6 +292,11 @@ footer{
     height: 50px;
     }
 
+.btnGender{
+  background-color: lightgray; 
+}
+
+
 .skipBtn{
     margin: 10px 10px;
     background-color: lightgray;
@@ -365,9 +370,7 @@ body {
     
 .newRecipeBtn img{
     width: 30px;
-    height: 30px;
-   
-	
+    height: 30px;	
     }
     
  /*REMOVE BUTTON*/  

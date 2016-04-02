@@ -2,6 +2,7 @@ var StartOverviewCtrl = function (view, model) {
   var debugging = false;
   model.addObserver(this);
   var ctrl = this;
+  var gender = "";
     
 
   this.savePersonalData = function(savePersonalData){
@@ -9,24 +10,17 @@ var StartOverviewCtrl = function (view, model) {
     // Depending on bool, we either save personal data or store default data to the model!
     if(savePersonalData){
       console.log('Save personal data!');
-      try{
-      model.gender = d3.select('input[name="gender"]:checked').node().value;
-        
-      }catch(err){
+      if(gender == ""){
         alert("Please select a gender");
         return false;
+      }else{
+        model.gender = gender;
       }
       model.age = parseInt(d3.select('input[name="age"]').node().value);
       model.height = parseInt(d3.select('input[name="height"]').node().value);
       model.weight = parseInt(d3.select('input[name="weight"]').node().value);
-      try{
-      
-      model.exercise = d3.select('input[name="exercise"]:checked').node().value;
+      model.exercise = d3.select('input[name="exercise"]').node().value;
         
-      }catch(err){
-        alert("Please select how much you exercise");
-        return false;
-      }
       model.personalData = true;
 
       model.calculateIntakeCalories();
@@ -53,6 +47,22 @@ var StartOverviewCtrl = function (view, model) {
       $('#start-overView').fadeOut('fast');
   });
 
+  view.container.select('#genderMale').on('click',function(){
+    view.container.select('#genderMale').classed("btn-success", true);
+    view.container.select('#genderFemale').classed("btn-success", false);
+    view.container.select('#genderMale').classed("btnGender", false);
+    view.container.select('#genderFemale').classed("btnGender", true);
+    gender = "male"
+  });
+
+  view.container.select('#genderFemale').on('click',function(){
+    view.container.select('#genderFemale').classed("btn-success", true);
+    view.container.select('#genderMale').classed("btn-success", false);
+    view.container.select('#genderMale').classed("btnGender", true);
+    view.container.select('#genderFemale').classed("btnGender", false);
+    gender = "female"
+  });
+
   view.container.select('#ageInput').on('input',function(){
     view.container.select('#ageText').text("Age: " + this.value);
   });
@@ -64,6 +74,12 @@ var StartOverviewCtrl = function (view, model) {
   view.container.select('#heightInput').on('input',function(){
     view.container.select('#heightText').text("Height (cm): " + this.value);
   });
+
+  view.container.select('#exerciseInput').on('input',function(){
+    var exerciseArr = ["None","Light ","Moderate", "Heavy"];
+    view.container.select('#exerciseText').text("Daily Exercise: " + exerciseArr[this.value]);
+  });
+
 
   this.update = function(){
     return;
