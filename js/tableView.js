@@ -107,16 +107,16 @@ var TableView = function (container, model) {
         .data(columns)
         .enter().append("th").text(function(d){
             if(d === 'Color'){
-                d3.select(this).style("width", "4%");
+                d3.select(this).style("width", "4%").style("height", "35px");
                 return '';
             }else if(d === 'Name'){
-                d3.select(this).style("width", "55%");
+                d3.select(this).style("width", "55%").style("height", "35px");
                 return d;
             }else if(d === 'Amount'){
-                 d3.select(this).style("width", "15%");
+                 d3.select(this).style("width", "15%").style("height", "35px");
                  return d;
             }else if(d === 'Button'){
-                d3.select(this).style("width", "26%");
+                d3.select(this).style("width", "26%").style("height", "35px");
                 return '';
             }
         });
