@@ -51,7 +51,7 @@ var TableView = function (container, model) {
 
     var redrawTable = function(){
         var table = d3.select("#ingredientTable");
-        table.style("height",function(){var vb = document.getElementById("ingredientTable").getBoundingClientRect(); return document.documentElement.clientHeight - vb.top;});
+        table.style("height",function(){var vb = document.getElementById("ingredientTable").getBoundingClientRect(); return document.documentElement.clientHeight - vb.top -35;});
         var tbody = table.select("tbody");
         var columns = ['color','name', 'amount', 'button'];
         tbody.html('');

@@ -15,7 +15,7 @@ var StartOverviewView = function(container,model){
         .text("Enter your personal data")
         .style('font-size','22px')
         .style('color','black')
-        .style('margin-top','3%');
+        .style('margin-top',0);
 
         view.container.append("br");
         view.container.append("br");
